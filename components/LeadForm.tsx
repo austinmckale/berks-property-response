@@ -57,6 +57,7 @@ export function LeadForm({
       urgency: initialProblemType
         ? getProblemType(initialProblemType).urgency
         : undefined,
+      smsOptIn: false,
     },
   });
 
@@ -106,7 +107,7 @@ export function LeadForm({
       serviceRequested: defaultService || problem.defaultService,
       serviceCategory: problem.serviceCategory,
       defaultRoute: defaultRoute || problem.defaultRoute,
-      smsOptIn: true,
+      smsOptIn: Boolean(data.smsOptIn),
     };
 
     try {
@@ -372,6 +373,18 @@ export function LeadForm({
               or try again.
             </p>
           )}
+
+          <label className="mt-6 flex cursor-pointer items-start gap-3 rounded-xl border border-stone-200 bg-stone-50 p-4">
+            <input
+              type="checkbox"
+              className="mt-1 h-4 w-4 shrink-0 rounded border-stone-300 text-stone-900 focus:ring-stone-500"
+              {...register("smsOptIn")}
+            />
+            <span className="text-sm leading-relaxed text-stone-700">
+              I agree to receive calls or texts about my request. Consent is not a condition of
+              purchase.
+            </span>
+          </label>
 
           <button
             type="submit"

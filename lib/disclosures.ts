@@ -6,6 +6,6 @@ export const REFERRAL_DISCLOSURE_FULL =
 export const REFERRAL_DISCLOSURE_INLINE =
   "We connect you with local providers. We do not perform the service work.";
 
-/** Shown under the submit button — submitting counts as agreement */
+/** Shown under the submit button — referral / sharing disclosure (SMS consent is a separate checkbox) */
 export const FORM_SUBMIT_FINE_PRINT =
-  "By submitting, you agree we may call or text you and share your details with a local company to help with your request. Berks Property Response connects you with local help—we do not perform the work.";
+  "By submitting, you agree we may share your request details with an independent local company to help with your issue. Berks Property Response connects you with local help—we do not perform the work.";

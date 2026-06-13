@@ -70,7 +70,7 @@ export function mapToWebhookPayload(
         photoUploadUrl,
       },
       consent: {
-        smsOptIn: form.smsOptIn ?? true,
+        smsOptIn: form.smsOptIn === true,
         partnerShareConsent: true,
       },
       routing,

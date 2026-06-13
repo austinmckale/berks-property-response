@@ -212,7 +212,54 @@ export const services: ServicePage[] = [
     ],
     relatedSlugs: [
       "emergency-sewer-backup-berks-county-pa",
+      "basement-floor-drain-backing-up-berks-county-pa",
       "sewer-camera-inspection-berks-county-pa",
+    ],
+  },
+  {
+    slug: "basement-floor-drain-backing-up-berks-county-pa",
+    title: "Basement Floor Drain Backup in Berks County, PA",
+    metaDescription:
+      "Basement floor drain backing up in Berks County? Sewage or dirty water at a floor drain—call or request emergency drain help.",
+    headline: "Basement floor drain backing up?",
+    subheadline:
+      "Water or sewage at a basement floor drain often signals a main line or sewer issue. Stop using water and call if backup is active.",
+    provider: "apex",
+    serviceCategory: "drain_sewer",
+    defaultRoute: "apex",
+    payoutCategory: "Apex emergency sewer lead",
+    draftStatus: "published",
+    needsConfirmation: false,
+    noindex: false,
+    heroImage: "/images/placeholder-drain.svg",
+    intro:
+      "A basement floor drain backing up with sewage or dirty water is urgent. It often means the main sewer line is blocked—not a simple fixture clog. Stop using water and call if waste is present.",
+    symptoms: [
+      "Sewage or dirty water rising from a basement floor drain",
+      "Floor drain overflow when toilets or tubs run",
+      "Sewage smell in the basement",
+      "Multiple upper fixtures slow or backing up at the same time",
+    ],
+    whatToDo: [
+      "Stop using water—avoid flushing, running sinks, or laundry",
+      "Keep people and pets away from contaminated water",
+      "Call now if sewage is actively present",
+      "Send photos of the floor drain and any backup",
+    ],
+    routingNotes: [
+      "Basement floor drain backups route to Apex Drain Services.",
+      "Finish repair of damaged materials after the event may route to RHI Pros.",
+    ],
+    faqs: [
+      {
+        question: "Is this different from a small plumbing leak?",
+        answer:
+          "Yes. An isolated drip under one sink may route to a plumber for fixture repair. Sewage or backup at a floor drain is a drain or sewer emergency.",
+      },
+    ],
+    relatedSlugs: [
+      "emergency-sewer-backup-berks-county-pa",
+      "main-sewer-line-clog-reading-pa",
     ],
   },
   {

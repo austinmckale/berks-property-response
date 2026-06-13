@@ -27,7 +27,7 @@ export async function POST(request: Request) {
       serviceCategory: parsed.data.serviceCategory ?? problem.serviceCategory,
       defaultRoute: parsed.data.defaultRoute || problem.defaultRoute,
       propertyType: parsed.data.propertyType ?? "residential",
-      smsOptIn: parsed.data.smsOptIn ?? true,
+      smsOptIn: parsed.data.smsOptIn === true,
     };
     const photoUploaded = Boolean(form.photoUpload);
     const routing = routeLead({

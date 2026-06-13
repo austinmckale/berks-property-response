@@ -14,6 +14,8 @@ const staticPages = [
   "/terms",
   "/service-areas",
   "/drains",
+  "/emergency",
+  "/after-leak",
   "/plumbing-and-leaks",
   "/property-repairs-berks-county-pa",
 ];
