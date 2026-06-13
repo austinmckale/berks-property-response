@@ -16,14 +16,14 @@ export function ServiceAreaLinks() {
             <Link
               key={city.slug}
               href={`/service-areas/${city.slug}`}
-              className="btn-touch card-touch rounded-xl border border-stone-300 bg-white px-4 text-sm font-medium text-stone-800 active:bg-stone-50 sm:rounded-full sm:py-2"
+              className="btn-touch card-touch w-full rounded-xl border border-stone-300 bg-white px-4 text-sm font-medium text-stone-800 active:bg-stone-50 sm:w-auto sm:rounded-full sm:py-2"
             >
               {city.name}, PA
             </Link>
           ))}
           <Link
             href="/service-areas"
-            className="btn-touch card-touch rounded-xl border border-stone-900 bg-stone-900 px-4 text-sm font-medium text-white active:bg-stone-800 sm:rounded-full sm:py-2"
+            className="btn-touch card-touch w-full rounded-xl border border-stone-900 bg-stone-900 px-4 text-sm font-medium text-white active:bg-stone-800 sm:w-auto sm:rounded-full sm:py-2"
           >
             All areas
           </Link>

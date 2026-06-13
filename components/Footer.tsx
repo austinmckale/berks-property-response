@@ -18,7 +18,7 @@ export function Footer() {
           <p className="mt-2 text-sm text-stone-400">{SITE_SUBTITLE}</p>
           <a
             href={phoneHref(PHONE_NUMBER)}
-            className="btn-touch mt-3 inline-flex text-base font-semibold text-white underline-offset-2 hover:underline"
+            className="mt-3 inline-block text-base font-semibold text-white underline-offset-2 hover:underline"
           >
             {PHONE_NUMBER}
           </a>

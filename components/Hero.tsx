@@ -23,9 +23,10 @@ export function Hero({
         {showEmergency && (
           <a
             href={phoneHref(PHONE_NUMBER)}
-            className="mb-5 flex min-h-[3rem] items-center justify-center rounded-xl bg-red-600 px-4 py-2.5 text-sm font-semibold text-white active:bg-red-700 md:mb-4 md:inline-flex md:rounded-md md:py-1"
+            className="btn-touch-lg mb-5 rounded-xl bg-red-600 text-sm font-semibold text-white active:bg-red-700 sm:text-base md:mb-4 md:inline-flex md:rounded-md"
           >
-            Sewage backing up? Tap to call now
+            <span className="md:hidden">Sewage backup? Tap to call</span>
+            <span className="hidden md:inline">Sewage backing up? Tap to call now</span>
           </a>
         )}
         <h1 className="text-balance text-[1.625rem] font-semibold leading-snug tracking-tight sm:text-3xl md:text-4xl md:leading-tight">

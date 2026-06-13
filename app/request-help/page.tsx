@@ -40,10 +40,10 @@ export default function RequestHelpPage() {
           {/* Mobile: emergency + form first */}
           <a
             href={phoneHref(PHONE_NUMBER)}
-            className="btn-touch-lg mb-5 flex w-full flex-col rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-left active:bg-red-100 md:hidden"
+            className="btn-touch-lg mb-5 rounded-xl border border-red-200 bg-red-50 px-4 text-left active:bg-red-100 md:hidden"
           >
             <span className="font-semibold text-red-900">Active backup or leak?</span>
-            <span className="text-sm text-red-800">Tap to call {PHONE_NUMBER}</span>
+            <span className="mt-0.5 block text-sm text-red-800">Tap to call now</span>
           </a>
 
           <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start lg:gap-10">

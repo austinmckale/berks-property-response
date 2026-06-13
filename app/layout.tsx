@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { MobileNavProvider } from "@/components/MobileNavContext";
 import { StickyMobileCTA } from "@/components/StickyMobileCTA";
 import { SITE_NAME, SITE_URL, TAGLINE } from "@/lib/siteConfig";
 import "./globals.css";
@@ -43,10 +44,12 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col pb-mobile-cta">
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
-        <StickyMobileCTA />
+        <MobileNavProvider>
+          <Header />
+          <main className="flex-1">{children}</main>
+          <Footer />
+          <StickyMobileCTA />
+        </MobileNavProvider>
       </body>
     </html>
   );
