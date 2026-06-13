@@ -8,18 +8,18 @@ interface FAQProps {
   title?: string;
 }
 
-export function FAQ({ items, title = "Frequently asked questions" }: FAQProps) {
+export function FAQ({ items, title = "Questions" }: FAQProps) {
   if (items.length === 0) return null;
 
   return (
-    <section className="px-4 py-12">
-      <div className="mx-auto max-w-3xl">
-        <h2 className="text-2xl font-bold text-slate-900">{title}</h2>
+    <section className="border-t border-stone-200 px-4 py-10">
+      <div className="mx-auto max-w-2xl">
+        <h2 className="text-lg font-semibold text-stone-900">{title}</h2>
         <dl className="mt-6 space-y-6">
           {items.map((item) => (
-            <div key={item.question} className="rounded-lg border border-slate-200 bg-white p-5">
-              <dt className="font-semibold text-slate-900">{item.question}</dt>
-              <dd className="mt-2 text-sm text-slate-600">{item.answer}</dd>
+            <div key={item.question}>
+              <dt className="font-medium text-stone-900">{item.question}</dt>
+              <dd className="mt-2 text-sm leading-relaxed text-stone-600">{item.answer}</dd>
             </div>
           ))}
         </dl>

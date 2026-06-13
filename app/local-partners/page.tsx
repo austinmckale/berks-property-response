@@ -14,7 +14,7 @@ import {
 export const metadata = buildMetadata({
   title: "Local Partners | Berks Property Response",
   description:
-    "Independent local providers that Berks Property Response may route requests to in Berks County.",
+    "Independent local providers that Berks Property Response may connect you with in Berks County.",
   path: "/local-partners",
 });
 
@@ -24,7 +24,7 @@ export default function LocalPartnersPage() {
     organizationSchema(),
     webPageSchema({
       title: "Local Partners",
-      description: "Local provider partners for Berks Property Response routing.",
+      description: "Independent local providers Berks Property Response may connect you with in Berks County.",
       path: "/local-partners",
     }),
     breadcrumbSchema(crumbs)
@@ -36,16 +36,13 @@ export default function LocalPartnersPage() {
       <Breadcrumbs items={crumbs} />
       <section className="px-4 py-10">
         <div className="mx-auto max-w-6xl">
-          <h1 className="text-3xl font-bold text-slate-900">Local partners</h1>
-          <p className="mt-4 max-w-3xl text-slate-600">
-            Berks Property Response routes requests to independent local providers. We do not perform the service work directly.
+          <h1 className="text-3xl font-semibold text-stone-900">Local partners</h1>
+          <p className="mt-4 max-w-3xl text-stone-600">
+            Berks Property Response may connect your request with independent local providers. We do not perform the service work directly.
           </p>
           <div className="mt-8 grid gap-6 md:grid-cols-3">
             <ProviderCard provider={providers.apex} />
-            <ProviderCard
-              provider={providers.evan}
-              note="CONFIRMATION REQUIRED — scope partially verified"
-            />
+            <ProviderCard provider={providers.evan} />
             <ProviderCard provider={providers.rhi} />
           </div>
           <div className="mt-8">

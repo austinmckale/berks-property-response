@@ -39,6 +39,12 @@ function main() {
   if (!sitemapExists) errors.push("Missing app/sitemap.ts");
   if (!robotsExists) errors.push("Missing app/robots.ts");
 
+  const layoutPath = join(process.cwd(), "app/layout.tsx");
+  const layoutContent = readFileSync(layoutPath, "utf-8");
+  if (!layoutContent.includes("metadataBase")) {
+    errors.push("app/layout.tsx: missing metadataBase export");
+  }
+
   if (errors.length > 0) {
     console.error("SEO check failed:\n");
     errors.forEach((e) => console.error(`  - ${e}`));

@@ -62,11 +62,15 @@ const APEX_KEYWORDS = [
   "gurgling",
   "toilet bubbling",
   "tub backing up",
+  "multiple drains",
+  "multiple fixtures",
+  "sewage",
 ];
 
 const EVAN_KEYWORDS: { keyword: string; serviceKey: string }[] = [
   { keyword: "leak repair", serviceKey: "leak repair" },
   { keyword: "faucet repair", serviceKey: "faucet repair" },
+  { keyword: "toilet repair", serviceKey: "toilet repair" },
   { keyword: "toilet repair isolated to one toilet", serviceKey: "toilet repair" },
   { keyword: "running toilet", serviceKey: "running toilet" },
   { keyword: "garbage disposal", serviceKey: "garbage disposal" },
@@ -266,9 +270,13 @@ export function routeLead(input: LeadInput): RouteResult {
     }
   } else if (input.defaultRoute) {
     const route = input.defaultRoute as ProviderId;
-    if (route === "evan") {
-      primaryRoute = "manual_review";
-      notesInternal.push("CONFIRMATION REQUIRED: Default Evan route pending confirmation");
+    if (route === "evan" && apexMatches.length === 0) {
+      primaryRoute = "evan";
+      serviceCategory = "plumbing";
+    } else if (route === "evan" && apexMatches.length > 0) {
+      primaryRoute = "apex";
+      serviceCategory = "drain_sewer";
+      notesInternal.push("Apex override: drain/sewer symptoms detected on Evan service page");
     } else {
       primaryRoute = route;
     }

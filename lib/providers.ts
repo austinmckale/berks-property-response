@@ -55,11 +55,19 @@ export const providers: Record<Exclude<ProviderId, "manual_review">, Provider> =
   evan: {
     id: "evan",
     name: "Evan Simons",
-    confirmed: "partial",
+    confirmed: true,
     type: "solo plumber",
     description:
-      "Potential route for small plumbing repairs once service scope is confirmed. Many details are still pending verification.",
-    defaultRoutes: ["small plumbing repair"],
+      "Routes smaller residential plumbing service calls such as leaks, faucet issues, running toilets, shutoff valves, and fixture-level repairs. Larger drain, sewer, jetting, and multi-fixture backup issues route to Apex. Water-damage build-back routes to RHI Pros.",
+    defaultRoutes: [
+      "leak repair",
+      "faucet repair",
+      "toilet repair",
+      "running toilet",
+      "shutoff valve",
+      "small plumbing repair",
+      "fixture repair",
+    ],
     verifiedClaims: {
       licensed: false,
       insured: false,
@@ -71,15 +79,6 @@ export const providers: Record<Exclude<ProviderId, "manual_review">, Provider> =
       familyOwned: false,
       guaranteed: false,
     },
-    actionItems: [
-      "ACTION ITEM: Confirm exact services Evan accepts",
-      "ACTION ITEM: Confirm service area and hours",
-      "ACTION ITEM: Confirm license/registration info if applicable",
-      "ACTION ITEM: Confirm insurance if applicable",
-      "ACTION ITEM: Confirm whether Evan accepts emergency work",
-      "ACTION ITEM: Confirm whether Evan accepts water heater work",
-      "ACTION ITEM: Confirm whether Evan accepts clogged fixtures",
-    ],
   },
   rhi: {
     id: "rhi",

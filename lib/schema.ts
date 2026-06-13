@@ -7,7 +7,7 @@ export function organizationSchema() {
     name: SITE_NAME,
     url: SITE_URL,
     description:
-      "Independent local referral and intake website for plumbing, drains, water damage, and property repairs in Berks County, PA.",
+      "Local help connecting Berks County homeowners with plumbing, drain, water damage, and property repair specialists.",
   };
 }
 
@@ -56,7 +56,7 @@ export function serviceSchema(params: {
     provider: {
       "@type": "Organization",
       name: SITE_NAME,
-      description: "Referral and intake service—not the direct service provider.",
+      description: "Local help connecting you with independent specialists—not the direct service provider.",
     },
     areaServed: params.areaServed ?? "Berks County, PA",
   };

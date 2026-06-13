@@ -3,16 +3,16 @@ import { smsHref } from "@/lib/tracking";
 
 export function PhotoUploadPrompt() {
   return (
-    <div className="rounded-xl border border-blue-200 bg-blue-50 p-5">
-      <h3 className="font-semibold text-blue-900">Send photos of the problem</h3>
-      <p className="mt-2 text-sm text-blue-800">
-        Photos of drains, leaks, stains, or backup areas help the provider understand urgency and scope before arrival.
+    <div className="rounded-lg border border-stone-200 bg-stone-50 p-4">
+      <h3 className="font-medium text-stone-900">Have a photo?</h3>
+      <p className="mt-1 text-sm text-stone-600">
+        A picture of the drain, leak, or damage helps local help respond faster.
       </p>
       <a
-        href={smsHref(TEXT_NUMBER, "Hi, I need help with a property issue. I'll send photos.")}
-        className="mt-3 inline-block text-sm font-semibold text-blue-700 hover:underline"
+        href={smsHref(TEXT_NUMBER, "Hi, I need help with a property issue. I'll send a photo.")}
+        className="mt-3 inline-block text-sm font-medium text-stone-900 underline-offset-2 hover:underline"
       >
-        Text photos to {TEXT_NUMBER}
+        Text a photo to {TEXT_NUMBER}
       </a>
     </div>
   );

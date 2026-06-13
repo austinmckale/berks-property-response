@@ -33,7 +33,7 @@ export function homeMetadata(): Metadata {
   return buildMetadata({
     title: `${SITE_NAME} | ${TAGLINE}`,
     description:
-      "Need plumbing, drain, water damage, or repair help in Berks County? Tell us what happened and we'll route your request to the right local provider.",
+      "Need plumbing, drain, water damage, or repair help in Berks County? Tell us what happened and we will connect you with the right local help.",
     path: "/",
   });
 }

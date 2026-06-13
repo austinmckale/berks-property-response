@@ -11,13 +11,13 @@ export function DisclosureBlock({ variant = "full", className = "" }: Disclosure
 
   return (
     <p
-      className={`text-sm leading-relaxed text-slate-600 ${className}`}
+      className={`text-sm leading-relaxed text-stone-600 ${className}`}
       role="note"
       aria-label="Referral disclosure"
     >
       {text}{" "}
       {variant === "full" && (
-        <Link href="/disclosure" className="font-medium text-blue-700 hover:underline">
+        <Link href="/disclosure" className="font-medium text-stone-900 underline hover:text-stone-600">
           Full disclosure
         </Link>
       )}

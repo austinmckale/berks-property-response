@@ -1,30 +1,38 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { PHONE_NUMBER, TEXT_NUMBER } from "@/lib/siteConfig";
 import { phoneHref, smsHref } from "@/lib/tracking";
 
+/** Fixed thumb-zone actions — hidden on form page and desktop */
 export function StickyMobileCTA() {
+  const pathname = usePathname();
+
+  if (pathname === "/request-help") {
+    return null;
+  }
+
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-slate-200 bg-white p-2 shadow-lg md:hidden">
-      <div className="grid grid-cols-3 gap-2">
+    <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-stone-200 bg-white/95 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] backdrop-blur md:hidden safe-bottom">
+      <div className="grid grid-cols-3 gap-2 p-2 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
         <a
           href={phoneHref(PHONE_NUMBER)}
-          className="rounded-lg bg-red-600 px-2 py-3 text-center text-xs font-bold text-white"
+          className="btn-touch-lg rounded-xl bg-red-600 text-sm font-bold text-white active:bg-red-700"
         >
-          Call Now
+          Call
         </a>
         <a
           href={smsHref(TEXT_NUMBER)}
-          className="rounded-lg bg-blue-700 px-2 py-3 text-center text-xs font-bold text-white"
+          className="btn-touch-lg rounded-xl bg-stone-900 text-sm font-bold text-white active:bg-stone-800"
         >
-          Text Photos
+          Text photo
         </a>
         <Link
           href="/request-help"
-          className="rounded-lg border border-blue-700 px-2 py-3 text-center text-xs font-bold text-blue-700"
+          className="btn-touch-lg rounded-xl border-2 border-stone-300 bg-white text-sm font-bold text-stone-900 active:bg-stone-50"
         >
-          Request Help
+          Get help
         </Link>
       </div>
     </div>

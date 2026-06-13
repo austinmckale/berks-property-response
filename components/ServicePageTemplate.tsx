@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { Suspense } from "react";
-import type { ServicePage } from "@/lib/services";
-import { getProvider } from "@/lib/providers";
+import { getRelatedServices, type ServicePage } from "@/lib/services";
 import { breadcrumbItems, buildMetadata } from "@/lib/seo";
 import {
   breadcrumbSchema,
@@ -13,13 +12,13 @@ import {
 } from "@/lib/schema";
 import { Breadcrumbs } from "./Breadcrumbs";
 import { CTASection } from "./CTASection";
-import { DisclosureBlock } from "./DisclosureBlock";
 import { EmergencyNotice } from "./EmergencyNotice";
 import { FAQ } from "./FAQ";
+import { inferProblemTypeFromContext } from "@/lib/problemTypes";
 import { LeadForm } from "./LeadForm";
 import { PhotoUploadPrompt } from "./PhotoUploadPrompt";
+import { PlumbingTriageNotice } from "./PlumbingTriageNotice";
 import { SchemaScript } from "./SchemaScript";
-import { ServiceCard } from "./ServiceCard";
 
 interface ServicePageTemplateProps {
   service: ServicePage;
@@ -35,7 +34,6 @@ export function generateServiceMetadata(service: ServicePage) {
 }
 
 export function ServicePageTemplate({ service }: ServicePageTemplateProps) {
-  const provider = getProvider(service.provider);
   const crumbs = breadcrumbItems([{ name: service.headline, path: `/${service.slug}` }]);
   const schemas = combineSchemas(
     organizationSchema(),
@@ -55,111 +53,100 @@ export function ServicePageTemplate({ service }: ServicePageTemplateProps) {
 
   const isEmergency =
     service.slug.includes("emergency") || service.slug.includes("sewer-backup");
+  const isEvanPlumbing = service.provider === "evan" || service.defaultRoute === "evan";
+  const relatedServices = getRelatedServices(service.relatedSlugs);
 
   return (
     <>
       <SchemaScript schemas={schemas} />
       <Breadcrumbs items={crumbs} />
 
-      <section className="px-4 py-10">
-        <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-3">
-          <div className="lg:col-span-2">
-            {service.needsConfirmation && (
-              <div className="mb-6 rounded-lg border border-amber-300 bg-amber-50 p-4 text-sm font-semibold text-amber-900">
-                CONFIRMATION REQUIRED: Provider scope for this page is not fully verified.
-              </div>
-            )}
+      <article className="px-4 py-10">
+        <div className="mx-auto max-w-2xl">
+          <h1 className="text-3xl font-semibold text-stone-900 md:text-4xl">
+            {service.headline}
+          </h1>
+          <p className="mt-4 text-lg text-stone-600">{service.subheadline}</p>
 
-            <h1 className="text-3xl font-bold text-slate-900 md:text-4xl">
-              {service.headline}
-            </h1>
-            <p className="mt-4 text-lg text-slate-600">{service.subheadline}</p>
-
-            {isEmergency && (
-              <div className="mt-6">
-                <EmergencyNotice />
-              </div>
-            )}
-
-            <p className="mt-6 text-slate-700">{service.intro}</p>
-
-            <h2 className="mt-8 text-xl font-bold text-slate-900">Common symptoms</h2>
-            <ul className="mt-3 list-inside list-disc space-y-2 text-slate-700">
-              {service.symptoms.map((s) => (
-                <li key={s}>{s}</li>
-              ))}
-            </ul>
-
-            <h2 className="mt-8 text-xl font-bold text-slate-900">What to do now</h2>
-            <ol className="mt-3 list-inside list-decimal space-y-2 text-slate-700">
-              {service.whatToDo.map((s) => (
-                <li key={s}>{s}</li>
-              ))}
-            </ol>
-
-            <div className="mt-8">
-              <PhotoUploadPrompt />
+          {isEmergency && (
+            <div className="mt-6">
+              <EmergencyNotice />
             </div>
+          )}
 
-            <h2 className="mt-8 text-xl font-bold text-slate-900">How we route this request</h2>
-            <ul className="mt-3 list-inside list-disc space-y-2 text-slate-700">
-              {service.routingNotes.map((n) => (
-                <li key={n}>{n}</li>
-              ))}
-            </ul>
-            {provider && (
-              <p className="mt-4 text-sm text-slate-500">
-                Default provider route: <strong>{provider.name}</strong>
-              </p>
-            )}
+          {isEvanPlumbing && <PlumbingTriageNotice />}
 
-            {service.rhiHandoff && (
-              <div className="mt-6 rounded-lg border border-slate-200 bg-slate-50 p-4 text-sm">
-                <p className="font-semibold text-slate-900">Broader remodeling?</p>
-                <p className="mt-1 text-slate-600">{service.rhiHandoff}</p>
-                <a
-                  href="https://rhipros.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-2 inline-block text-blue-700 hover:underline"
-                >
-                  Visit RHIpros.com
-                </a>
-              </div>
-            )}
+          <p className="mt-6 leading-relaxed text-stone-700">{service.intro}</p>
 
-            <div className="mt-8">
-              <DisclosureBlock />
-            </div>
+          <h2 className="mt-8 text-lg font-semibold text-stone-900">Common signs</h2>
+          <ul className="mt-3 list-inside list-disc space-y-2 text-stone-700">
+            {service.symptoms.map((s) => (
+              <li key={s}>{s}</li>
+            ))}
+          </ul>
+
+          <h2 className="mt-8 text-lg font-semibold text-stone-900">What to do now</h2>
+          <ol className="mt-3 list-inside list-decimal space-y-2 text-stone-700">
+            {service.whatToDo.map((s) => (
+              <li key={s}>{s}</li>
+            ))}
+          </ol>
+
+          <div className="mt-8">
+            <PhotoUploadPrompt />
           </div>
 
-          <div>
-            <Suspense fallback={<div className="h-96 animate-pulse rounded-xl bg-slate-100" />}>
+          {service.rhiHandoff && (
+            <div className="mt-8 rounded-lg border border-stone-200 bg-stone-50 p-4 text-sm text-stone-700">
+              <p className="font-medium text-stone-900">Looking for a full remodel?</p>
+              <p className="mt-1">{service.rhiHandoff}</p>
+              <a
+                href="https://rhipros.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-2 inline-block font-medium text-stone-900 underline-offset-2 hover:underline"
+              >
+                Visit RHIpros.com
+              </a>
+            </div>
+          )}
+
+          <div className="mt-10 border-t border-stone-200 pt-10">
+            <Suspense fallback={<div className="h-96 animate-pulse rounded-lg bg-stone-100" />}>
               <LeadForm
                 pageType="service"
                 serviceCategory={service.serviceCategory}
                 defaultRoute={service.defaultRoute}
                 defaultService={service.headline}
+                initialProblemType={inferProblemTypeFromContext({
+                  serviceCategory: service.serviceCategory,
+                  defaultRoute: service.defaultRoute,
+                  slug: service.slug,
+                })}
               />
             </Suspense>
           </div>
         </div>
-      </section>
+      </article>
 
-      {service.relatedSlugs.length > 0 && (
-        <section className="bg-slate-50 px-4 py-10">
-          <div className="mx-auto max-w-6xl">
-            <h2 className="text-xl font-bold text-slate-900">Related services</h2>
-            <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {service.relatedSlugs.map((slug) => (
-                <ServiceCard
-                  key={slug}
-                  title={slug.replace(/-/g, " ")}
-                  description="Learn more about this service in Berks County."
-                  href={`/${slug}`}
-                />
+      {relatedServices.length > 0 && (
+        <section className="border-t border-stone-200 bg-stone-50 px-4 py-8">
+          <div className="mx-auto max-w-2xl">
+            <h2 className="text-sm font-semibold uppercase tracking-wide text-stone-500">
+              Related
+            </h2>
+            <ul className="mt-3 space-y-2">
+              {relatedServices.map((related) => (
+                <li key={related.slug}>
+                  <Link
+                    href={`/${related.slug}`}
+                    className="text-stone-800 underline-offset-2 hover:underline"
+                  >
+                    {related.headline}
+                  </Link>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
         </section>
       )}

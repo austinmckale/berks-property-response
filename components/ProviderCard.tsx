@@ -7,21 +7,19 @@ interface ProviderCardProps {
 
 export function ProviderCard({ provider, note }: ProviderCardProps) {
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-5">
-      <h3 className="font-bold text-slate-900">{provider.name}</h3>
-      <p className="text-sm text-slate-500">{provider.type}</p>
+    <div className="rounded-xl border border-stone-200 bg-white p-5">
+      <h3 className="font-semibold text-stone-900">{provider.name}</h3>
+      <p className="text-sm text-stone-500">{provider.type}</p>
       {note && (
-        <p className="mt-2 rounded bg-amber-100 px-2 py-1 text-xs font-semibold text-amber-800">
-          {note}
-        </p>
+        <p className="mt-2 text-xs text-stone-500">{note}</p>
       )}
-      <p className="mt-3 text-sm text-slate-600">{provider.description}</p>
+      <p className="mt-3 text-sm text-stone-600">{provider.description}</p>
       {provider.website && (
         <a
           href={provider.website}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-3 inline-block text-sm text-blue-700 hover:underline"
+          className="mt-3 inline-block text-sm font-medium text-stone-800 underline hover:text-stone-600"
         >
           Visit website →
         </a>

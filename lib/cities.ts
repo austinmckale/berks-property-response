@@ -35,9 +35,9 @@ export const cities: CityPage[] = [
     zipCodes: ["19601", "19602", "19604", "19605", "19606", "19607", "19608", "19609", "19610", "19611", "19612"],
     headline: "Plumbing, drain, and water damage help in Reading, PA",
     intro:
-      "Reading is Berks County's largest city, with a mix of older row homes, multi-unit rentals, and commercial properties. Drain backups, aging sewer connections, and water damage after leaks are common intake requests from Reading neighborhoods.",
+      "Reading is Berks County's largest city, with a mix of older row homes, multi-unit rentals, and commercial properties. Drain backups, aging sewer connections, and water damage after leaks are common problems we hear about from Reading neighborhoods.",
     localContext:
-      "From Center City to the suburbs near Wyomissing borough, properties range from century-old plumbing to newer commercial kitchens. When multiple drains fail at once in a Reading property, we treat it as a potential main line issue and route to Apex Drain Services.",
+      "From Center City to the suburbs near Wyomissing borough, properties range from century-old plumbing to newer commercial kitchens. When multiple drains fail at once in a Reading property, we treat it as a potential main line issue and prioritize emergency drain help.",
     neighborhoods: ["Center City", "Mount Penn area", "Millmont", "Glenside"],
     serviceLinks: [
       { href: "/emergency-sewer-backup-berks-county-pa", label: "Emergency sewer backup" },
@@ -49,12 +49,12 @@ export const cities: CityPage[] = [
       {
         question: "Do you serve all of Reading?",
         answer:
-          "Berks Property Response routes requests across Reading and Berks County to approved local providers. Actual service availability depends on the provider handling your job.",
+          "Berks Property Response helps people across Reading and Berks County connect with local specialists. Actual service availability depends on the company handling your job.",
       },
       {
         question: "Who performs the work in Reading?",
         answer:
-          "We are an intake and referral site. Drain work may route to Apex Drain Services; build-back repair may route to RHI Pros. We disclose referral relationships on every form.",
+          "We help connect you with independent local specialists in Berks County. Based on your issue, that may be drain work, small plumbing, or build-back repair. We disclose our referral relationships on every form.",
       },
     ],
     draftStatus: "published",
@@ -69,7 +69,7 @@ export const cities: CityPage[] = [
     intro:
       "Birdsboro sits along the Schuylkill River with a mix of residential streets and small commercial properties. Homeowners here often call about basement floor drain backups after heavy rain or recurring kitchen line clogs.",
     localContext:
-      "Properties in Birdsboro may have older lateral lines and basement utilities that are sensitive to main line stress. We route active sewer backups to Apex and follow-up water damage repair to RHI Pros when needed.",
+      "Properties in Birdsboro may have older lateral lines and basement utilities that are sensitive to main line stress. Active sewer backups get priority for emergency drain help; follow-up damage repair can be handled separately after the line is cleared.",
     serviceLinks: [
       { href: "/emergency-sewer-backup-berks-county-pa", label: "Sewer backup help" },
       { href: "/hydro-jetting-berks-county-pa", label: "Hydro jetting" },
@@ -90,11 +90,11 @@ export const cities: CityPage[] = [
     name: "Wyomissing",
     state: "PA",
     zipCodes: ["19610"],
-    headline: "Local plumbing and drain intake for Wyomissing, PA",
+    headline: "Plumbing and drain help in Wyomissing, PA",
     intro:
       "Wyomissing includes residential neighborhoods, retail corridors, and office properties near Reading. Requests here range from commercial grease line issues along busy corridors to water damage repair after an upstairs leak.",
     localContext:
-      "Commercial tenants and property managers in Wyomissing often need faster triage for recurring floor drains. We route commercial drain issues to Apex and contractor-level repair after water events to RHI Pros. Residential neighborhoods near Penn Avenue and the borough's retail corridors see a mix of aging supply lines and fixture-level issues that may require manual review until Evan Simons' scope is confirmed.",
+      "Commercial tenants and property managers in Wyomissing often need faster help for recurring floor drains. Commercial drain issues and repair after water events come up often here. Residential neighborhoods near Penn Avenue and the borough's retail corridors see a mix of aging supply lines and fixture-level issues that may need a closer look until small-plumbing scope is confirmed.",
     serviceLinks: [
       { href: "/commercial-drain-cleaning-berks-county-pa", label: "Commercial drain cleaning" },
       { href: "/drain-cleaning-berks-county-pa", label: "Residential drain cleaning" },
@@ -104,7 +104,7 @@ export const cities: CityPage[] = [
       {
         question: "Do you handle Wyomissing commercial properties?",
         answer:
-          "Yes, we accept commercial and property manager requests and route drain issues to Apex Drain Services when appropriate.",
+          "Yes, we accept commercial and property manager requests and connect you with local drain help when appropriate.",
       },
     ],
     draftStatus: "published",
@@ -115,11 +115,11 @@ export const cities: CityPage[] = [
     name: "Exeter Township",
     state: "PA",
     zipCodes: ["19606"],
-    headline: "Exeter Township drain and water damage routing",
+    headline: "Drain and water damage help in Exeter Township",
     intro:
-      "Exeter Township covers suburban neighborhoods and commercial strips east of Reading. Sewer backups affecting multiple fixtures and sump-related basement moisture after plumbing events are common intake themes.",
+      "Exeter Township covers suburban neighborhoods and commercial strips east of Reading. Sewer backups affecting multiple fixtures and basement moisture after plumbing events are common reasons people reach out.",
     localContext:
-      "Split-level homes and township commercial pads in Exeter may see main line symptoms when tree roots or aging laterals are involved. Camera inspection and jetting requests from Exeter route to Apex. After a backup is cleared, ceiling or flooring damage in lower levels may be routed to RHI Pros for build-back repair—not handled by Berks Property Response directly.",
+      "Split-level homes and township commercial pads in Exeter may see main line symptoms when tree roots or aging laterals are involved. Camera inspection and jetting requests are common from Exeter. After a backup is cleared, ceiling or flooring damage in lower levels may need build-back repair from an independent local provider—not handled by Berks Property Response directly.",
     serviceLinks: [
       { href: "/sewer-camera-inspection-berks-county-pa", label: "Sewer camera inspection" },
       { href: "/main-sewer-line-clog-reading-pa", label: "Main line clog symptoms" },
@@ -129,7 +129,7 @@ export const cities: CityPage[] = [
       {
         question: "Is Exeter Township in your service area?",
         answer:
-          "Exeter is part of our first-wave Berks County coverage. Submit your city and zip on the request form for routing.",
+          "Exeter is part of our Berks County coverage. Submit your city and zip on the request form and we will connect you with local help.",
       },
     ],
     draftStatus: "published",
@@ -140,11 +140,11 @@ export const cities: CityPage[] = [
     name: "Sinking Spring",
     state: "PA",
     zipCodes: ["19608"],
-    headline: "Sinking Spring property problem intake",
+    headline: "Property repair help in Sinking Spring",
     intro:
       "Sinking Spring blends suburban housing with light industrial and retail sites. We see requests for recurring drain clogs, restaurant grease lines near commercial zones, and ceiling repair after upstairs plumbing leaks.",
     localContext:
-      "When a Sinking Spring homeowner reports a toilet bubbling while the washing machine drains, we prioritize main line routing to Apex rather than fixture-level plumbing. Light industrial sites along local commercial corridors may submit grease line or floor drain requests through the same intake form used for residential clogs.",
+      "When a Sinking Spring homeowner reports a toilet bubbling while the washing machine drains, we treat that as a likely main line issue—not a single-fixture clog. Light industrial sites along local commercial corridors can use the same request form for grease line or floor drain problems.",
     serviceLinks: [
       { href: "/hydro-jetting-berks-county-pa", label: "Hydro jetting" },
       { href: "/commercial-drain-cleaning-berks-county-pa", label: "Commercial drains" },
@@ -154,7 +154,7 @@ export const cities: CityPage[] = [
       {
         question: "What if I need a full remodel in Sinking Spring?",
         answer:
-          "Berks Property Response focuses on plumbing-related intake. Broader remodeling is handled through RHIpros.com.",
+          "Berks Property Response focuses on plumbing-related problems and repairs after leaks—not full home remodeling. For broader remodeling, visit RHIpros.com.",
       },
     ],
     draftStatus: "published",
@@ -165,11 +165,11 @@ export const cities: CityPage[] = [
     name: "Douglassville",
     state: "PA",
     zipCodes: ["19518"],
-    headline: "Douglassville drain and repair request routing",
+    headline: "Drain and repair help in Douglassville",
     intro:
       "Douglassville and the Amity area include riverside homes, rural parcels, and small businesses along Route 422. Longer sewer runs and septic-to-municipal transitions can make camera inspection especially useful here.",
     localContext:
-      "Requests from Douglassville often mention basement floor drains and seasonal backup patterns. We route emergency sewer symptoms to Apex and document damage repair needs for RHI Pros follow-up. Riverside and Amity Township properties may have longer lateral runs where camera inspection helps before jetting or clearing is scheduled.",
+      "Requests from Douglassville often mention basement floor drains and seasonal backup patterns. Emergency sewer symptoms get priority; damage repair needs can be documented for follow-up after the line is cleared. Riverside and Amity Township properties may have longer lateral runs where camera inspection helps before jetting or clearing is scheduled.",
     serviceLinks: [
       { href: "/emergency-sewer-backup-berks-county-pa", label: "Emergency sewer backup" },
       { href: "/sewer-camera-inspection-berks-county-pa", label: "Camera inspection" },
@@ -179,7 +179,7 @@ export const cities: CityPage[] = [
       {
         question: "How far from Reading do you route requests?",
         answer:
-          "Douglassville is within our Berks County intake area. Provider availability is confirmed when your request is routed.",
+          "Douglassville is within our Berks County service area. Provider availability is confirmed when we connect you with local help.",
       },
     ],
     draftStatus: "published",

@@ -13,6 +13,8 @@ const staticPages = [
   "/privacy-policy",
   "/terms",
   "/service-areas",
+  "/drains",
+  "/plumbing-and-leaks",
   "/property-repairs-berks-county-pa",
 ];
 

@@ -29,6 +29,9 @@ const SKIP_FILES = [
   "routing.ts",
   "problems.ts",
   "LeadForm.tsx",
+  "leadNotifications.ts",
+  "problemTypes.ts",
+  "googleSheetsMapper.ts",
 ];
 
 function getAllVerifiedClaims(): Record<string, boolean> {

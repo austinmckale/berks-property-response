@@ -1,6 +1,7 @@
-import Link from "next/link";
 import { CTASection } from "@/components/CTASection";
+import { DisclosureBlock } from "@/components/DisclosureBlock";
 import { Hero } from "@/components/Hero";
+import { HomeSteps } from "@/components/HomeSteps";
 import { ProviderRouting } from "@/components/ProviderRouting";
 import { SchemaScript } from "@/components/SchemaScript";
 import { ServiceAreaLinks } from "@/components/ServiceAreaLinks";
@@ -14,29 +15,6 @@ import {
 import { TAGLINE } from "@/lib/siteConfig";
 
 export const metadata = homeMetadata();
-
-const whyUseItems = [
-  {
-    title: "One intake point",
-    description: "Call, text photos, or submit a form—one place to start for property problems in Berks County.",
-  },
-  {
-    title: "Photo & video friendly",
-    description: "Send pictures of drains, leaks, or damage so providers can triage faster.",
-  },
-  {
-    title: "Local Berks County routing",
-    description: "Requests are routed to approved local providers based on the type of issue.",
-  },
-  {
-    title: "Urgency-based routing",
-    description: "Sewer backups and emergencies are prioritized differently than estimate-only repair requests.",
-  },
-  {
-    title: "Transparent referral disclosure",
-    description: "We disclose that we may receive compensation when service is booked through a partner.",
-  },
-];
 
 export default function HomePage() {
   const schemas = combineSchemas(
@@ -53,43 +31,20 @@ export default function HomePage() {
       <SchemaScript schemas={schemas} />
       <Hero
         headline="Need plumbing, drain, water damage, or repair help in Berks County?"
-        subheadline="Tell us what happened and we'll route your request to the right local provider for drain service, small plumbing repairs, water damage repair, or contractor-level property repairs."
+        subheadline="Call, text a photo, or request help—we connect you with local specialists."
         showEmergency
       />
       <TriageCards />
       <SymptomCards />
+      <HomeSteps />
       <ProviderRouting />
-
-      <section className="px-4 py-12">
-        <div className="mx-auto max-w-6xl">
-          <h2 className="text-2xl font-bold text-slate-900 md:text-3xl">
-            Why use Berks Property Response?
-          </h2>
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {whyUseItems.map((item) => (
-              <div
-                key={item.title}
-                className="rounded-xl border border-slate-200 bg-white p-5"
-              >
-                <h3 className="font-semibold text-slate-900">{item.title}</h3>
-                <p className="mt-2 text-sm text-slate-600">{item.description}</p>
-              </div>
-            ))}
-          </div>
-          <p className="mt-6 text-sm text-slate-500">
-            Berks Property Response is not the company performing the work. Actual service is provided by independent local partners.
-          </p>
+      <ServiceAreaLinks />
+      <section className="hidden px-4 py-10 md:block">
+        <div className="mx-auto max-w-3xl">
+          <DisclosureBlock />
         </div>
       </section>
-
-      <ServiceAreaLinks />
       <CTASection />
-
-      <section className="px-4 pb-12 text-center">
-        <Link href="/how-it-works" className="text-sm font-medium text-blue-700 hover:underline">
-          Learn how routing works →
-        </Link>
-      </section>
     </>
   );
 }

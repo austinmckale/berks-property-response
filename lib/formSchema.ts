@@ -1,4 +1,10 @@
 import { z } from "zod";
+import { problemTypeOptions } from "./problemTypes";
+
+const problemTypeIds = problemTypeOptions.map((p) => p.id) as [
+  (typeof problemTypeOptions)[number]["id"],
+  ...(typeof problemTypeOptions)[number]["id"][],
+];
 
 export const propertyTypes = [
   "residential",
@@ -15,27 +21,32 @@ export const urgencyLevels = [
   "estimate-only",
 ] as const;
 
+export const urgencyOptions = [
+  { value: "emergency", label: "Emergency" },
+  { value: "same-day", label: "Today" },
+  { value: "this-week", label: "This week" },
+  { value: "estimate-only", label: "Just researching" },
+] as const;
+
 export const leadFormSchema = z.object({
+  problemType: z.enum(problemTypeIds, {
+    message: "Please choose what you need help with",
+  }),
   name: z.string().min(2, "Name is required"),
   phone: z.string().min(10, "Valid phone number is required"),
-  email: z.string().email("Valid email is required").optional().or(z.literal("")),
   city: z.string().min(2, "City is required"),
   zip: z.string().min(5, "ZIP code is required"),
+  problemDescription: z.string().min(10, "A short description helps us help you"),
+  urgency: z.enum(urgencyLevels).optional(),
+  email: z.string().email("Valid email is required").optional().or(z.literal("")),
+  photoUpload: z.any().optional(),
+  /** Derived or prefilled — not shown on the simplified form */
+  propertyType: z.enum(propertyTypes).optional(),
+  serviceRequested: z.string().optional(),
   streetAddress: z.string().optional(),
-  propertyType: z.enum(propertyTypes),
-  serviceRequested: z.string().min(2, "Please describe the service needed"),
-  urgency: z.enum(urgencyLevels),
   fixturesAffected: z.string().optional(),
   waterOrSewagePresent: z.enum(["yes", "no", "unknown"]).optional(),
-  problemDescription: z.string().min(10, "Please describe the problem"),
-  photoUpload: z.any().optional(),
   smsOptIn: z.boolean().optional(),
-  partnerShareConsent: z.literal(true, {
-    message: "Partner share consent is required",
-  }),
-  referralDisclosureAck: z.literal(true, {
-    message: "Please acknowledge the referral disclosure",
-  }),
   landingPage: z.string().optional(),
   pageType: z.string().optional(),
   serviceCategory: z.string().optional(),

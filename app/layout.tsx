@@ -1,9 +1,9 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { StickyMobileCTA } from "@/components/StickyMobileCTA";
-import { SITE_NAME, TAGLINE } from "@/lib/siteConfig";
+import { SITE_NAME, SITE_URL, TAGLINE } from "@/lib/siteConfig";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -16,7 +16,15 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#1c1917",
+};
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
     default: SITE_NAME,
     template: `%s | ${SITE_NAME}`,

@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest";
 import { routeLead } from "@/lib/routing";
-import { evanConfirmedServices } from "@/lib/services";
 
 describe("routeLead", () => {
   it("1. Emergency sewer backup in Reading routes to Apex with high priority", () => {
@@ -37,37 +36,57 @@ describe("routeLead", () => {
     expect(result.payoutCategory).toBe("Apex commercial drain lead");
   });
 
-  it("4. Isolated faucet leak routes to Evan only if leak repair is confirmed", () => {
+  it("4. Faucet repair routes to Evan for isolated fixture issue", () => {
     const result = routeLead({
       serviceRequested: "faucet repair",
       problemDescription: "Dripping faucet in kitchen, single fixture only",
       city: "Reading",
     });
-    if (evanConfirmedServices["faucet repair"]) {
-      expect(result.primaryRoute).toBe("evan");
-    } else {
-      expect(result.primaryRoute).toBe("manual_review");
-      expect(result.notesInternal.some((n) => n.includes("CONFIRMATION REQUIRED"))).toBe(true);
-    }
+    expect(result.primaryRoute).toBe("evan");
+    expect(result.payoutCategory).toBe("Evan small plumbing lead");
   });
 
-  it("5. Running toilet with no other symptoms routes to Evan only if toilet repair is confirmed", () => {
+  it("5. Running toilet routes to Evan when no other drains are affected", () => {
     const result = routeLead({
       serviceRequested: "running toilet",
       problemDescription: "Single toilet runs constantly, no other drains affected",
       city: "Exeter",
     });
-    if (evanConfirmedServices["running toilet"]) {
-      expect(result.primaryRoute).toBe("evan");
-    } else {
-      expect(result.primaryRoute).toBe("manual_review");
-    }
+    expect(result.primaryRoute).toBe("evan");
+  });
+
+  it("5b. Leak under sink routes to Evan", () => {
+    const result = routeLead({
+      serviceRequested: "leak under sink",
+      problemDescription: "Active drip under kitchen sink, single fixture only",
+      city: "Reading",
+    });
+    expect(result.primaryRoute).toBe("evan");
+  });
+
+  it("5c. Shutoff valve leak routes to Evan", () => {
+    const result = routeLead({
+      serviceRequested: "shutoff valve",
+      problemDescription: "Shutoff valve leak under bathroom sink, single fixture only",
+      city: "Wyomissing",
+    });
+    expect(result.primaryRoute).toBe("evan");
   });
 
   it("6. Toilet bubbling and tub backing up routes to Apex", () => {
     const result = routeLead({
       serviceRequested: "drain issue",
       problemDescription: "Toilet bubbling and tub backing up when flushing",
+      city: "Reading",
+      urgency: "emergency",
+    });
+    expect(result.primaryRoute).toBe("apex");
+  });
+
+  it("6b. Basement floor drain backing up routes to Apex", () => {
+    const result = routeLead({
+      serviceRequested: "basement floor drain backup",
+      problemDescription: "Basement floor drain backing up with dirty water in Reading",
       city: "Reading",
       urgency: "emergency",
     });
@@ -103,10 +122,29 @@ describe("routeLead", () => {
     expect(result.notesInternal.some((n) => n.includes("remodel"))).toBe(true);
   });
 
+  it("9b. Broad kitchen remodel routes to manual review, not core Apex/Evan routing", () => {
+    const result = routeLead({
+      serviceRequested: "kitchen remodel",
+      problemDescription: "Full kitchen remodel with new cabinets, counters, and layout changes",
+      city: "Wyomissing",
+    });
+    expect(result.primaryRoute).toBe("manual_review");
+    expect(result.notesInternal.some((n) => n.toLowerCase().includes("remodel"))).toBe(true);
+  });
+
   it("10. Unknown plumbing issue routes to manual review", () => {
     const result = routeLead({
       serviceRequested: "plumbing issue",
       problemDescription: "plumbing issue",
+      city: "Reading",
+    });
+    expect(result.primaryRoute).toBe("manual_review");
+  });
+
+  it("11. Garbage disposal request routes to manual review (not confirmed for Evan)", () => {
+    const result = routeLead({
+      serviceRequested: "garbage disposal",
+      problemDescription: "Garbage disposal hums and will not drain, single fixture",
       city: "Reading",
     });
     expect(result.primaryRoute).toBe("manual_review");

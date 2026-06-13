@@ -1,7 +1,6 @@
 import { Suspense } from "react";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { CTASection } from "@/components/CTASection";
-import { DisclosureBlock } from "@/components/DisclosureBlock";
 import { LeadForm } from "@/components/LeadForm";
 import { SchemaScript } from "@/components/SchemaScript";
 import { breadcrumbItems, buildMetadata } from "@/lib/seo";
@@ -13,42 +12,36 @@ import {
 } from "@/lib/schema";
 
 export const metadata = buildMetadata({
-  title: "How It Works | Berks Property Response",
+  title: "How This Site Works | Berks Property Response",
   description:
-    "Learn how Berks Property Response routes plumbing, drain, water damage, and repair requests to local providers in Berks County.",
+    "How Berks Property Response connects homeowners in Berks County with local drain, plumbing, and repair specialists.",
   path: "/how-it-works",
 });
 
 const steps = [
   {
-    step: "1",
-    title: "Tell us what happened",
-    body: "Call, text photos, or submit the request form. Describe symptoms, urgency, and property type.",
+    title: "You tell us what's wrong",
+    body: "Call, text a photo, or fill out a short form. Include your city and a plain description of the problem.",
   },
   {
-    step: "2",
-    title: "We triage your request",
-    body: "Based on your description, we identify whether the issue is drain/sewer, small plumbing, water damage repair, or needs manual review.",
+    title: "We connect you with the right local help",
+    body: "Drain and sewer issues, small plumbing repairs, and repair-after-leak work go to different local specialists based on what you describe.",
   },
   {
-    step: "3",
-    title: "Route to a local provider",
-    body: "Drain and sewer issues route to Apex Drain Services. Build-back repair routes to RHI Pros. Small plumbing may route to Evan Simons once scope is confirmed.",
-  },
-  {
-    step: "4",
-    title: "Provider handles the work",
-    body: "The selected provider contacts you directly. Berks Property Response does not perform the service work.",
+    title: "The local company handles the job",
+    body: "They contact you directly and perform the work. Berks Property Response helps you get started—we are not the contractor on site.",
   },
 ];
 
 export default function HowItWorksPage() {
-  const crumbs = breadcrumbItems([{ name: "How It Works", path: "/how-it-works" }]);
+  const crumbs = breadcrumbItems([
+    { name: "How this site works", path: "/how-it-works" },
+  ]);
   const schemas = combineSchemas(
     organizationSchema(),
     webPageSchema({
-      title: "How It Works",
-      description: "How Berks Property Response routes property service requests.",
+      title: "How This Site Works",
+      description: "How Berks Property Response connects you with local help.",
       path: "/how-it-works",
     }),
     breadcrumbSchema(crumbs)
@@ -59,36 +52,33 @@ export default function HowItWorksPage() {
       <SchemaScript schemas={schemas} />
       <Breadcrumbs items={crumbs} />
       <section className="px-4 py-10">
-        <div className="mx-auto max-w-6xl">
-          <h1 className="text-3xl font-bold text-slate-900">How it works</h1>
-          <p className="mt-4 max-w-3xl text-lg text-slate-600">
-            Berks Property Response is a transparent intake and referral site. We help you figure out what type of service you need and connect you with an independent local provider.
+        <div className="mx-auto max-w-2xl">
+          <h1 className="text-3xl font-semibold text-stone-900">How this site works</h1>
+          <p className="mt-4 text-lg text-stone-600">
+            Berks Property Response is a local help line for drain, plumbing, and post-leak repair questions in Berks County. We connect you with independent local specialists—we don&apos;t perform the work ourselves.
           </p>
-
-          <div className="mt-10 grid gap-6 md:grid-cols-2">
-            {steps.map((s) => (
-              <div key={s.step} className="rounded-xl border border-slate-200 bg-white p-6">
-                <span className="text-2xl font-bold text-blue-700">{s.step}</span>
-                <h2 className="mt-2 text-xl font-bold text-slate-900">{s.title}</h2>
-                <p className="mt-2 text-slate-600">{s.body}</p>
-              </div>
+          <ol className="mt-10 space-y-8">
+            {steps.map((step, index) => (
+              <li key={step.title} className="flex gap-4">
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-stone-900 text-sm font-semibold text-white">
+                  {index + 1}
+                </span>
+                <div>
+                  <h2 className="font-semibold text-stone-900">{step.title}</h2>
+                  <p className="mt-2 text-stone-600">{step.body}</p>
+                </div>
+              </li>
             ))}
-          </div>
-
-          <div className="mt-10">
-            <DisclosureBlock />
-          </div>
+          </ol>
         </div>
       </section>
-
-      <section className="bg-slate-50 px-4 py-10">
-        <div className="mx-auto max-w-2xl">
-          <Suspense fallback={<div className="h-96 animate-pulse rounded-xl bg-slate-200" />}>
+      <section className="border-t border-stone-200 bg-stone-50 px-4 py-10">
+        <div className="mx-auto max-w-xl">
+          <Suspense fallback={<div className="h-96 animate-pulse rounded-lg bg-stone-200" />}>
             <LeadForm pageType="how-it-works" />
           </Suspense>
         </div>
       </section>
-
       <CTASection />
     </>
   );

@@ -1,7 +1,20 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  async redirects() {
+    return [
+      {
+        source: "/emergency",
+        destination: "/emergency-sewer-backup-berks-county-pa",
+        permanent: true,
+      },
+      {
+        source: "/after-leak",
+        destination: "/water-damage-repair-after-leak-berks-county-pa",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

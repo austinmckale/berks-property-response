@@ -6,40 +6,54 @@ interface HeroProps {
   headline: string;
   subheadline: string;
   showEmergency?: boolean;
+  compact?: boolean;
 }
 
-export function Hero({ headline, subheadline, showEmergency = false }: HeroProps) {
+export function Hero({
+  headline,
+  subheadline,
+  showEmergency = false,
+  compact = false,
+}: HeroProps) {
   return (
-    <section className="bg-gradient-to-br from-slate-50 to-blue-50 px-4 py-12 md:py-16">
-      <div className="mx-auto max-w-4xl text-center">
+    <section
+      className={`border-b border-stone-200 bg-stone-900 px-4 text-white ${compact ? "py-8 md:py-12" : "py-8 md:py-16"}`}
+    >
+      <div className="mx-auto max-w-lg text-center md:max-w-3xl">
         {showEmergency && (
-          <p className="mb-4 inline-block rounded-full bg-red-100 px-4 py-1 text-sm font-semibold text-red-800">
-            If sewage or water is actively backing up, call now
-          </p>
-        )}
-        <h1 className="text-3xl font-bold tracking-tight text-slate-900 md:text-5xl">
-          {headline}
-        </h1>
-        <p className="mt-4 text-lg text-slate-600 md:text-xl">{subheadline}</p>
-        <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <a
             href={phoneHref(PHONE_NUMBER)}
-            className="w-full rounded-lg bg-red-600 px-6 py-3 text-center font-semibold text-white hover:bg-red-700 sm:w-auto"
+            className="mb-5 flex min-h-[3rem] items-center justify-center rounded-xl bg-red-600 px-4 py-2.5 text-sm font-semibold text-white active:bg-red-700 md:mb-4 md:inline-flex md:rounded-md md:py-1"
+          >
+            Sewage backing up? Tap to call now
+          </a>
+        )}
+        <h1 className="text-balance text-[1.625rem] font-semibold leading-snug tracking-tight sm:text-3xl md:text-4xl md:leading-tight">
+          {headline}
+        </h1>
+        <p className="mt-3 text-base leading-relaxed text-stone-300 md:mt-4 md:text-lg">
+          {subheadline}
+        </p>
+        {/* Mobile-first: Call is first and full-width */}
+        <div className="mt-6 flex flex-col gap-3 md:mt-8 md:flex-row md:items-center md:justify-center">
+          <a
+            href={phoneHref(PHONE_NUMBER)}
+            className="btn-touch-lg w-full rounded-xl bg-red-600 text-base text-white active:bg-red-700 md:w-auto md:rounded-lg md:px-6"
           >
             Call Now
           </a>
-          <a
-            href={smsHref(TEXT_NUMBER)}
-            className="w-full rounded-lg bg-blue-700 px-6 py-3 text-center font-semibold text-white hover:bg-blue-800 sm:w-auto"
-          >
-            Text Photos
-          </a>
           <Link
             href="/request-help"
-            className="w-full rounded-lg border-2 border-blue-700 px-6 py-3 text-center font-semibold text-blue-700 hover:bg-blue-50 sm:w-auto"
+            className="btn-touch-lg w-full rounded-xl bg-white text-base text-stone-900 active:bg-stone-100 md:w-auto md:rounded-lg md:px-6"
           >
             Request Help
           </Link>
+          <a
+            href={smsHref(TEXT_NUMBER)}
+            className="btn-touch-lg w-full rounded-xl border-2 border-stone-500 text-base text-white active:border-stone-300 md:w-auto md:rounded-lg md:border md:px-6"
+          >
+            Send Photos
+          </a>
         </div>
       </div>
     </section>

@@ -13,7 +13,7 @@ import { phoneHref } from "@/lib/tracking";
 
 export const metadata = buildMetadata({
   title: "Contact | Berks Property Response",
-  description: `Contact ${SITE_NAME} for plumbing, drain, and property repair intake in Berks County.`,
+  description: `Contact ${SITE_NAME} for plumbing, drain, and repair help in Berks County.`,
   path: "/contact",
 });
 
@@ -35,19 +35,19 @@ export default function ContactPage() {
       <Breadcrumbs items={crumbs} />
       <section className="px-4 py-10">
         <div className="mx-auto max-w-2xl">
-          <h1 className="text-3xl font-bold text-slate-900">Contact</h1>
-          <p className="mt-4 text-slate-600">
-            For property service intake in Berks County, call, text photos, or use the request form.
+          <h1 className="text-3xl font-semibold text-stone-900">Contact</h1>
+          <p className="mt-4 text-stone-600">
+            Need help with a plumbing, drain, or repair issue in Berks County? Call, text photos, or use the request form.
           </p>
-          <div className="mt-8 space-y-4">
+          <div className="mt-8 space-y-4 text-stone-700">
             <p>
               <strong>Phone:</strong>{" "}
-              <a href={phoneHref(PHONE_NUMBER)} className="text-blue-700 hover:underline">
+              <a href={phoneHref(PHONE_NUMBER)} className="font-medium text-stone-900 underline hover:text-stone-600">
                 {PHONE_NUMBER}
               </a>
             </p>
             <p>
-              <Link href="/request-help" className="text-blue-700 hover:underline">
+              <Link href="/request-help" className="font-medium text-stone-900 underline hover:text-stone-600">
                 Submit a request form →
               </Link>
             </p>

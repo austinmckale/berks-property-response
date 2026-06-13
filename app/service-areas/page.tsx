@@ -15,7 +15,7 @@ import {
 export const metadata = buildMetadata({
   title: "Service Areas | Berks Property Response",
   description:
-    "Berks County service areas for plumbing, drain, water damage, and property repair intake and routing.",
+    "Berks County service areas for plumbing, drain, water damage, and property repair help.",
   path: "/service-areas",
 });
 
@@ -37,19 +37,19 @@ export default function ServiceAreasPage() {
       <Breadcrumbs items={crumbs} />
       <section className="px-4 py-10">
         <div className="mx-auto max-w-6xl">
-          <h1 className="text-3xl font-bold text-slate-900">Service areas</h1>
-          <p className="mt-4 max-w-3xl text-slate-600">
-            Berks Property Response routes property service requests across Berks County, PA. Each city page includes local context—not mass-generated doorway content.
+          <h1 className="text-3xl font-semibold text-stone-900">Service areas</h1>
+          <p className="mt-4 max-w-3xl text-stone-600">
+            Berks Property Response helps people across Berks County, PA with plumbing, drain, and repair problems. Each city page includes local context—not generic copy pasted from a template.
           </p>
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {cities.map((city) => (
               <Link
                 key={city.slug}
                 href={`/service-areas/${city.slug}`}
-                className="rounded-xl border border-slate-200 bg-white p-5 hover:border-blue-300"
+                className="rounded-xl border border-stone-200 bg-white p-5 hover:border-stone-400"
               >
-                <h2 className="font-bold text-slate-900">{city.name}, PA</h2>
-                <p className="mt-2 text-sm text-slate-600 line-clamp-3">{city.intro}</p>
+                <h2 className="font-semibold text-stone-900">{city.name}, PA</h2>
+                <p className="mt-2 text-sm text-stone-600 line-clamp-3">{city.intro}</p>
               </Link>
             ))}
           </div>

@@ -13,7 +13,10 @@
     "check:content-claims": "tsx scripts/check-content-claims.ts",
     "check:action-items": "tsx scripts/check-unresolved-action-items.ts",
     "check:seo": "tsx scripts/check-seo.ts",
-    "check:content": "npm run check:city-pages && npm run check:content-claims && npm run check:action-items && npm run check:seo"
+    "check:brand": "tsx scripts/check-brand-identity.ts",
+    "check:related-slugs": "tsx scripts/check-related-slugs.ts",
+    "check:content": "npm run check:city-pages && npm run check:content-claims && npm run check:action-items && npm run check:seo && npm run check:related-slugs && npm run check:brand",
+    "check:all": "npm run check:content && npm test && npm run build"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.4.0",
