@@ -37,6 +37,7 @@ yarn-error.log*
 # vercel
 .vercel
 
-# typescript
-*.tsbuildinfo
-next-env.d.ts
+# source business card uploads (cropped assets live in public/images/)
+*.heic
+/ridge-view-plumbing.png
+/Ridge View Plumbing.heic

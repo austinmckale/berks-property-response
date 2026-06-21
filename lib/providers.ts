@@ -19,6 +19,11 @@ export interface Provider {
   type: string;
   description: string;
   website?: string;
+  phone?: string;
+  email?: string;
+  serviceArea?: string;
+  logoImage?: string;
+  cardImage?: string;
   defaultRoutes: string[];
   verifiedClaims: VerifiedClaims;
   actionItems?: string[];
@@ -54,23 +59,28 @@ export const providers: Record<Exclude<ProviderId, "manual_review">, Provider> =
   },
   evan: {
     id: "evan",
-    name: "Evan Simons",
+    name: "Ridge Line Plumbing",
     confirmed: true,
-    type: "solo plumber",
+    type: "residential plumbing provider",
     description:
-      "Routes smaller residential plumbing service calls such as leaks, faucet issues, running toilets, shutoff valves, and fixture-level repairs. Larger drain, sewer, jetting, and multi-fixture backup issues route to Apex. Water-damage build-back routes to RHI Pros.",
+      "Routes smaller residential plumbing service calls such as leaks, toilet and faucet repair, shutoff valves, water heaters, and fixture-level issues. Multi-fixture backups, main line clogs, and sewer emergencies route to Apex. Water-damage build-back routes to RHI Pros.",
+    serviceArea: "Fleetwood, PA and Berks County",
+    phone: "610-858-5878",
+    email: "ridgeviewplumbing@gmail.com",
+    logoImage: "/images/ridge-line-plumbing-logo.png",
     defaultRoutes: [
       "leak repair",
       "faucet repair",
       "toilet repair",
       "running toilet",
       "shutoff valve",
+      "water heater",
       "small plumbing repair",
       "fixture repair",
     ],
     verifiedClaims: {
-      licensed: false,
-      insured: false,
+      licensed: true,
+      insured: true,
       emergency24_7: false,
       sameDay: false,
       freeEstimate: false,
@@ -86,8 +96,11 @@ export const providers: Record<Exclude<ProviderId, "manual_review">, Provider> =
     confirmed: true,
     type: "contractor/restoration/build-back provider",
     description:
-      "Routes water damage repair, drywall, flooring, ceiling, trim, and property repairs after plumbing, drain, or water events. Broader remodeling lives at RHIpros.com.",
+      "Routes water damage repair, drywall, paint, flooring, ceiling, demo, and property repairs after plumbing, drain, or water events. Broader remodeling lives at RHIpros.com.",
     website: "https://rhipros.com",
+    phone: "(484) 706-9229",
+    email: "quotes@rhipros.com",
+    logoImage: "/images/rhi-pros-logo.png",
     defaultRoutes: [
       "water damage repair",
       "drywall repair after leak",

@@ -4,7 +4,8 @@ export type ProblemTypeId =
   | "drain-emergency"
   | "drain-clog"
   | "plumbing-leak"
-  | "water-damage";
+  | "water-damage"
+  | "major-property";
 
 export interface ProblemTypeOption {
   id: ProblemTypeId;
@@ -53,6 +54,15 @@ export const problemTypeOptions: ProblemTypeOption[] = [
     defaultService: "water damage repair",
     defaultRoute: "rhi",
   },
+  {
+    id: "major-property",
+    title: "Storm, fire, mold, or major property issue",
+    description: "We review for a suitable provider connection",
+    urgency: "same-day",
+    serviceCategory: "major_property",
+    defaultService: "major property issue review",
+    defaultRoute: "manual_review",
+  },
 ];
 
 export function getProblemType(id: ProblemTypeId): ProblemTypeOption {
@@ -65,6 +75,7 @@ export function inferProblemTypeFromContext(params: {
   defaultRoute?: string;
   slug?: string;
 }): ProblemTypeId | undefined {
+  if (params.serviceCategory === "major_property") return "major-property";
   if (params.serviceCategory === "water_damage") return "water-damage";
   if (params.defaultRoute === "evan" || params.serviceCategory === "plumbing") {
     return "plumbing-leak";

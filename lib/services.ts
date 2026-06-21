@@ -26,6 +26,7 @@ export interface ServicePage {
   faqs: ServiceFAQ[];
   relatedSlugs: string[];
   rhiHandoff?: string;
+  updatedAt?: string;
 }
 
 export const services: ServicePage[] = [
@@ -122,6 +123,16 @@ export const services: ServicePage[] = [
         answer:
           "No. Snaking breaks through a clog; jetting scours the pipe interior and can remove grease, roots, and buildup that snaking may leave behind.",
       },
+      {
+        question: "Is hydro jetting safe for older pipes?",
+        answer:
+          "Pressure and nozzle choice depend on pipe material and condition. A camera inspection is often recommended first so the line is assessed before jetting.",
+      },
+      {
+        question: "When should I request hydro jetting instead of drain cleaning?",
+        answer:
+          "If the same line keeps clogging after snaking, or grease and roots are suspected, jetting may be the next step. Describe how often the clog returns when you request help.",
+      },
     ],
     relatedSlugs: [
       "sewer-camera-inspection-berks-county-pa",
@@ -166,6 +177,16 @@ export const services: ServicePage[] = [
         answer:
           "If multiple fixtures backup together, toilets gurgle when other drains run, or a basement floor drain overflows, the issue may be beyond a single fixture clog.",
       },
+      {
+        question: "Should I use chemical drain cleaner before calling?",
+        answer:
+          "Avoid harsh chemicals if you plan to have the line cleared professionally. They can damage pipes and make safe clearing harder.",
+      },
+      {
+        question: "Can I submit photos of a slow drain?",
+        answer:
+          "Yes. Photos of standing water, floor drains, or affected fixtures help us understand urgency before connecting you with local help.",
+      },
     ],
     relatedSlugs: [
       "main-sewer-line-clog-reading-pa",
@@ -208,6 +229,16 @@ export const services: ServicePage[] = [
         question: "Is this different from a single clogged toilet?",
         answer:
           "Yes. One toilet clog isolated to that fixture may be fixture-level. Multiple fixtures or toilet-to-tub backup suggests a main line problem.",
+      },
+      {
+        question: "Should I stop using water if multiple fixtures are affected?",
+        answer:
+          "Yes. If toilets, tubs, or floor drains are backing up together, stop using water and call or request help right away.",
+      },
+      {
+        question: "Does this page cover Reading only?",
+        answer:
+          "No. Main line clog symptoms are the same across Berks County. This page highlights Reading because it is the county seat, but we route help throughout the area.",
       },
     ],
     relatedSlugs: [
@@ -256,6 +287,16 @@ export const services: ServicePage[] = [
         answer:
           "Yes. An isolated drip under one sink may route to a plumber for fixture repair. Sewage or backup at a floor drain is a drain or sewer emergency.",
       },
+      {
+        question: "What if only the floor drain is slow, not backing up?",
+        answer:
+          "A slow floor drain can still signal a partial main line blockage. Note whether other fixtures are affected and send photos if water is standing.",
+      },
+      {
+        question: "Who handles finish repair after a basement backup?",
+        answer:
+          "Emergency drain clearing comes first. After the source is controlled, drywall, flooring, or trim repair may route to RHI Pros for build-back work.",
+      },
     ],
     relatedSlugs: [
       "emergency-sewer-backup-berks-county-pa",
@@ -292,7 +333,23 @@ export const services: ServicePage[] = [
       "Request help to schedule inspection routing",
     ],
     routingNotes: ["Sewer camera inspection routes to Apex Drain Services."],
-    faqs: [],
+    faqs: [
+      {
+        question: "Why get a camera inspection before jetting or repair?",
+        answer:
+          "Camera inspection shows roots, breaks, offsets, and recurring clog locations so clearing or repair targets the actual problem—not just the symptom.",
+      },
+      {
+        question: "Is camera inspection only for emergencies?",
+        answer:
+          "No. It is also useful for recurring clogs, pre-purchase line checks, and evaluating older Berks County sewer laterals.",
+      },
+      {
+        question: "Who performs the inspection?",
+        answer:
+          "Berks Property Response connects you with an independent local drain specialist. We do not perform the inspection ourselves.",
+      },
+    ],
     relatedSlugs: ["hydro-jetting-berks-county-pa", "drain-cleaning-berks-county-pa"],
   },
   {
@@ -325,7 +382,23 @@ export const services: ServicePage[] = [
       "Send photos of floor drains or backup areas if safe",
     ],
     routingNotes: ["Commercial drain cleaning routes to Apex Drain Services."],
-    faqs: [],
+    faqs: [
+      {
+        question: "Do you handle restaurant grease lines in Berks County?",
+        answer:
+          "Yes. Describe your business type and which drains are affected. Grease lines and floor drains often need different response than a residential sink clog.",
+      },
+      {
+        question: "Can property managers submit requests?",
+        answer:
+          "Yes. Include the property address, tenant contact if available, and which drains are recurring.",
+      },
+      {
+        question: "Is commercial work routed differently from residential drains?",
+        answer:
+          "Commercial drain and grease line requests route to Apex Drain Services. Isolated fixture leaks at one sink may route to Ridge Line Plumbing instead.",
+      },
+    ],
     relatedSlugs: [
       "hydro-jetting-berks-county-pa",
       "drain-cleaning-berks-county-pa",
@@ -335,20 +408,20 @@ export const services: ServicePage[] = [
     slug: "small-plumbing-repairs-berks-county-pa",
     title: "Small Plumbing Repairs in Berks County, PA",
     metaDescription:
-      "Small plumbing repairs in Berks County—leaks, faucets, running toilets, and fixture issues. We connect you with Evan Simons for smaller residential service calls.",
+      "Small plumbing repairs in Berks County—leaks, faucets, running toilets, and fixture issues. We connect you with Ridge Line Plumbing for smaller residential service calls.",
     headline: "Small plumbing leak or fixture repair?",
     subheadline:
-      "For isolated residential leaks, faucets, running toilets, and shutoff valves in Berks County, describe the problem and we will connect you with Evan Simons.",
+      "For isolated residential leaks, faucets, running toilets, and shutoff valves in Berks County, describe the problem and we will connect you with Ridge Line Plumbing.",
     provider: "evan",
     serviceCategory: "plumbing",
     defaultRoute: "evan",
-    payoutCategory: "Evan small plumbing lead",
+    payoutCategory: "Ridge Line Plumbing lead",
     draftStatus: "published",
     needsConfirmation: false,
     noindex: false,
-    heroImage: "/images/placeholder-plumbing.svg",
+    heroImage: "/images/ridge-line-plumbing-logo.png",
     intro:
-      "This covers smaller residential plumbing service calls—leaks under sinks, dripping faucets, running toilets, shutoff valves, and other fixture-level repairs. Evan Simons works alone and handles repair-level jobs, not main line or sewer work.",
+      "This covers smaller residential plumbing service calls—leaks under sinks, dripping faucets, running toilets, shutoff valves, and other fixture-level repairs. Ridge Line Plumbing works alone and handles repair-level jobs, not main line or sewer work.",
     symptoms: [
       "Leak under kitchen or bathroom sink",
       "Dripping faucet or running toilet (single fixture)",
@@ -362,13 +435,13 @@ export const services: ServicePage[] = [
       "Request help or call to describe the issue",
     ],
     routingNotes: [
-      "Isolated small plumbing repairs route to Evan Simons.",
+      "Isolated small plumbing repairs route to Ridge Line Plumbing.",
       "Multi-fixture backups, sewer symptoms, or floor drain overflow route to Apex Drain Services.",
       "Water damage or build-back repair after the leak is stopped routes to RHI Pros.",
     ],
     faqs: [
       {
-        question: "Does Evan handle drain or sewer backups?",
+        question: "Does Ridge Line Plumbing handle drain or sewer backups?",
         answer:
           "No. Main line clogs, sewer backups, hydro jetting, and multi-fixture drain issues route to Apex Drain Services instead.",
       },
@@ -389,20 +462,20 @@ export const services: ServicePage[] = [
     slug: "leak-repair-berks-county-pa",
     title: "Leak Repair in Berks County, PA",
     metaDescription:
-      "Leak under a sink or at a fixture in Berks County? Describe the problem for smaller residential plumbing help through Evan Simons.",
+      "Leak under a sink or at a fixture in Berks County? Describe the problem for smaller residential plumbing help through Ridge Line Plumbing.",
     headline: "Leak under a sink or at a fixture?",
     subheadline:
-      "For an isolated drip or puddle at a single fixture—not multiple drains backing up—we connect you with Evan Simons for smaller residential leak repair.",
+      "For an isolated drip or puddle at a single fixture—not multiple drains backing up—we connect you with Ridge Line Plumbing for smaller residential leak repair.",
     provider: "evan",
     serviceCategory: "plumbing",
     defaultRoute: "evan",
-    payoutCategory: "Evan small plumbing lead",
+    payoutCategory: "Ridge Line Plumbing lead",
     draftStatus: "published",
     needsConfirmation: false,
     noindex: false,
-    heroImage: "/images/placeholder-plumbing.svg",
+    heroImage: "/images/ridge-line-plumbing-logo.png",
     intro:
-      "A leak under a kitchen or bathroom sink, at a supply line, or around a single fixture is often a repair-level job. Evan Simons handles smaller residential plumbing service calls in Berks County when the issue is isolated to one location.",
+      "A leak under a kitchen or bathroom sink, at a supply line, or around a single fixture is often a repair-level job. Ridge Line Plumbing handles smaller residential plumbing service calls in Berks County when the issue is isolated to one location.",
     symptoms: [
       "Active drip or puddle under a sink",
       "Water collecting at a single fixture connection",
@@ -416,7 +489,7 @@ export const services: ServicePage[] = [
       "Request help describing when the leak started",
     ],
     routingNotes: [
-      "Isolated leak repair routes to Evan Simons.",
+      "Isolated leak repair routes to Ridge Line Plumbing.",
       "Multiple drains backing up or sewage routes to Apex Drain Services.",
       "Drywall or flooring damage after the leak routes to RHI Pros.",
     ],
@@ -425,6 +498,16 @@ export const services: ServicePage[] = [
         question: "Is this the same as a sewer backup?",
         answer:
           "No. Sewage, floor drain overflow, or multiple fixtures backing up together point to a drain or sewer issue and route to Apex instead.",
+      },
+      {
+        question: "Should I shut off water at the leak?",
+        answer:
+          "If you can safely reach the fixture shutoff, turn it off to limit damage. Then send photos and describe whether only one fixture is affected.",
+      },
+      {
+        question: "What if drywall or flooring was damaged?",
+        answer:
+          "Once the leak is stopped, build-back repair of damaged materials can route to RHI Pros separately from the plumbing fix.",
       },
     ],
     relatedSlugs: [
@@ -437,20 +520,20 @@ export const services: ServicePage[] = [
     slug: "faucet-repair-berks-county-pa",
     title: "Faucet Repair in Berks County, PA",
     metaDescription:
-      "Dripping or leaking faucet in Berks County? Single-fixture faucet repair help through Evan Simons for smaller residential service calls.",
+      "Dripping or leaking faucet in Berks County? Single-fixture faucet repair help through Ridge Line Plumbing for smaller residential service calls.",
     headline: "Dripping or leaking faucet?",
     subheadline:
-      "When one faucet drips or leaks at the fixture—not a whole-house pressure or multi-drain issue—we connect you with Evan Simons.",
+      "When one faucet drips or leaks at the fixture—not a whole-house pressure or multi-drain issue—we connect you with Ridge Line Plumbing.",
     provider: "evan",
     serviceCategory: "plumbing",
     defaultRoute: "evan",
-    payoutCategory: "Evan small plumbing lead",
+    payoutCategory: "Ridge Line Plumbing lead",
     draftStatus: "published",
     needsConfirmation: false,
     noindex: false,
-    heroImage: "/images/placeholder-plumbing.svg",
+    heroImage: "/images/ridge-line-plumbing-logo.png",
     intro:
-      "A dripping kitchen or bathroom faucet, loose handle, or leak at the spout base is typically a fixture-level repair. Evan Simons handles smaller residential plumbing service calls in Berks County.",
+      "A dripping kitchen or bathroom faucet, loose handle, or leak at the spout base is typically a fixture-level repair. Ridge Line Plumbing handles smaller residential plumbing service calls in Berks County.",
     symptoms: [
       "Steady drip from faucet spout when turned off",
       "Leak around the faucet base or handles",
@@ -464,10 +547,26 @@ export const services: ServicePage[] = [
       "Request help with the fixture location",
     ],
     routingNotes: [
-      "Single-fixture faucet repair routes to Evan Simons.",
+      "Single-fixture faucet repair routes to Ridge Line Plumbing.",
       "Low pressure at every fixture or multiple drains affected may need different routing.",
     ],
-    faqs: [],
+    faqs: [
+      {
+        question: "Is a dripping faucet a plumbing emergency?",
+        answer:
+          "Usually not, unless water is spraying or flooding. A steady drip at one faucet is typically a fixture-level repair routed to Ridge Line Plumbing.",
+      },
+      {
+        question: "What if every faucet in the house has low pressure?",
+        answer:
+          "Whole-house pressure issues may not be a single-faucet repair. Describe all symptoms when you request help so routing matches the problem.",
+      },
+      {
+        question: "Can I send a video of the drip?",
+        answer:
+          "Yes. A short video helps confirm whether the leak is at the spout, base, or handle before a provider arrives.",
+      },
+    ],
     relatedSlugs: [
       "leak-repair-berks-county-pa",
       "shutoff-valve-repair-berks-county-pa",
@@ -478,18 +577,18 @@ export const services: ServicePage[] = [
     slug: "toilet-repair-berks-county-pa",
     title: "Toilet Repair in Berks County, PA",
     metaDescription:
-      "Running toilet or isolated toilet repair in Berks County. Single-fixture toilet help through Evan Simons—not main line or sewer backups.",
+      "Running toilet or isolated toilet repair in Berks County. Single-fixture toilet help through Ridge Line Plumbing—not main line or sewer backups.",
     headline: "Running toilet or isolated toilet problem?",
     subheadline:
-      "When one toilet runs, leaks, or needs repair and no other drains are backing up, we connect you with Evan Simons.",
+      "When one toilet runs, leaks, or needs repair and no other drains are backing up, we connect you with Ridge Line Plumbing.",
     provider: "evan",
     serviceCategory: "plumbing",
     defaultRoute: "evan",
-    payoutCategory: "Evan small plumbing lead",
+    payoutCategory: "Ridge Line Plumbing lead",
     draftStatus: "published",
     needsConfirmation: false,
     noindex: false,
-    heroImage: "/images/placeholder-plumbing.svg",
+    heroImage: "/images/ridge-line-plumbing-logo.png",
     intro:
       "A running toilet, flapper issue, or leak at a single toilet is often a fixture-level repair. If the toilet bubbles when the shower runs or waste backs up into a tub, that is a main line issue and routes to Apex instead.",
     symptoms: [
@@ -505,7 +604,7 @@ export const services: ServicePage[] = [
       "Request help describing the symptoms",
     ],
     routingNotes: [
-      "Isolated toilet repair routes to Evan Simons.",
+      "Isolated toilet repair routes to Ridge Line Plumbing.",
       "Toilet bubbling with tub or shower backup routes to Apex Drain Services.",
     ],
     faqs: [
@@ -513,6 +612,16 @@ export const services: ServicePage[] = [
         question: "What if the toilet gurgles when I run the shower?",
         answer:
           "That often signals a main line or sewer issue. Use emergency drain help instead—those routes go to Apex Drain Services.",
+      },
+      {
+        question: "Is a running toilet wasting a lot of water?",
+        answer:
+          "Yes. A running toilet can waste hundreds of gallons per day. If only one toilet is affected with no other drain symptoms, fixture repair may route to Ridge Line Plumbing.",
+      },
+      {
+        question: "Should I keep flushing to test a running toilet?",
+        answer:
+          "No need to keep flushing. Note whether the tank refills on its own and send a photo or short video of the tank interior if safe to do so.",
       },
     ],
     relatedSlugs: [
@@ -525,20 +634,20 @@ export const services: ServicePage[] = [
     slug: "shutoff-valve-repair-berks-county-pa",
     title: "Shutoff Valve Repair in Berks County, PA",
     metaDescription:
-      "Leaking or stuck shutoff valve in Berks County? Fixture-level valve repair help through Evan Simons for smaller residential service calls.",
+      "Leaking or stuck shutoff valve in Berks County? Fixture-level valve repair help through Ridge Line Plumbing for smaller residential service calls.",
     headline: "Shutoff valve leaking or stuck?",
     subheadline:
-      "For a leaking, corroded, or hard-to-turn shutoff at a single fixture, we connect you with Evan Simons.",
+      "For a leaking, corroded, or hard-to-turn shutoff at a single fixture, we connect you with Ridge Line Plumbing.",
     provider: "evan",
     serviceCategory: "plumbing",
     defaultRoute: "evan",
-    payoutCategory: "Evan small plumbing lead",
+    payoutCategory: "Ridge Line Plumbing lead",
     draftStatus: "published",
     needsConfirmation: false,
     noindex: false,
-    heroImage: "/images/placeholder-plumbing.svg",
+    heroImage: "/images/ridge-line-plumbing-logo.png",
     intro:
-      "Shutoff valves under sinks, behind toilets, or at individual fixtures can leak or seize over time. Evan Simons handles smaller residential plumbing service calls when the issue is limited to fixture-level valves.",
+      "Shutoff valves under sinks, behind toilets, or at individual fixtures can leak or seize over time. Ridge Line Plumbing handles smaller residential plumbing service calls when the issue is limited to fixture-level valves.",
     symptoms: [
       "Drip or weep at an angle stop or fixture shutoff",
       "Shutoff will not turn or will not fully stop water",
@@ -552,10 +661,26 @@ export const services: ServicePage[] = [
       "Request help with the valve location",
     ],
     routingNotes: [
-      "Fixture shutoff valve repair routes to Evan Simons.",
+      "Fixture shutoff valve repair routes to Ridge Line Plumbing.",
       "Whole-house main shutoff or multi-fixture issues may need different routing.",
     ],
-    faqs: [],
+    faqs: [
+      {
+        question: "Should I force a stuck shutoff valve?",
+        answer:
+          "Avoid forcing it—broken valves can leak worse. Note whether water still passes when the valve is closed and send a photo of the valve.",
+      },
+      {
+        question: "Is a leaking angle stop an emergency?",
+        answer:
+          "Active spraying or flooding needs immediate attention. A slow weep at one fixture shutoff is usually repair-level work at that location.",
+      },
+      {
+        question: "Does this cover the main house shutoff?",
+        answer:
+          "This page focuses on fixture shutoffs under sinks or behind toilets. Whole-house main valve issues may need different routing.",
+      },
+    ],
     relatedSlugs: [
       "leak-repair-berks-county-pa",
       "faucet-repair-berks-county-pa",
@@ -577,7 +702,7 @@ export const services: ServicePage[] = [
     draftStatus: "published",
     needsConfirmation: false,
     noindex: false,
-    heroImage: "/images/placeholder-water-damage.svg",
+    heroImage: "/images/rhi-pros-logo.png",
     intro:
       "After a pipe leak, drain backup, or sewer event, visible damage to walls, floors, ceilings, or cabinets often remains even after the plumbing issue is fixed. That repair work is different from clearing the line.",
     symptoms: [
@@ -603,6 +728,16 @@ export const services: ServicePage[] = [
         answer:
           "Stop active leaks and backups first. Once the source is controlled, repair of damaged materials can be handled by an independent local provider we connect you with.",
       },
+      {
+        question: "What information helps with water damage routing?",
+        answer:
+          "Room location, materials affected (drywall, carpet, hardwood), photos, and whether sewage was involved help providers estimate next steps.",
+      },
+      {
+        question: "Does Berks Property Response perform the repair work?",
+        answer:
+          "No. We connect you with independent local build-back help such as RHI Pros. Actual repair work is performed by the provider you choose.",
+      },
     ],
     relatedSlugs: [
       "drywall-repair-after-plumbing-leak-berks-county-pa",
@@ -625,10 +760,11 @@ export const services: ServicePage[] = [
     serviceCategory: "water_damage",
     defaultRoute: "rhi",
     payoutCategory: "RHI drywall repair lead",
-    draftStatus: "draft",
+    draftStatus: "published",
     needsConfirmation: false,
-    noindex: true,
-    heroImage: "/images/placeholder-water-damage.svg",
+    noindex: false,
+    updatedAt: "2025-06-17",
+    heroImage: "/images/rhi-pros-logo.png",
     intro:
       "Pipe leaks often leave cut-out drywall, stains, or soft spots after the plumber stops the source. That finish repair is separate from clearing the line.",
     symptoms: [
@@ -643,7 +779,23 @@ export const services: ServicePage[] = [
       "Request help for build-back routing",
     ],
     routingNotes: ["Drywall repair after plumbing events routes to RHI Pros."],
-    faqs: [],
+    faqs: [
+      {
+        question: "Should drywall be repaired before the leak is fully fixed?",
+        answer:
+          "Fix the active leak or backup first. Drywall repair and patching should wait until the source is controlled and affected areas can dry.",
+      },
+      {
+        question: "Do I need to remove wet drywall myself?",
+        answer:
+          "Do not guess at removal scope. Photograph affected walls and describe how much area was wet or cut out for plumber access.",
+      },
+      {
+        question: "Who performs the drywall repair?",
+        answer:
+          "Build-back repair routes to RHI Pros through Berks Property Response. We connect you with independent local help—we do not perform the work.",
+      },
+    ],
     relatedSlugs: [
       "water-damage-repair-after-leak-berks-county-pa",
       "ceiling-repair-from-plumbing-leak-berks-county-pa",
@@ -663,10 +815,11 @@ export const services: ServicePage[] = [
     serviceCategory: "water_damage",
     defaultRoute: "rhi",
     payoutCategory: "RHI flooring repair lead",
-    draftStatus: "draft",
+    draftStatus: "published",
     needsConfirmation: false,
-    noindex: true,
-    heroImage: "/images/placeholder-water-damage.svg",
+    noindex: false,
+    updatedAt: "2025-06-17",
+    heroImage: "/images/rhi-pros-logo.png",
     intro:
       "Water from pipe leaks, appliance lines, or drain backups can buckle hardwood, swell laminate, or saturate carpet. Repair scope depends on how long materials stayed wet and how far water spread.",
     symptoms: [
@@ -682,7 +835,23 @@ export const services: ServicePage[] = [
       "Request help for repair routing",
     ],
     routingNotes: ["Flooring repair after water events routes to RHI Pros."],
-    faqs: [],
+    faqs: [
+      {
+        question: "Can buckled hardwood be repaired without full replacement?",
+        answer:
+          "It depends on how long materials stayed wet and how far water spread. Photos and flooring type help providers recommend repair vs replacement in affected areas.",
+      },
+      {
+        question: "Should I pull up wet carpet myself?",
+        answer:
+          "Focus on stopping the water source first. Document wet areas with photos and note whether pad or subfloor may be affected.",
+      },
+      {
+        question: "Does flooring repair include sewage backup damage?",
+        answer:
+          "Yes, after the backup is cleared and the line is addressed. Active sewer backups still route to emergency drain help first.",
+      },
+    ],
     relatedSlugs: [
       "water-damage-repair-after-leak-berks-county-pa",
       "basement-repair-after-water-backup-berks-county-pa",
@@ -702,10 +871,11 @@ export const services: ServicePage[] = [
     serviceCategory: "water_damage",
     defaultRoute: "rhi",
     payoutCategory: "RHI ceiling repair lead",
-    draftStatus: "draft",
+    draftStatus: "published",
     needsConfirmation: false,
-    noindex: true,
-    heroImage: "/images/placeholder-water-damage.svg",
+    noindex: false,
+    updatedAt: "2025-06-17",
+    heroImage: "/images/rhi-pros-logo.png",
     intro:
       "Ceiling damage from plumbing leaks should be assessed after the leak is fixed. Material may need drying, patching, or replacement depending on saturation and structure.",
     symptoms: [
@@ -721,7 +891,23 @@ export const services: ServicePage[] = [
       "Request help describing which floor and room",
     ],
     routingNotes: ["Ceiling repair after plumbing leaks routes to RHI Pros."],
-    faqs: [],
+    faqs: [
+      {
+        question: "Is a ceiling stain always structural damage?",
+        answer:
+          "Not always, but sagging or soft drywall should be assessed before patching. Confirm the upstairs leak is fixed before scheduling build-back repair.",
+      },
+      {
+        question: "Should I poke a hole in a sagging ceiling?",
+        answer:
+          "Avoid punching through until the area is assessed. Photograph stains, sag, and any active drips instead.",
+      },
+      {
+        question: "What if the leak was in a bathroom above?",
+        answer:
+          "Upstairs bathroom and kitchen leaks are common ceiling damage sources. Describe which room is above the stained ceiling when you request help.",
+      },
+    ],
     relatedSlugs: [
       "water-damage-repair-after-leak-berks-county-pa",
       "drywall-repair-after-plumbing-leak-berks-county-pa",
@@ -741,10 +927,11 @@ export const services: ServicePage[] = [
     serviceCategory: "water_damage",
     defaultRoute: "rhi",
     payoutCategory: "RHI basement repair lead",
-    draftStatus: "draft",
+    draftStatus: "published",
     needsConfirmation: false,
-    noindex: true,
-    heroImage: "/images/placeholder-water-damage.svg",
+    noindex: false,
+    updatedAt: "2025-06-17",
+    heroImage: "/images/rhi-pros-logo.png",
     intro:
       "Sewer or floor drain backups can contaminate basement finishes. Emergency drain work comes first; drywall, flooring, and trim repair follow once the source is controlled.",
     symptoms: [
@@ -763,7 +950,23 @@ export const services: ServicePage[] = [
       "Active backups route to Apex Drain Services first.",
       "Basement finish repair after the event routes to RHI Pros.",
     ],
-    faqs: [],
+    faqs: [
+      {
+        question: "Should I start basement repair before the backup is cleared?",
+        answer:
+          "No. Active floor drain or sewer backups route to emergency drain help first. Finish repair follows once the source is controlled.",
+      },
+      {
+        question: "Does sewage backup change repair scope?",
+        answer:
+          "Yes. Note whether sewage was present and which finished surfaces were affected. That helps providers plan remediation and rebuild scope.",
+      },
+      {
+        question: "Who handles finished basement drywall and flooring?",
+        answer:
+          "Build-back repair after the event routes to RHI Pros. Berks Property Response connects you with independent local help.",
+      },
+    ],
     relatedSlugs: [
       "emergency-sewer-backup-berks-county-pa",
       "water-damage-repair-after-leak-berks-county-pa",
@@ -780,6 +983,7 @@ export const evanConfirmedServices: Record<string, boolean> = {
   "running toilet": true,
   "garbage disposal": false,
   "shutoff valve": true,
+  "water heater": true,
   "small plumbing repair": true,
   "fixture repair": true,
 };
@@ -791,7 +995,7 @@ export function getServiceBySlug(slug: string): ServicePage | undefined {
 export function getRelatedServices(relatedSlugs: string[]): ServicePage[] {
   return relatedSlugs
     .map((slug) => getServiceBySlug(slug))
-    .filter((s): s is ServicePage => s !== undefined);
+    .filter((s): s is ServicePage => s !== undefined && !s.noindex);
 }
 
 export function getPublishedServices(): ServicePage[] {

@@ -142,14 +142,14 @@ npx vercel
 - [ ] Test structured data (Organization, WebPage, BreadcrumbList, Service, FAQPage)
 - [ ] Test noindex on unconfirmed Evan pages
 - [ ] Run `npm run check:content`
-- [ ] Submit to Google Search Console
-- [ ] Add GA4
+- [ ] Submit to Google Search Console (see [docs/seo-launch.md](docs/seo-launch.md))
+- [ ] Add GA4 (`NEXT_PUBLIC_GA_MEASUREMENT_ID` — see [docs/seo-launch.md](docs/seo-launch.md))
 - [ ] Privacy, disclosure, and terms pages live
 - [ ] **Do not** create a Google Business Profile for Berks Property Response unless it becomes a real direct-service business
 
 ## Referral disclosure
 
-> Berks Property Response is an independent local referral and intake website. When you call, text, or submit a request, we may route your information to Apex Drain Services, Evan Simons, RHI Pros, or another approved local provider, and we may receive compensation if service is booked or purchased. Actual work is performed by the provider you choose.
+> Berks Property Response is an independent local intake and matching service for plumbing, drain, water damage, and property repair issues in Berks County. We help you describe the problem and connect with independent local providers suited to the request. Providers perform the work, set pricing, and are responsible for scheduling, licensing, insurance, workmanship, and service outcomes. Some participating providers may pay Berks Property Response for intake, marketing, or administrative services.
 
 ## License
 

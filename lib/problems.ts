@@ -1,43 +1,40 @@
-export interface ProblemCard {
-  id: string;
-  title: string;
-  description: string;
-  href: string;
-}
-
 export const triageCards = [
   {
-    title: "Drain or sewer emergency",
-    description: "Sewage backup, multiple drains clogged, or basement floor drain overflow.",
+    title: "Emergency drain or sewer backup",
+    description: "Sewage, multiple drains clogged, floor drain overflow, or main line symptoms.",
     href: "/emergency",
     icon: "drain",
+    cta: "Need drain or sewer help?",
   },
   {
-    title: "Small plumbing leak or repair",
-    description: "Fixture-level leaks, faucets, or isolated toilet issues.",
+    title: "Small plumbing leak or fixture issue",
+    description: "Toilet, faucet, supply line, shutoff valve, or isolated fixture repair.",
     href: "/plumbing-and-leaks",
     icon: "plumbing",
+    cta: "Request plumbing leak help",
   },
   {
-    title: "Water damage after a leak or backup",
-    description: "Drywall, flooring, ceiling, or cabinet damage after the source is stopped.",
+    title: "Water damage or repair / build-back",
+    description: "Drywall, flooring, ceiling, paint, or property repair after the source is stopped.",
     href: "/after-leak",
     icon: "water-damage",
+    cta: "Request water damage repair help",
   },
   {
-    title: "Property repair after damage",
-    description: "Contractor-level build-back after plumbing or water events.",
-    href: "/property-repairs-berks-county-pa",
-    icon: "property-repair",
+    title: "Storm, fire, mold, or other major issue",
+    description: "We review whether a suitable local provider connection exists — not a guaranteed direct service.",
+    href: "/storm-fire-mold-help",
+    icon: "major",
+    cta: "Tell us what's going on",
   },
 ] as const;
 
-export const symptomCards: ProblemCard[] = [
+export const symptomCards = [
   {
     id: "sewer-backing-up",
     title: "Sewer backing up",
     description: "Waste or dirty water coming up through drains.",
-    href: "/emergency",
+    href: "/emergency-sewer-backup-berks-county-pa",
   },
   {
     id: "toilet-bubbling",
@@ -49,7 +46,7 @@ export const symptomCards: ProblemCard[] = [
     id: "basement-floor-drain",
     title: "Basement floor drain backing up",
     description: "Water or sewage at a basement floor drain.",
-    href: "/emergency",
+    href: "/basement-floor-drain-backing-up-berks-county-pa",
   },
   {
     id: "slow-drains",
@@ -67,12 +64,12 @@ export const symptomCards: ProblemCard[] = [
     id: "water-damage-visible",
     title: "Water damage to ceiling, wall, or floor",
     description: "Stains, swelling, or saturated materials after a leak.",
-    href: "/after-leak",
+    href: "/water-damage-repair-after-leak-berks-county-pa",
   },
   {
     id: "drywall-flooring-repair",
-    title: "Need drywall/flooring repaired after leak",
+    title: "Drywall or flooring repair after a leak",
     description: "Build-back repair after plumbing or backup event.",
-    href: "/after-leak",
+    href: "/drywall-repair-after-plumbing-leak-berks-county-pa",
   },
 ];

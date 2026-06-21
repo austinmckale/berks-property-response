@@ -16,6 +16,7 @@ export interface CityPage {
   faqs: CityFAQ[];
   draftStatus: "published" | "draft";
   needsConfirmation: boolean;
+  updatedAt?: string;
 }
 
 export const FIRST_WAVE_CITIES = [
@@ -25,6 +26,10 @@ export const FIRST_WAVE_CITIES = [
   "exeter-pa",
   "sinking-spring-pa",
   "douglassville-pa",
+  "kutztown-pa",
+  "west-reading-pa",
+  "shillington-pa",
+  "fleetwood-pa",
 ] as const;
 
 export const cities: CityPage[] = [
@@ -54,7 +59,7 @@ export const cities: CityPage[] = [
       {
         question: "Who performs the work in Reading?",
         answer:
-          "We help connect you with independent local specialists in Berks County. Based on your issue, that may be drain work, small plumbing, or build-back repair. We disclose our referral relationships on every form.",
+          "We help connect you with independent local specialists in Berks County. Based on your issue, that may be drain work, small plumbing, or build-back repair. We explain how matching works on every form.",
       },
     ],
     draftStatus: "published",
@@ -184,6 +189,127 @@ export const cities: CityPage[] = [
     ],
     draftStatus: "published",
     needsConfirmation: false,
+  },
+  {
+    slug: "kutztown-pa",
+    name: "Kutztown",
+    state: "PA",
+    zipCodes: ["19530"],
+    headline: "Plumbing and drain help in Kutztown, PA",
+    intro:
+      "Kutztown mixes college housing, older borough homes, and rural properties in the surrounding townships. Slow drains, fixture leaks, and water damage after plumbing events are common intake requests from the Kutztown area.",
+    localContext:
+      "Student rentals and older borough homes may see fixture-level leaks and clogged drains that differ from main line emergencies. When multiple fixtures fail together or a floor drain backs up, emergency drain routing takes priority.",
+    neighborhoods: ["Kutztown borough", "Maxatawny Township area"],
+    serviceLinks: [
+      { href: "/leak-repair-berks-county-pa", label: "Leak repair" },
+      { href: "/drain-cleaning-berks-county-pa", label: "Drain cleaning" },
+      { href: "/emergency-sewer-backup-berks-county-pa", label: "Sewer backup help" },
+      { href: "/water-damage-repair-after-leak-berks-county-pa", label: "Repair after a leak" },
+    ],
+    faqs: [
+      {
+        question: "Do you serve Kutztown and nearby townships?",
+        answer:
+          "Yes. Kutztown is part of our Berks County coverage. Submit your city and zip on the request form and we will connect you with local help.",
+      },
+      {
+        question: "Can landlords submit requests for rental properties?",
+        answer:
+          "Yes. Include the property address, tenant contact if available, and photos of the issue when you can.",
+      },
+    ],
+    draftStatus: "published",
+    needsConfirmation: false,
+    updatedAt: "2025-06-17",
+  },
+  {
+    slug: "west-reading-pa",
+    name: "West Reading",
+    state: "PA",
+    zipCodes: ["19611"],
+    headline: "Drain and plumbing help in West Reading, PA",
+    intro:
+      "West Reading sits next to Reading with dense residential blocks, small businesses, and mixed-age housing. We hear about kitchen line clogs, upstairs leaks into lower units, and repair needs after water events.",
+    localContext:
+      "Row homes and multi-unit properties in West Reading often need fast triage between fixture-level plumbing and main line drain issues. Photos of affected fixtures and drains help route the request correctly.",
+    serviceLinks: [
+      { href: "/main-sewer-line-clog-reading-pa", label: "Main line clog symptoms" },
+      { href: "/toilet-repair-berks-county-pa", label: "Toilet repair" },
+      { href: "/water-damage-repair-after-leak-berks-county-pa", label: "Water damage repair" },
+    ],
+    faqs: [
+      {
+        question: "Is West Reading different from Reading for routing?",
+        answer:
+          "No. Both are in Berks County. Tell us your exact address and symptoms and we will connect you with the right local specialist.",
+      },
+      {
+        question: "What if water damaged a ceiling in a lower unit?",
+        answer:
+          "Stop the active leak first. Once the source is controlled, ceiling and drywall repair may route to build-back help through RHI Pros.",
+      },
+    ],
+    draftStatus: "published",
+    needsConfirmation: false,
+    updatedAt: "2025-06-17",
+  },
+  {
+    slug: "shillington-pa",
+    name: "Shillington",
+    state: "PA",
+    zipCodes: ["19607"],
+    headline: "Plumbing and drain help in Shillington, PA",
+    intro:
+      "Shillington is a borough south of Reading with mostly residential streets and small commercial pockets. Homeowners here often report running toilets, sink leaks, and occasional main line symptoms when laundry and fixtures run together.",
+    localContext:
+      "Split-level and ranch homes in Shillington may show main line warning signs when multiple fixtures interact. Isolated fixture issues at one location often route to Ridge Line Plumbing for smaller residential service calls.",
+    serviceLinks: [
+      { href: "/small-plumbing-repairs-berks-county-pa", label: "Small plumbing repairs" },
+      { href: "/emergency-sewer-backup-berks-county-pa", label: "Sewer backup help" },
+      { href: "/faucet-repair-berks-county-pa", label: "Faucet repair" },
+    ],
+    faqs: [
+      {
+        question: "Do you cover Shillington borough?",
+        answer:
+          "Yes. Shillington is within our Berks County service area. Provider availability is confirmed when we connect you with local help.",
+      },
+    ],
+    draftStatus: "published",
+    needsConfirmation: false,
+    updatedAt: "2025-06-17",
+  },
+  {
+    slug: "fleetwood-pa",
+    name: "Fleetwood",
+    state: "PA",
+    zipCodes: ["19522"],
+    headline: "Plumbing and leak repair in Fleetwood, PA",
+    intro:
+      "Fleetwood and the surrounding area include borough homes and township properties north of Kutztown. Fixture leaks, water heaters, and smaller residential plumbing calls are common alongside drain issues after heavy rain.",
+    localContext:
+      "Ridge Line Plumbing serves the Fleetwood area for smaller residential plumbing service calls. Multi-fixture backups and sewer emergencies still route to Apex Drain Services.",
+    serviceLinks: [
+      { href: "/small-plumbing-repairs-berks-county-pa", label: "Small plumbing repairs" },
+      { href: "/leak-repair-berks-county-pa", label: "Leak repair" },
+      { href: "/basement-floor-drain-backing-up-berks-county-pa", label: "Basement floor drain backup" },
+    ],
+    faqs: [
+      {
+        question: "Is Fleetwood covered by your local partners?",
+        answer:
+          "Yes. Smaller residential plumbing in the Fleetwood area may route to Ridge Line Plumbing. Drain and sewer emergencies route to Apex Drain Services.",
+      },
+      {
+        question: "Can I request help for a township address near Fleetwood?",
+        answer:
+          "Yes. Include your full address and zip on the request form so we can confirm Berks County coverage.",
+      },
+    ],
+    draftStatus: "published",
+    needsConfirmation: false,
+    updatedAt: "2025-06-17",
   },
 ];
 

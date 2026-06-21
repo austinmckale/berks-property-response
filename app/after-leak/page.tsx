@@ -13,7 +13,7 @@ import {
 } from "@/lib/schema";
 
 export const metadata = buildMetadata({
-  title: "After a Leak | Berks Property Response",
+  title: "After a Leak",
   description:
     "Repair help after a leak, backup, or water damage in Berks County. Stop the source first, then connect with local build-back help.",
   path: "/after-leak",
@@ -34,7 +34,7 @@ const routingNotes = [
   },
   {
     step: "Isolated small leak at one fixture",
-    detail: "May route to Evan Simons for smaller residential plumbing service calls.",
+    detail: "May route to Ridge Line Plumbing for smaller residential plumbing service calls.",
   },
 ];
 

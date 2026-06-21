@@ -80,7 +80,7 @@ function main() {
 
   const evanService = services.find((s) => s.slug === "small-plumbing-repairs-berks-county-pa");
   if (evanService && (evanService.noindex || evanService.draftStatus !== "published")) {
-    errors.push("Evan small-plumbing page must be published and indexed now that scope is confirmed");
+    errors.push("Ridge Line Plumbing small-plumbing page must be published and indexed");
   }
 
   const draftRhiSlugs = [
@@ -92,9 +92,9 @@ function main() {
   for (const slug of draftRhiSlugs) {
     const page = services.find((s) => s.slug === slug);
     if (!page) {
-      errors.push(`Missing RHI draft service page definition: ${slug}`);
-    } else if (!page.noindex || page.draftStatus !== "draft") {
-      errors.push(`${slug} must remain draft/noindex until ready to publish`);
+      errors.push(`Missing RHI build-back service page definition: ${slug}`);
+    } else if (page.noindex || page.draftStatus !== "published") {
+      errors.push(`${slug} must be published and indexed for SEO`);
     }
   }
 

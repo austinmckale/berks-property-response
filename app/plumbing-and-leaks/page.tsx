@@ -14,9 +14,9 @@ import {
 } from "@/lib/schema";
 
 export const metadata = buildMetadata({
-  title: "Plumbing & Leaks | Berks Property Response",
+  title: "Plumbing & Leaks",
   description:
-    "Fixture leaks, running toilets, and small plumbing repairs in Berks County. We connect you with Evan Simons for smaller residential service calls.",
+    "Fixture leaks, running toilets, and small plumbing repairs in Berks County. We connect you with Ridge Line Plumbing for smaller residential service calls.",
   path: "/plumbing-and-leaks",
 });
 
@@ -61,7 +61,7 @@ export default function PlumbingAndLeaksPage() {
     }),
     breadcrumbSchema(crumbs)
   );
-  const evan = providers.evan;
+  const ridgeLine = providers.evan;
 
   return (
     <>
@@ -72,7 +72,7 @@ export default function PlumbingAndLeaksPage() {
           <h1 className="text-3xl font-semibold text-stone-900">Plumbing &amp; leaks</h1>
           <p className="mt-4 text-lg text-stone-600">
             For fixture-level leaks and smaller residential plumbing repairs in Berks County — not
-            sewer backups or main line clogs. {evan.name} handles repair-level jobs at isolated
+            sewer backups or main line clogs. {ridgeLine.name} handles repair-level jobs at isolated
             fixtures.
           </p>
 

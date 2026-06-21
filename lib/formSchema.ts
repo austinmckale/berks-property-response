@@ -57,6 +57,8 @@ export const leadFormSchema = z.object({
   utmTerm: z.string().optional(),
   gclid: z.string().optional(),
   referrer: z.string().optional(),
+  activeConditions: z.string().optional(),
+  submittedAt: z.string().optional(),
 });
 
 export type LeadFormData = z.infer<typeof leadFormSchema>;

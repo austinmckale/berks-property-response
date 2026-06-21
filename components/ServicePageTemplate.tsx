@@ -19,17 +19,23 @@ import { LeadForm } from "./LeadForm";
 import { PhotoUploadPrompt } from "./PhotoUploadPrompt";
 import { PlumbingTriageNotice } from "./PlumbingTriageNotice";
 import { SchemaScript } from "./SchemaScript";
+import { ServiceAreaCrossLinks } from "./ServiceAreaCrossLinks";
 
 interface ServicePageTemplateProps {
   service: ServicePage;
 }
 
 export function generateServiceMetadata(service: ServicePage) {
+  const ogImage =
+    service.heroImage.endsWith(".png") || service.heroImage.endsWith(".jpg")
+      ? service.heroImage
+      : undefined;
   return buildMetadata({
     title: service.title,
     description: service.metaDescription,
     path: `/${service.slug}`,
     noindex: service.noindex,
+    ogImage,
   });
 }
 
@@ -53,7 +59,8 @@ export function ServicePageTemplate({ service }: ServicePageTemplateProps) {
 
   const isEmergency =
     service.slug.includes("emergency") || service.slug.includes("sewer-backup");
-  const isEvanPlumbing = service.provider === "evan" || service.defaultRoute === "evan";
+  const isRidgeLinePlumbing =
+    service.provider === "evan" || service.defaultRoute === "evan";
   const relatedServices = getRelatedServices(service.relatedSlugs);
 
   return (
@@ -74,7 +81,7 @@ export function ServicePageTemplate({ service }: ServicePageTemplateProps) {
             </div>
           )}
 
-          {isEvanPlumbing && <PlumbingTriageNotice />}
+          {isRidgeLinePlumbing && <PlumbingTriageNotice />}
 
           <p className="mt-6 leading-relaxed text-stone-700">{service.intro}</p>
 
@@ -95,6 +102,8 @@ export function ServicePageTemplate({ service }: ServicePageTemplateProps) {
           <div className="mt-8">
             <PhotoUploadPrompt />
           </div>
+
+          <ServiceAreaCrossLinks />
 
           {service.rhiHandoff && (
             <div className="mt-8 rounded-lg border border-stone-200 bg-stone-50 p-4 text-sm text-stone-700">

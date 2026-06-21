@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Footer } from "@/components/Footer";
+import { AnalyticsListener } from "@/components/AnalyticsListener";
+import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { Header } from "@/components/Header";
 import { MobileNavProvider } from "@/components/MobileNavContext";
 import { StickyMobileCTA } from "@/components/StickyMobileCTA";
@@ -44,6 +46,8 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col pb-mobile-cta">
+        <GoogleAnalytics />
+        <AnalyticsListener />
         <MobileNavProvider>
           <Header />
           <main className="flex-1">{children}</main>

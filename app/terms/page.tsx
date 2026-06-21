@@ -11,8 +11,8 @@ import {
 import { SITE_NAME } from "@/lib/siteConfig";
 
 export const metadata = buildMetadata({
-  title: "Terms of Use | Berks Property Response",
-  description: `Terms of use for ${SITE_NAME}.`,
+  title: "Terms of Use",
+  description: `Terms of use for ${SITE_NAME}. Rules for using this Berks County referral and intake website.`,
   path: "/terms",
 });
 
@@ -37,7 +37,9 @@ export default function TermsPage() {
           <h1 className="text-3xl font-bold text-slate-900">Terms of Use</h1>
           <p>Last updated: June 2025</p>
           <p>
-            By using {SITE_NAME}, you agree to these terms. This site provides intake and referral services only—we are not the direct service provider unless explicitly stated otherwise in the future.
+            By using {SITE_NAME}, you agree to these terms. This site provides intake and matching
+            services only — we are not the direct service provider. Submitting a request does not
+            require you to hire any provider.
           </p>
           <h2 className="text-xl font-bold text-slate-900">No guarantee of service</h2>
           <p>
@@ -47,9 +49,9 @@ export default function TermsPage() {
           <p>
             Any contract for work is between you and the service provider you choose. See our{" "}
             <Link href="/disclosure" className="text-blue-700 hover:underline">
-              referral disclosure
+              disclosure
             </Link>{" "}
-            for compensation details.
+            for how matching and provider relationships work.
           </p>
           <h2 className="text-xl font-bold text-slate-900">Acceptable use</h2>
           <p>

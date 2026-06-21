@@ -75,6 +75,18 @@ export function faqSchema(faqs: { question: string; answer: string }[]) {
   };
 }
 
+export function websiteSchema() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: SITE_NAME,
+    url: SITE_URL,
+    description:
+      "Local help connecting Berks County homeowners with plumbing, drain, water damage, and property repair specialists.",
+    publisher: organizationSchema(),
+  };
+}
+
 export function combineSchemas(
   ...schemas: (Record<string, unknown> | null)[]
 ): Record<string, unknown>[] {

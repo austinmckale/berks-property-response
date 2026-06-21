@@ -11,7 +11,7 @@ import {
 } from "@/lib/schema";
 
 export const metadata = buildMetadata({
-  title: "Drains & Jetting | Berks Property Response",
+  title: "Drains & Jetting",
   description:
     "Clogged drains, recurring blockages, and hydro jetting help in Berks County. Call or describe the problem.",
   path: "/drains",

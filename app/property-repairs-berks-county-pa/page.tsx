@@ -16,7 +16,7 @@ import {
 export const metadata = buildMetadata({
   title: "Property Repairs After Plumbing Events | Berks County, PA",
   description:
-    "Build-back repairs after plumbing, drain, or water damage events in Berks County. Drywall, flooring, ceiling, and trim repair after the source is stopped.",
+    "Build-back repairs after plumbing, drain, or water damage in Berks County. Drywall, flooring, ceiling, and trim repair after the source is stopped.",
   path: "/property-repairs-berks-county-pa",
 });
 

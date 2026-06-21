@@ -11,8 +11,8 @@ import {
 import { PHONE_NUMBER, SITE_NAME } from "@/lib/siteConfig";
 
 export const metadata = buildMetadata({
-  title: "Privacy Policy | Berks Property Response",
-  description: `Privacy policy for ${SITE_NAME}.`,
+  title: "Privacy Policy",
+  description: `Privacy policy for ${SITE_NAME}. How we collect, use, and protect information when you request local help in Berks County.`,
   path: "/privacy-policy",
 });
 
@@ -37,7 +37,10 @@ export default function PrivacyPolicyPage() {
           <h1 className="text-3xl font-bold text-slate-900">Privacy Policy</h1>
           <p>Last updated: June 2025</p>
           <p>
-            {SITE_NAME} (&quot;we,&quot; &quot;us&quot;) operates an intake and referral website for property service requests in Berks County, Pennsylvania.
+            {SITE_NAME} operates a local intake and matching website for property service requests
+            in Berks County, Pennsylvania. We help you describe the issue and may share your
+            information with independent local providers. We do not perform the work directly.
+            Submitting a request does not create an obligation to hire.
           </p>
           <h2 className="text-xl font-bold text-slate-900">Information we collect</h2>
           <p>

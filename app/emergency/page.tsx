@@ -13,7 +13,7 @@ import {
 } from "@/lib/schema";
 
 export const metadata = buildMetadata({
-  title: "Emergency Help | Berks Property Response",
+  title: "Emergency Help",
   description:
     "Emergency drain, sewer, leak, or water backup in Berks County? Call now or describe what happened for urgent local help.",
   path: "/emergency",
@@ -27,7 +27,7 @@ const routingNotes = [
   },
   {
     situation: "Isolated leak at one fixture (sink, toilet, faucet, valve)",
-    provider: "Evan Simons",
+    provider: "Ridge Line Plumbing",
     note: "Smaller residential plumbing service calls",
   },
   {

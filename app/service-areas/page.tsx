@@ -13,7 +13,7 @@ import {
 } from "@/lib/schema";
 
 export const metadata = buildMetadata({
-  title: "Service Areas | Berks Property Response",
+  title: "Service Areas",
   description:
     "Berks County service areas for plumbing, drain, water damage, and property repair help.",
   path: "/service-areas",

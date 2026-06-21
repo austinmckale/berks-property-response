@@ -47,6 +47,8 @@ export function Header() {
 
           <a
             href={phoneHref(PHONE_NUMBER)}
+            data-analytics-event="click_call"
+            data-analytics-source="header"
             className="btn-touch shrink-0 rounded-lg bg-red-600 px-3 text-sm text-white hover:bg-red-700 sm:px-4"
           >
             Call
@@ -100,6 +102,8 @@ export function Header() {
               ))}
               <Link
                 href="/request-help"
+                data-analytics-event="click_request_help"
+                data-analytics-source="header_mobile"
                 className="btn-touch-lg mt-1 rounded-lg bg-stone-900 text-base font-semibold text-white"
                 onClick={() => setMenuOpen(false)}
               >

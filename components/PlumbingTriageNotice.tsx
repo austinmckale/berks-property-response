@@ -28,7 +28,7 @@ export function PlumbingTriageNotice() {
     <div className="mt-6 rounded-lg border border-stone-200 bg-stone-50 p-4 text-sm text-stone-800">
       <p className="font-semibold text-stone-900">Not a small fixture repair?</p>
       <p className="mt-1 text-stone-700">
-        Evan Simons handles isolated, smaller residential plumbing service calls. These situations
+        Ridge Line Plumbing handles isolated, smaller residential plumbing service calls. These situations
         route elsewhere:
       </p>
       <ul className="mt-3 space-y-2">

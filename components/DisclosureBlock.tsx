@@ -13,7 +13,7 @@ export function DisclosureBlock({ variant = "full", className = "" }: Disclosure
     <p
       className={`text-sm leading-relaxed text-stone-600 ${className}`}
       role="note"
-      aria-label="Referral disclosure"
+      aria-label="Service disclosure"
     >
       {text}{" "}
       {variant === "full" && (

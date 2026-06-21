@@ -10,6 +10,7 @@ import {
   webPageSchema,
 } from "@/lib/schema";
 import { Breadcrumbs } from "./Breadcrumbs";
+import { CityRoutingSection } from "./CityRoutingSection";
 import { CTASection } from "./CTASection";
 import { FAQ } from "./FAQ";
 import { LeadForm } from "./LeadForm";
@@ -17,7 +18,7 @@ import { SchemaScript } from "./SchemaScript";
 
 export function generateCityMetadata(city: CityPage) {
   return buildMetadata({
-    title: `${city.headline} | Berks Property Response`,
+    title: city.headline,
     description: city.intro,
     path: `/service-areas/${city.slug}`,
   });
@@ -57,8 +58,10 @@ export function CityPageTemplate({ city }: { city: CityPage }) {
             </p>
           )}
 
+          <CityRoutingSection cityName={city.name} />
+
           <h2 className="mt-8 text-lg font-semibold text-stone-900">
-            Common issues in {city.name}
+            Related help in {city.name}
           </h2>
           <ul className="mt-4 space-y-2">
             {city.serviceLinks.map((link) => (

@@ -74,6 +74,7 @@ const EVAN_KEYWORDS: { keyword: string; serviceKey: string }[] = [
   { keyword: "toilet repair isolated to one toilet", serviceKey: "toilet repair" },
   { keyword: "running toilet", serviceKey: "running toilet" },
   { keyword: "garbage disposal", serviceKey: "garbage disposal" },
+  { keyword: "water heater", serviceKey: "water heater" },
   { keyword: "shutoff valve", serviceKey: "shutoff valve" },
   { keyword: "small plumbing repair", serviceKey: "small plumbing repair" },
   { keyword: "fixture repair", serviceKey: "fixture repair" },
@@ -182,7 +183,7 @@ function getPayoutCategory(
       return "Apex commercial drain lead";
     return "Apex standard drain lead";
   }
-  if (primaryRoute === "evan") return "Evan small plumbing lead";
+  if (primaryRoute === "evan") return "Ridge Line Plumbing lead";
   if (primaryRoute === "rhi") {
     if (text.includes("contractor") || text.includes("property repair"))
       return "RHI contractor repair lead";
@@ -214,6 +215,22 @@ export function routeLead(input: LeadInput): RouteResult {
   let primaryRoute: ProviderId = "manual_review";
   let secondaryRoute: ProviderId | null = null;
   let serviceCategory = input.serviceCategory ?? "general";
+
+  if (input.serviceCategory === "major_property") {
+    notesInternal.push("Major property issue — review for suitable provider connection");
+    const leadScore = scoreLead(input, "manual_review");
+    return {
+      leadId: generateLeadId(),
+      primaryRoute: "manual_review",
+      secondaryRoute: null,
+      leadScore,
+      qualifiedStatus: "needs_review",
+      suggestedSLA: getSuggestedSLA(input.urgency),
+      serviceCategory: "major_property",
+      payoutCategory: "Manual review lead",
+      notesInternal,
+    };
+  }
 
   const apexMatches = matchesAny(text, APEX_KEYWORDS);
   const rhiMatches = matchesAny(text, RHI_KEYWORDS);
@@ -265,7 +282,7 @@ export function routeLead(input: LeadInput): RouteResult {
       serviceCategory = "plumbing";
     } else {
       primaryRoute = "manual_review";
-      notesInternal.push("CONFIRMATION REQUIRED: Evan service scope not fully confirmed");
+      notesInternal.push("CONFIRMATION REQUIRED: Ridge Line Plumbing service scope not fully confirmed");
       serviceCategory = "plumbing";
     }
   } else if (input.defaultRoute) {
@@ -276,7 +293,7 @@ export function routeLead(input: LeadInput): RouteResult {
     } else if (route === "evan" && apexMatches.length > 0) {
       primaryRoute = "apex";
       serviceCategory = "drain_sewer";
-      notesInternal.push("Apex override: drain/sewer symptoms detected on Evan service page");
+      notesInternal.push("Apex override: drain/sewer symptoms detected on Ridge Line Plumbing service page");
     } else {
       primaryRoute = route;
     }

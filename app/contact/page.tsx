@@ -12,8 +12,9 @@ import { PHONE_NUMBER, SITE_NAME } from "@/lib/siteConfig";
 import { phoneHref } from "@/lib/tracking";
 
 export const metadata = buildMetadata({
-  title: "Contact | Berks Property Response",
-  description: `Contact ${SITE_NAME} for plumbing, drain, and repair help in Berks County.`,
+  title: "Contact",
+  description:
+    "Contact Berks Property Response for plumbing, drain, sewer, water damage, and repair help in Berks County. Call, text, or use the request form.",
   path: "/contact",
 });
 

@@ -18,38 +18,43 @@ export const PHONE_NUMBER =
  */
 export const TEXT_NUMBER =
   process.env.NEXT_PUBLIC_TEXT_NUMBER ?? PHONE_NUMBER;
-export const TAGLINE =
-  "Local help for plumbing, drains, water damage, and property repairs in Berks County.";
-export const SITE_SUBTITLE =
-  "Plumbing, drains, and repair help in Berks County";
 
-/** Primary nav — short labels, human-first */
+export const TAGLINE =
+  "Local intake and matching for drain backups, plumbing leaks, water damage, repair work, and urgent property issues across Berks County.";
+
+export const SITE_SUBTITLE =
+  "Berks County property response intake — drains, plumbing, water damage, and repair help";
+
+/** Primary nav — scalable service clusters under Berks Property Response */
 export const NAV_LINKS = [
   { href: "/emergency", label: "Emergency Help" },
-  { href: "/drains", label: "Drains & jetting" },
-  { href: "/plumbing-and-leaks", label: "Plumbing & leaks" },
-  { href: "/after-leak", label: "After a leak" },
-  { href: "/service-areas", label: "Areas" },
+  { href: "/drains", label: "Drain & Sewer" },
+  { href: "/plumbing-and-leaks", label: "Plumbing & Leaks" },
+  { href: "/after-leak", label: "Water Damage & Repairs" },
+  { href: "/storm-fire-mold-help", label: "Storm / Fire / Mold" },
+  { href: "/service-areas", label: "Service Areas" },
+  { href: "/how-it-works", label: "How It Works" },
+  { href: "/disclosure", label: "Disclosure" },
+  { href: "/contact", label: "Contact" },
 ] as const;
 
 export const FOOTER_SERVICE_LINKS = [
   { href: "/emergency-sewer-backup-berks-county-pa", label: "Sewer backup help" },
   { href: "/hydro-jetting-berks-county-pa", label: "Hydro jetting" },
   { href: "/drain-cleaning-berks-county-pa", label: "Drain cleaning" },
+  { href: "/leak-repair-berks-county-pa", label: "Leak repair" },
+  { href: "/toilet-repair-berks-county-pa", label: "Toilet repair" },
   {
     href: "/water-damage-repair-after-leak-berks-county-pa",
-    label: "Repair after a leak",
+    label: "Water damage repair",
   },
-  {
-    href: "/property-repairs-berks-county-pa",
-    label: "Property repairs",
-  },
-  { href: "/request-help", label: "Request help" },
+  { href: "/storm-fire-mold-help", label: "Storm / fire / mold help" },
+  { href: "/request-help", label: "Start a request" },
 ] as const;
 
 export const FOOTER_ABOUT_LINKS = [
-  { href: "/how-it-works", label: "How this site works" },
-  { href: "/local-partners", label: "Local partners" },
+  { href: "/how-it-works", label: "How it works" },
+  { href: "/local-partners", label: "Local provider network" },
   { href: "/disclosure", label: "Disclosure" },
   { href: "/contact", label: "Contact" },
   { href: "/privacy-policy", label: "Privacy" },
@@ -58,24 +63,51 @@ export const FOOTER_ABOUT_LINKS = [
 
 export const HOME_STEPS = [
   {
-    title: "Tell us what happened",
-    body: "Call, text a photo, or submit a short description of the problem.",
+    title: "Tell us what's going on",
+    body: "Call, text a photo, or submit one request describing the issue — drain backup, leak, water damage, or another property concern in Berks County.",
   },
   {
-    title: "We connect you with local help",
-    body: "Based on your issue, we point you to an independent local specialist in Berks County who handles that type of work.",
+    title: "We review and route your request",
+    body: "Berks Property Response reviews the details and sends your request to the independent local provider suited to that type of job.",
   },
   {
-    title: "The provider takes it from there",
-    body: "The local company contacts you and performs the work. Berks Property Response does not do the repair itself.",
+    title: "The provider contacts you directly",
+    body: "The local company reaches out about availability, pricing, and next steps. They perform the work and handle scheduling, estimates, workmanship, and warranties. Berks Property Response does not perform the work directly.",
+  },
+] as const;
+
+export const SERVICE_CLUSTERS = [
+  {
+    title: "Drain & Sewer Response",
+    href: "/drains",
+    description: "Sewer backups, floor drain overflow, main line clogs, hydro jetting, and urgent drain issues.",
+  },
+  {
+    title: "Plumbing Leak Help",
+    href: "/plumbing-and-leaks",
+    description: "Fixture leaks, running toilets, faucets, supply lines, and smaller non-main-line plumbing calls.",
+  },
+  {
+    title: "Water Damage & Build-Back",
+    href: "/after-leak",
+    description: "Drywall, flooring, ceilings, paint, and repair after a leak or backup once the source is stopped.",
+  },
+  {
+    title: "Storm / Fire / Mold / Major Issues",
+    href: "/storm-fire-mold-help",
+    description: "Major property issues — we review whether a suitable local provider connection exists.",
   },
 ] as const;
 
 export const SERVICE_AREA_PREVIEW = [
   "Reading",
   "Wyomissing",
+  "West Reading",
   "Birdsboro",
   "Exeter",
   "Sinking Spring",
   "Douglassville",
+  "Kutztown",
+  "Shillington",
+  "Fleetwood",
 ] as const;

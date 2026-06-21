@@ -23,12 +23,16 @@ export function StickyMobileCTA() {
       <div className="grid grid-cols-3 gap-1.5 p-2 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
         <a
           href={phoneHref(PHONE_NUMBER)}
+          data-analytics-event="click_call"
+          data-analytics-source="sticky_mobile"
           className="btn-touch-fill rounded-xl bg-red-600 text-white active:bg-red-700"
         >
           Call
         </a>
         <a
           href={smsHref(TEXT_NUMBER)}
+          data-analytics-event="click_text"
+          data-analytics-source="sticky_mobile"
           className="btn-touch-fill rounded-xl bg-stone-900 text-white active:bg-stone-800"
           aria-label="Text a photo"
         >
@@ -36,6 +40,8 @@ export function StickyMobileCTA() {
         </a>
         <Link
           href="/request-help"
+          data-analytics-event="click_request_help"
+          data-analytics-source="sticky_mobile"
           className="btn-touch-fill rounded-xl border-2 border-stone-300 bg-white text-stone-900 active:bg-stone-50"
         >
           Help

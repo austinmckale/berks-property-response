@@ -10,6 +10,7 @@ import {
   type LeadFormData,
 } from "@/lib/formSchema";
 import { FORM_SUBMIT_FINE_PRINT } from "@/lib/disclosures";
+import { trackEvent } from "@/lib/analytics";
 import {
   getProblemType,
   problemTypeOptions,
@@ -61,6 +62,27 @@ export function LeadForm({
     },
   });
 
+  const [activeConditions, setActiveConditions] = useState<string[]>([]);
+
+  const toggleCondition = (value: string) => {
+    setActiveConditions((prev) => {
+      const next = prev.includes(value)
+        ? prev.filter((v) => v !== value)
+        : [...prev, value];
+      setValue("activeConditions", next.join(", "));
+      return next;
+    });
+  };
+
+  const conditionOptions = [
+    { value: "active-water", label: "Active water / leaking now" },
+    { value: "sewage", label: "Sewage or backup present" },
+    { value: "mold", label: "Visible mold or moisture concern" },
+    { value: "fire-smoke", label: "Fire or smoke damage" },
+    { value: "storm-hail", label: "Storm or hail damage" },
+    { value: "structural", label: "Structural concern (sag, crack, etc.)" },
+  ];
+
   const selectedProblem = watch("problemType");
   const isEmergency = watch("urgency") === "emergency";
 
@@ -78,6 +100,12 @@ export function LeadForm({
       setValue("referrer", document.referrer);
     }
   }, [pathname, pageType, serviceCategory, defaultRoute, searchParams, setValue]);
+
+  useEffect(() => {
+    if (activeConditions.includes("sewage")) {
+      setValue("waterOrSewagePresent", "yes");
+    }
+  }, [activeConditions, setValue]);
 
   function selectProblem(id: ProblemTypeId) {
     const option = getProblemType(id);
@@ -107,6 +135,8 @@ export function LeadForm({
       serviceRequested: defaultService || problem.defaultService,
       serviceCategory: problem.serviceCategory,
       defaultRoute: defaultRoute || problem.defaultRoute,
+      submittedAt: new Date().toISOString(),
+      activeConditions: activeConditions.join(", ") || data.activeConditions,
       smsOptIn: Boolean(data.smsOptIn),
     };
 
@@ -120,6 +150,10 @@ export function LeadForm({
       if (!res.ok) throw new Error(json.error ?? "Submission failed");
       setRouteResult(json.routing ?? null);
       setSubmitStatus("success");
+      trackEvent("generate_lead", {
+        page_type: pageType,
+        service_category: serviceCategory,
+      });
     } catch {
       setSubmitStatus("error");
     }
@@ -135,8 +169,9 @@ export function LeadForm({
           We&apos;re on it.
         </h3>
         <p className="mt-3 text-green-900 leading-relaxed">
-          Thanks for reaching out. We&apos;ll connect you with local help in Berks County and
-          someone should contact you soon.
+          Thanks for reaching out. Berks Property Response will review your request and an
+          independent local provider may contact you about availability and next steps. There is
+          no obligation to hire.
         </p>
         {isEmergency && (
           <div className="mt-6 rounded-lg bg-red-600 p-4 text-center">
@@ -181,10 +216,10 @@ export function LeadForm({
       {step === 1 && (
         <div className="p-4 md:p-6">
           <h3 className="text-lg font-semibold text-stone-900 md:text-xl">
-            What do you need help with?
+            Tell us what&apos;s going on
           </h3>
           <p className="mt-1 text-sm text-stone-600">
-            Tap the closest match.
+            Tap the closest match — no obligation to hire.
           </p>
           <div className="mt-4 grid grid-cols-1 gap-3">
             {problemTypeOptions.map((option) => {
@@ -218,7 +253,7 @@ export function LeadForm({
             onClick={goToStep2}
             className="btn-touch-lg mt-5 w-full rounded-xl bg-stone-900 text-base font-semibold text-white active:bg-stone-800"
           >
-            Continue
+            Continue — tell us more
           </button>
         </div>
       )}
@@ -308,7 +343,7 @@ export function LeadForm({
               <textarea
                 id="problemDescription"
                 rows={3}
-                placeholder="A sentence or two is enough—include which room or drain if you can."
+                placeholder="A sentence or two is enough—include which room, drain, or fixture if you can."
                 className={inputClass}
                 {...register("problemDescription")}
               />
@@ -317,9 +352,45 @@ export function LeadForm({
               )}
             </div>
 
+            <fieldset>
+              <legend className={labelClass}>What&apos;s present right now? (optional)</legend>
+              <div className="mt-2 space-y-2">
+                {conditionOptions.map((option) => (
+                  <label
+                    key={option.value}
+                    className="flex cursor-pointer items-start gap-3 rounded-lg border border-stone-200 bg-stone-50 px-3 py-2.5"
+                  >
+                    <input
+                      type="checkbox"
+                      checked={activeConditions.includes(option.value)}
+                      onChange={() => toggleCondition(option.value)}
+                      className="mt-0.5 h-4 w-4 rounded border-stone-300"
+                    />
+                    <span className="text-sm text-stone-700">{option.label}</span>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+
+            <div>
+              <label className={labelClass} htmlFor="urgency">
+                How urgent is this?
+              </label>
+              <select id="urgency" className={inputClass} {...register("urgency")}>
+                <option value="emergency">Emergency — active backup, leak, or damage now</option>
+                <option value="same-day">Same day or as soon as possible</option>
+                <option value="this-week">This week</option>
+                <option value="estimate-only">Just researching / not urgent</option>
+              </select>
+            </div>
+
+            <p className="text-sm text-stone-600">
+              Photos can help. After submitting, you may be asked to send pictures of the issue.
+            </p>
+
             <details className="rounded-xl border border-stone-200 bg-stone-50 px-4 py-3">
               <summary className="cursor-pointer py-1 text-sm font-medium text-stone-700">
-                Add email or photo (optional)
+                Add email or attach a photo (optional)
               </summary>
               <div className="mt-4 space-y-4">
                 <div>
@@ -363,6 +434,9 @@ export function LeadForm({
           <input type="hidden" {...register("utmTerm")} />
           <input type="hidden" {...register("gclid")} />
           <input type="hidden" {...register("referrer")} />
+          <input type="hidden" {...register("activeConditions")} />
+          <input type="hidden" {...register("submittedAt")} />
+          <input type="hidden" {...register("waterOrSewagePresent")} />
 
           {submitStatus === "error" && (
             <p className="mt-4 text-sm text-red-600">
@@ -391,7 +465,7 @@ export function LeadForm({
             disabled={submitStatus === "loading"}
             className="btn-touch-lg mt-6 w-full rounded-xl bg-stone-900 text-base font-semibold text-white active:bg-stone-800 disabled:opacity-50"
           >
-            {submitStatus === "loading" ? "Sending..." : "Get local help"}
+            {submitStatus === "loading" ? "Sending..." : "Start a property response request"}
           </button>
           <p className="mt-4 text-xs leading-relaxed text-stone-500">
             {FORM_SUBMIT_FINE_PRINT}{" "}
