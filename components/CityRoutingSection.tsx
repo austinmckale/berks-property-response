@@ -5,20 +5,17 @@ const routingPaths = [
   {
     title: "Drain & sewer help",
     href: "/emergency",
-    description:
-      "Sewer backups, floor drain overflow, main line clogs, hydro jetting, and urgent drain issues — typically routed to Apex Drain Services.",
+    description: "Sewer backups, floor drain overflow, main line clogs, and urgent drain issues.",
   },
   {
     title: "Plumbing & fixture help",
     href: "/plumbing-and-leaks",
-    description:
-      "Toilets, faucets, supply lines, shutoff valves, and smaller fixture-level plumbing — typically routed to Ridge Line Plumbing.",
+    description: "Toilets, faucets, supply lines, and smaller fixture-level leaks.",
   },
   {
     title: "Water damage & build-back",
     href: "/after-leak",
-    description:
-      "Drywall, flooring, ceilings, paint, and repair after a leak or backup — typically routed to RHI Pros once the source is stopped.",
+    description: "Drywall, flooring, ceilings, and repair after a leak or backup.",
   },
 ];
 

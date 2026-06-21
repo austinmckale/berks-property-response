@@ -1,12 +1,15 @@
 import Image from "next/image";
+import Link from "next/link";
 import type { Provider } from "@/lib/providers";
 
 interface ProviderCardProps {
   provider: Provider;
   note?: string;
+  /** Hide direct phone/email — route through intake */
+  intakeOnly?: boolean;
 }
 
-export function ProviderCard({ provider, note }: ProviderCardProps) {
+export function ProviderCard({ provider, note, intakeOnly = false }: ProviderCardProps) {
   return (
     <div className="rounded-xl border border-stone-200 bg-white p-5">
       {provider.logoImage && (
@@ -16,7 +19,7 @@ export function ProviderCard({ provider, note }: ProviderCardProps) {
             alt={`${provider.name} logo`}
             width={120}
             height={120}
-            className="h-24 w-auto object-contain"
+            className="h-20 w-auto object-contain"
           />
         </div>
       )}
@@ -25,23 +28,38 @@ export function ProviderCard({ provider, note }: ProviderCardProps) {
       {provider.serviceArea && (
         <p className="mt-1 text-sm text-stone-600">{provider.serviceArea}</p>
       )}
-      {note && <p className="mt-2 text-xs text-stone-500">{note}</p>}
-      <p className="mt-3 text-sm text-stone-600">{provider.description}</p>
-      {provider.phone && (
-        <p className="mt-3 text-sm text-stone-700">
-          <span className="font-medium text-stone-900">Phone:</span>{" "}
-          <a href={`tel:${provider.phone.replace(/\D/g, "")}`} className="underline-offset-2 hover:underline">
-            {provider.phone}
-          </a>
+      {note && <p className="mt-2 text-sm text-stone-600">{note}</p>}
+      {intakeOnly ? (
+        <p className="mt-3 text-sm text-stone-600">
+          Requests for this type of work go through{" "}
+          <Link href="/request-help" className="font-medium text-stone-900 underline">
+            Berks Property Response
+          </Link>
+          .
         </p>
-      )}
-      {provider.email && (
-        <p className="mt-1 text-sm text-stone-700">
-          <span className="font-medium text-stone-900">Email:</span>{" "}
-          <a href={`mailto:${provider.email}`} className="underline-offset-2 hover:underline">
-            {provider.email}
-          </a>
-        </p>
+      ) : (
+        <>
+          <p className="mt-3 text-sm text-stone-600">{provider.description}</p>
+          {provider.phone && (
+            <p className="mt-3 text-sm text-stone-700">
+              <span className="font-medium text-stone-900">Phone:</span>{" "}
+              <a
+                href={`tel:${provider.phone.replace(/\D/g, "")}`}
+                className="underline-offset-2 hover:underline"
+              >
+                {provider.phone}
+              </a>
+            </p>
+          )}
+          {provider.email && (
+            <p className="mt-1 text-sm text-stone-700">
+              <span className="font-medium text-stone-900">Email:</span>{" "}
+              <a href={`mailto:${provider.email}`} className="underline-offset-2 hover:underline">
+                {provider.email}
+              </a>
+            </p>
+          )}
+        </>
       )}
       {provider.verifiedClaims.licensed && provider.verifiedClaims.insured && (
         <p className="mt-2 text-xs text-stone-500">Licensed and insured (per provider)</p>

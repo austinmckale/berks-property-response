@@ -25,18 +25,25 @@ export const TAGLINE =
 export const SITE_SUBTITLE =
   "Berks County property response intake — drains, plumbing, water damage, and repair help";
 
-/** Primary nav — scalable service clusters under Berks Property Response */
-export const NAV_LINKS = [
+/** Primary header nav — keep short for emergency users */
+export const HEADER_NAV_LINKS = [
   { href: "/emergency", label: "Emergency Help" },
+  { href: "/request-help", label: "Get Help" },
   { href: "/drains", label: "Drain & Sewer" },
   { href: "/plumbing-and-leaks", label: "Plumbing & Leaks" },
   { href: "/after-leak", label: "Water Damage & Repairs" },
+] as const;
+
+/** Secondary links — menu and footer */
+export const MORE_NAV_LINKS = [
   { href: "/storm-fire-mold-help", label: "Storm / Fire / Mold" },
   { href: "/service-areas", label: "Service Areas" },
   { href: "/how-it-works", label: "How It Works" },
-  { href: "/disclosure", label: "Disclosure" },
   { href: "/contact", label: "Contact" },
 ] as const;
+
+/** @deprecated Use HEADER_NAV_LINKS + MORE_NAV_LINKS */
+export const NAV_LINKS = [...HEADER_NAV_LINKS, ...MORE_NAV_LINKS] as const;
 
 export const FOOTER_SERVICE_LINKS = [
   { href: "/emergency-sewer-backup-berks-county-pa", label: "Sewer backup help" },
@@ -64,15 +71,15 @@ export const FOOTER_ABOUT_LINKS = [
 export const HOME_STEPS = [
   {
     title: "Tell us what's going on",
-    body: "Call, text a photo, or submit one request describing the issue — drain backup, leak, water damage, or another property concern in Berks County.",
+    body: "Call, text a photo, or send a short request — drain backup, leak, water damage, or another property issue in Berks County.",
   },
   {
-    title: "We review and route your request",
-    body: "Berks Property Response reviews the details and sends your request to the independent local provider suited to that type of job.",
+    title: "We review your request",
+    body: "Berks Property Response reviews the details and connects you with local help suited to that type of job.",
   },
   {
-    title: "The provider contacts you directly",
-    body: "The local company reaches out about availability, pricing, and next steps. They perform the work and handle scheduling, estimates, workmanship, and warranties. Berks Property Response does not perform the work directly.",
+    title: "Someone local reaches out",
+    body: "A local company contacts you about availability and next steps. They perform the work and handle pricing, scheduling, and warranties. Berks Property Response does not perform the work directly.",
   },
 ] as const;
 

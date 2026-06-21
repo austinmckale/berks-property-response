@@ -29,7 +29,7 @@ export async function POST(request: Request) {
       propertyType: parsed.data.propertyType ?? "residential",
       smsOptIn: parsed.data.smsOptIn === true,
     };
-    const photoUploaded = Boolean(form.photoUpload);
+    const photoUploaded = false;
     const routing = routeLead({
       ...form,
       photoUploaded,
@@ -37,8 +37,8 @@ export async function POST(request: Request) {
       serviceRequested: `${problem.defaultService}. ${form.problemDescription}`,
     });
 
-    const webhookPayload = mapToWebhookPayload(form, routing);
     const sheetRow = mapToGoogleSheetRow(form, routing);
+    const webhookPayload = mapToWebhookPayload(form, routing, sheetRow);
 
     const notificationResults = await notifyLeadSubmitted({ form, routing });
 

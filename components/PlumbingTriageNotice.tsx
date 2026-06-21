@@ -1,43 +1,33 @@
 import Link from "next/link";
 
-const NOT_EVAN_ROUTES = [
+const REDIRECTS = [
   {
-    sign: "Multiple drains are backing up at once",
-    provider: "Apex Drain Services",
+    sign: "Multiple drains backing up",
+    label: "Emergency drain help",
     href: "/emergency",
   },
   {
-    sign: "The toilet bubbles when the shower, tub, or sink runs",
-    provider: "Apex Drain Services",
+    sign: "Sewage or basement floor drain overflow",
+    label: "Emergency drain help",
     href: "/emergency",
   },
   {
-    sign: "Sewage is present or a basement floor drain is backing up",
-    provider: "Apex Drain Services",
-    href: "/emergency",
-  },
-  {
-    sign: "Drywall, flooring, ceiling, or other water damage repair is needed after the plumbing issue is stopped",
-    provider: "RHI Pros",
+    sign: "Drywall, flooring, or ceiling damage after the leak stopped",
+    label: "Repair after a leak",
     href: "/after-leak",
   },
 ];
 
 export function PlumbingTriageNotice() {
   return (
-    <div className="mt-6 rounded-lg border border-stone-200 bg-stone-50 p-4 text-sm text-stone-800">
-      <p className="font-semibold text-stone-900">Not a small fixture repair?</p>
-      <p className="mt-1 text-stone-700">
-        Ridge Line Plumbing handles isolated, smaller residential plumbing service calls. These situations
-        route elsewhere:
-      </p>
-      <ul className="mt-3 space-y-2">
-        {NOT_EVAN_ROUTES.map((item) => (
-          <li key={item.sign} className="text-stone-700">
-            <span className="font-medium text-stone-900">{item.sign}</span>
-            {" → "}
+    <div className="mt-5 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-stone-800">
+      <p className="font-semibold text-stone-900">Not a single-fixture leak?</p>
+      <ul className="mt-2 space-y-1.5">
+        {REDIRECTS.map((item) => (
+          <li key={item.sign}>
+            {item.sign} →{" "}
             <Link href={item.href} className="font-medium underline-offset-2 hover:underline">
-              {item.provider}
+              {item.label}
             </Link>
           </li>
         ))}

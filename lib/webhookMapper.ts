@@ -1,9 +1,12 @@
 import type { LeadFormData } from "./formSchema";
+import type { GoogleSheetRow } from "./googleSheetsMapper";
 import type { RouteResult } from "./routing";
 
 export interface WebhookPayload {
   event: "lead_submitted";
   timestamp: string;
+  /** Flat row for Google Sheets / Zapier — matches GOOGLE_SHEET_COLUMNS */
+  sheetRow: GoogleSheetRow;
   lead: {
     leadId: string;
     customer: {
@@ -45,11 +48,13 @@ export interface WebhookPayload {
 export function mapToWebhookPayload(
   form: LeadFormData,
   routing: RouteResult,
+  sheetRow: GoogleSheetRow,
   photoUploadUrl?: string
 ): WebhookPayload {
   return {
     event: "lead_submitted",
-    timestamp: new Date().toISOString(),
+    timestamp: sheetRow.created_at,
+    sheetRow,
     lead: {
       leadId: routing.leadId,
       customer: {
@@ -58,7 +63,7 @@ export function mapToWebhookPayload(
         email: form.email || undefined,
         streetAddress: form.streetAddress,
         city: form.city,
-        zip: form.zip,
+        zip: form.zip ?? "",
         propertyType: form.propertyType ?? "residential",
       },
       request: {

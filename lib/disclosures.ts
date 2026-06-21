@@ -8,11 +8,11 @@ export const REFERRAL_DISCLOSURE_INLINE =
 
 /** Shown under the submit button on every intake form */
 export const FORM_SUBMIT_FINE_PRINT =
-  "By submitting, you agree that Berks Property Response may share your request with an independent local provider who may contact you about the job. Berks Property Response does not perform the work directly. There is no obligation to hire.";
+  "By submitting, you agree that Berks Property Response may share your request with an independent local provider who may contact you by phone or text about the job. Berks Property Response does not perform the work directly. There is no obligation to hire.";
 
 /** Hero trust line — homepage and key landing pages */
 export const TRUST_LINE =
-  "Local Berks County provider network. No obligation. Your request is sent to the provider suited to the job.";
+  "Local help in Berks County. No obligation to hire.";
 
 /** Provider network availability note */
 export const PROVIDER_AVAILABILITY_NOTE =

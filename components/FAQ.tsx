@@ -1,3 +1,5 @@
+import { forConsumerDisplay } from "@/lib/consumerCopy";
+
 interface FAQItem {
   question: string;
   answer: string;
@@ -19,7 +21,9 @@ export function FAQ({ items, title = "Questions" }: FAQProps) {
           {items.map((item) => (
             <div key={item.question}>
               <dt className="font-medium text-stone-900">{item.question}</dt>
-              <dd className="mt-2 text-sm leading-relaxed text-stone-600">{item.answer}</dd>
+              <dd className="mt-2 text-sm leading-relaxed text-stone-600">
+                {forConsumerDisplay(item.answer)}
+              </dd>
             </div>
           ))}
         </dl>

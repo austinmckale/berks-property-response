@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { SITE_NAME, SITE_URL, TAGLINE } from "./siteConfig";
+import { SITE_NAME, SITE_URL } from "./siteConfig";
 
 export const DEFAULT_OG_IMAGE = "/opengraph-image";
 
@@ -46,17 +46,12 @@ export function buildMetadata(seo: PageSEO): Metadata {
 }
 
 export function homeMetadata(): Metadata {
-  return {
-    ...buildMetadata({
-      title: SITE_NAME,
-      description:
-        "Need plumbing, drain, water damage, or property repair help in Berks County? Berks Property Response helps route homeowners to the right independent local provider.",
-      path: "/",
-    }),
-    title: {
-      absolute: `${SITE_NAME} | ${TAGLINE}`,
-    },
-  };
+  return buildMetadata({
+    title: "Drain, Plumbing & Water Damage Help",
+    description:
+      "Sewer backup, plumbing leak, or water damage in Berks County? Call now or send a quick request for local help.",
+    path: "/",
+  });
 }
 
 export function breadcrumbItems(

@@ -1,5 +1,6 @@
+import Link from "next/link";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
-import { DisclosureBlock } from "@/components/DisclosureBlock";
+import { HubDisclosureLine, HubQuickActions } from "@/components/ConversionHub";
 import { ProviderCard } from "@/components/ProviderCard";
 import { SchemaScript } from "@/components/SchemaScript";
 import { PROVIDER_AVAILABILITY_NOTE } from "@/lib/disclosures";
@@ -15,14 +16,14 @@ import {
 export const metadata = buildMetadata({
   title: "Local Provider Network",
   description:
-    "Independent local providers in the Berks Property Response network — Apex Drain Services, Ridge Line Plumbing, and RHI Pros.",
+    "Independent local providers Berks Property Response may connect you with in Berks County.",
   path: "/local-partners",
 });
 
 const providerNotes: Record<string, string> = {
-  apex: "Drain cleaning, sewer backups, main line clogs, hydro jetting, and urgent drain or sewer issues.",
-  evan: "Smaller plumbing and fixture-level repairs — toilets, faucets, supply lines, shutoff valves, and basic leaks.",
-  rhi: "Water damage repair, drywall, paint, flooring, ceilings, demo, and build-back after leaks or property damage.",
+  apex: "Drain cleaning, sewer backups, main line clogs, hydro jetting, and urgent drain issues.",
+  evan: "Smaller plumbing and fixture-level repairs — toilets, faucets, supply lines, and basic leaks.",
+  rhi: "Water damage repair, drywall, paint, flooring, ceilings, and build-back after leaks.",
 };
 
 export default function LocalPartnersPage() {
@@ -31,7 +32,7 @@ export default function LocalPartnersPage() {
     organizationSchema(),
     webPageSchema({
       title: "Local Provider Network",
-      description: "Independent local providers Berks Property Response may connect you with in Berks County.",
+      description: "Independent local providers in Berks County.",
       path: "/local-partners",
     }),
     breadcrumbSchema(crumbs)
@@ -41,21 +42,37 @@ export default function LocalPartnersPage() {
     <>
       <SchemaScript schemas={schemas} />
       <Breadcrumbs items={crumbs} />
-      <section className="px-4 py-10">
-        <div className="mx-auto max-w-6xl">
-          <h1 className="text-3xl font-semibold text-stone-900">Local Provider Network</h1>
-          <p className="mt-4 max-w-3xl text-stone-600">
-            Berks Property Response routes requests to independent local providers based on what
-            you describe. We do not perform the work directly. {/* PLACEHOLDER: Add provider bios/photos when available. */}
+      <section className="px-4 py-6 md:py-10">
+        <div className="mx-auto max-w-lg">
+          <h1 className="text-2xl font-semibold text-stone-900 md:text-3xl">
+            Local provider network
+          </h1>
+          <p className="mt-2 text-stone-600">
+            Berks Property Response connects you with independent local specialists based on your
+            request. We do not perform the work directly.
           </p>
-          <div className="mt-8 grid gap-6 md:grid-cols-3">
-            <ProviderCard provider={providers.apex} note={providerNotes.apex} />
-            <ProviderCard provider={providers.evan} note={providerNotes.evan} />
-            <ProviderCard provider={providers.rhi} note={providerNotes.rhi} />
+
+          <div className="mt-5">
+            <HubQuickActions />
           </div>
+
+          <div className="mt-8 space-y-4">
+            <ProviderCard provider={providers.apex} note={providerNotes.apex} intakeOnly />
+            <ProviderCard provider={providers.evan} note={providerNotes.evan} intakeOnly />
+            <ProviderCard provider={providers.rhi} note={providerNotes.rhi} intakeOnly />
+          </div>
+
           <p className="mt-6 text-sm text-stone-600">{PROVIDER_AVAILABILITY_NOTE}</p>
-          <div className="mt-8">
-            <DisclosureBlock />
+
+          <Link
+            href="/request-help"
+            className="btn-touch-lg mt-6 block rounded-xl bg-stone-900 py-4 text-center font-semibold text-white active:bg-stone-800"
+          >
+            Send a request
+          </Link>
+
+          <div className="mt-4">
+            <HubDisclosureLine />
           </div>
         </div>
       </section>

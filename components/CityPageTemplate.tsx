@@ -10,8 +10,8 @@ import {
   webPageSchema,
 } from "@/lib/schema";
 import { Breadcrumbs } from "./Breadcrumbs";
-import { CityRoutingSection } from "./CityRoutingSection";
-import { CTASection } from "./CTASection";
+import { EmergencyCallBanner, HubDisclosureLine, HubQuickActions } from "./ConversionHub";
+import { FormSymptomPicker } from "./FormSymptomPicker";
 import { FAQ } from "./FAQ";
 import { LeadForm } from "./LeadForm";
 import { SchemaScript } from "./SchemaScript";
@@ -23,6 +23,12 @@ export function generateCityMetadata(city: CityPage) {
     path: `/service-areas/${city.slug}`,
   });
 }
+
+const citySymptoms = [
+  { label: "Sewer or drain backup", problem: "drain-emergency" as const },
+  { label: "Leak or plumbing issue", problem: "plumbing-leak" as const },
+  { label: "Damage after a leak", problem: "water-damage" as const },
+];
 
 export function CityPageTemplate({ city }: { city: CityPage }) {
   const crumbs = breadcrumbItems([
@@ -46,50 +52,66 @@ export function CityPageTemplate({ city }: { city: CityPage }) {
       <SchemaScript schemas={schemas} />
       <Breadcrumbs items={crumbs} />
 
-      <section className="px-4 py-10">
-        <div className="mx-auto max-w-2xl">
-          <h1 className="text-3xl font-semibold text-stone-900">{city.headline}</h1>
-          <p className="mt-4 text-lg text-stone-600">{city.intro}</p>
-          <p className="mt-4 leading-relaxed text-stone-700">{city.localContext}</p>
+      <section className="px-4 py-6 md:py-10">
+        <div className="mx-auto max-w-lg">
+          <h1 className="text-2xl font-semibold text-stone-900 md:text-3xl">{city.headline}</h1>
+          <p className="mt-2 text-stone-600">{city.intro}</p>
 
-          {city.neighborhoods && (
-            <p className="mt-4 text-sm text-stone-500">
-              Areas referenced: {city.neighborhoods.join(", ")}
-            </p>
-          )}
+          <div className="mt-5">
+            <EmergencyCallBanner headline="Active backup or leak in your home?" />
+          </div>
+          <div className="mt-3">
+            <HubQuickActions callPrimary />
+          </div>
 
-          <CityRoutingSection cityName={city.name} />
+          <div className="mt-8">
+            <FormSymptomPicker title="What's going on?" options={citySymptoms} />
+          </div>
 
-          <h2 className="mt-8 text-lg font-semibold text-stone-900">
-            Related help in {city.name}
-          </h2>
-          <ul className="mt-4 space-y-2">
-            {city.serviceLinks.map((link) => (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  className="text-stone-800 underline-offset-2 hover:underline"
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-
-          <div className="mt-10 border-t border-stone-200 pt-10">
-            <Suspense fallback={<div className="h-96 animate-pulse rounded-lg bg-stone-100" />}>
+          <div id="get-help" className="mt-10 scroll-mt-6 border-t border-stone-200 pt-8">
+            <h2 className="text-lg font-semibold text-stone-900">Send a request</h2>
+            <Suspense fallback={<div className="h-80 animate-pulse rounded-2xl bg-stone-100" />}>
               <LeadForm
                 pageType="city"
                 serviceCategory="general"
                 defaultService={`Help in ${city.name}, PA`}
+                defaultCity={city.name}
               />
             </Suspense>
+            <div className="mt-4">
+              <HubDisclosureLine />
+            </div>
           </div>
+
+          {city.neighborhoods && (
+            <p className="mt-8 text-sm text-stone-500">
+              Areas referenced: {city.neighborhoods.join(", ")}
+            </p>
+          )}
+
+          <details className="mt-6 rounded-xl border border-stone-200 bg-stone-50 px-4 py-3">
+            <summary className="cursor-pointer text-sm font-medium text-stone-800">
+              More about help in {city.name}
+            </summary>
+            <p className="mt-3 text-sm leading-relaxed text-stone-700">{city.localContext}</p>
+            <h3 className="mt-4 text-sm font-semibold text-stone-900">Common requests</h3>
+            <ul className="mt-2 space-y-1.5">
+              {city.serviceLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="text-sm text-stone-800 underline-offset-2 hover:underline"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </details>
         </div>
       </section>
 
       <FAQ items={city.faqs} title={`${city.name} questions`} />
-      <CTASection title={`Need help in ${city.name}?`} />
     </>
   );
 }

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { REFERRAL_DISCLOSURE_FULL } from "@/lib/disclosures";
+import { REFERRAL_DISCLOSURE_INLINE } from "@/lib/disclosures";
 import {
   FOOTER_ABOUT_LINKS,
   FOOTER_SERVICE_LINKS,
@@ -58,7 +58,11 @@ export function Footer() {
       </div>
       <div className="border-t border-stone-800 px-4 py-6">
         <p className="mx-auto max-w-lg text-xs leading-relaxed text-stone-500 md:max-w-5xl">
-          {REFERRAL_DISCLOSURE_FULL}
+          {REFERRAL_DISCLOSURE_INLINE}{" "}
+          <Link href="/disclosure" className="underline hover:text-stone-400">
+            Full disclosure
+          </Link>
+          .
         </p>
         <p className="mx-auto mt-4 max-w-lg text-xs text-stone-600 md:max-w-5xl">
           © {new Date().getFullYear()} {SITE_NAME}

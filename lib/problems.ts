@@ -1,31 +1,37 @@
+import type { ProblemTypeId } from "./problemTypes";
+
 export const triageCards = [
   {
     title: "Emergency drain or sewer backup",
-    description: "Sewage, multiple drains clogged, floor drain overflow, or main line symptoms.",
+    description: "Sewage, multiple drains, or floor drain overflow.",
     href: "/emergency",
+    problem: "drain-emergency" as ProblemTypeId,
     icon: "drain",
-    cta: "Need drain or sewer help?",
+    cta: "Get emergency help",
   },
   {
     title: "Small plumbing leak or fixture issue",
-    description: "Toilet, faucet, supply line, shutoff valve, or isolated fixture repair.",
+    description: "Toilet, faucet, or leak at one fixture.",
     href: "/plumbing-and-leaks",
+    problem: "plumbing-leak" as ProblemTypeId,
     icon: "plumbing",
-    cta: "Request plumbing leak help",
+    cta: "Get plumbing help",
   },
   {
-    title: "Water damage or repair / build-back",
-    description: "Drywall, flooring, ceiling, paint, or property repair after the source is stopped.",
+    title: "Water damage or repair after a leak",
+    description: "Drywall, flooring, ceiling, or build-back repair.",
     href: "/after-leak",
+    problem: "water-damage" as ProblemTypeId,
     icon: "water-damage",
-    cta: "Request water damage repair help",
+    cta: "Get repair help",
   },
   {
-    title: "Storm, fire, mold, or other major issue",
-    description: "We review whether a suitable local provider connection exists — not a guaranteed direct service.",
+    title: "Storm, fire, mold, or major issue",
+    description: "Tell us what happened — we review your request.",
     href: "/storm-fire-mold-help",
+    problem: "major-property" as ProblemTypeId,
     icon: "major",
-    cta: "Tell us what's going on",
+    cta: "Send details",
   },
 ] as const;
 

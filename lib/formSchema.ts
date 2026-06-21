@@ -35,11 +35,16 @@ export const leadFormSchema = z.object({
   name: z.string().min(2, "Name is required"),
   phone: z.string().min(10, "Valid phone number is required"),
   city: z.string().min(2, "City is required"),
-  zip: z.string().min(5, "ZIP code is required"),
-  problemDescription: z.string().min(10, "A short description helps us help you"),
+  zip: z
+    .string()
+    .optional()
+    .or(z.literal(""))
+    .refine((v) => !v || v.replace(/\D/g, "").length >= 5, {
+      message: "Enter a valid ZIP or leave blank",
+    }),
+  problemDescription: z.string().min(5, "A few words about the problem helps"),
   urgency: z.enum(urgencyLevels).optional(),
   email: z.string().email("Valid email is required").optional().or(z.literal("")),
-  photoUpload: z.any().optional(),
   /** Derived or prefilled — not shown on the simplified form */
   propertyType: z.enum(propertyTypes).optional(),
   serviceRequested: z.string().optional(),

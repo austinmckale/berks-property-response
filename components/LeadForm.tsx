@@ -16,8 +16,9 @@ import {
   problemTypeOptions,
   type ProblemTypeId,
 } from "@/lib/problemTypes";
-import { PHONE_NUMBER } from "@/lib/siteConfig";
-import { phoneHref } from "@/lib/tracking";
+import { isProblemTypeId } from "@/lib/intakeLinks";
+import { PHONE_NUMBER, TEXT_NUMBER } from "@/lib/siteConfig";
+import { phoneHref, smsHref } from "@/lib/tracking";
 
 interface LeadFormProps {
   pageType?: string;
@@ -25,6 +26,9 @@ interface LeadFormProps {
   defaultRoute?: string;
   defaultService?: string;
   initialProblemType?: ProblemTypeId;
+  defaultCity?: string;
+  /** When true, step 1 lives outside the form (e.g. homepage triage cards) */
+  externalProblemSelection?: boolean;
 }
 
 export function LeadForm({
@@ -33,6 +37,8 @@ export function LeadForm({
   defaultRoute = "",
   defaultService = "",
   initialProblemType,
+  defaultCity = "",
+  externalProblemSelection = false,
 }: LeadFormProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -49,7 +55,6 @@ export function LeadForm({
     handleSubmit,
     setValue,
     watch,
-    trigger,
     formState: { errors },
   } = useForm<LeadFormData>({
     resolver: zodResolver(leadFormSchema),
@@ -58,6 +63,7 @@ export function LeadForm({
       urgency: initialProblemType
         ? getProblemType(initialProblemType).urgency
         : undefined,
+      city: defaultCity || undefined,
       smsOptIn: false,
     },
   });
@@ -85,6 +91,11 @@ export function LeadForm({
 
   const selectedProblem = watch("problemType");
   const isEmergency = watch("urgency") === "emergency";
+  const skipStep1 = Boolean(initialProblemType) || externalProblemSelection;
+  /** Problem type implies urgency — skip redundant urgency/condition fields */
+  const showCompactStep2 = Boolean(selectedProblem);
+  const showFormStep =
+    step === 2 && (!externalProblemSelection || Boolean(selectedProblem));
 
   useEffect(() => {
     setValue("landingPage", pathname);
@@ -102,6 +113,31 @@ export function LeadForm({
   }, [pathname, pageType, serviceCategory, defaultRoute, searchParams, setValue]);
 
   useEffect(() => {
+    if (defaultCity) {
+      setValue("city", defaultCity);
+    }
+  }, [defaultCity, setValue]);
+
+  useEffect(() => {
+    const problemParam = searchParams.get("problem");
+    if (problemParam && isProblemTypeId(problemParam)) {
+      const option = getProblemType(problemParam);
+      setValue("problemType", problemParam, { shouldValidate: true });
+      setValue("urgency", option.urgency);
+      setValue("serviceCategory", option.serviceCategory);
+      setValue("defaultRoute", option.defaultRoute);
+      setStep(2);
+    }
+  }, [searchParams, setValue]);
+
+  useEffect(() => {
+    const cityParam = searchParams.get("city");
+    if (cityParam) {
+      setValue("city", cityParam);
+    }
+  }, [searchParams, setValue]);
+
+  useEffect(() => {
     if (activeConditions.includes("sewage")) {
       setValue("waterOrSewagePresent", "yes");
     }
@@ -113,14 +149,11 @@ export function LeadForm({
     setValue("urgency", option.urgency);
     setValue("serviceCategory", option.serviceCategory);
     setValue("defaultRoute", option.defaultRoute);
-  }
-
-  async function goToStep2() {
-    const valid = await trigger("problemType");
-    if (valid) {
-      setStep(2);
-      if (typeof window !== "undefined") {
-        window.scrollTo({ top: 0, behavior: "smooth" });
+    setStep(2);
+    if (typeof window !== "undefined") {
+      const anchor = document.getElementById("get-help");
+      if (anchor) {
+        anchor.scrollIntoView({ behavior: "smooth", block: "start" });
       }
     }
   }
@@ -169,9 +202,15 @@ export function LeadForm({
           We&apos;re on it.
         </h3>
         <p className="mt-3 text-green-900 leading-relaxed">
-          Thanks for reaching out. Berks Property Response will review your request and an
-          independent local provider may contact you about availability and next steps. There is
-          no obligation to hire.
+          Thanks for reaching out. We&apos;ll review your request and a local pro may call or text
+          you about availability and next steps. There is no obligation to hire.
+        </p>
+        <p className="mt-3 text-sm text-green-800">
+          Need to send photos?{" "}
+          <a href={smsHref(TEXT_NUMBER)} className="font-medium underline">
+            Text them to {TEXT_NUMBER}
+          </a>
+          .
         </p>
         {isEmergency && (
           <div className="mt-6 rounded-lg bg-red-600 p-4 text-center">
@@ -202,18 +241,20 @@ export function LeadForm({
 
   return (
     <div className="-mx-0 rounded-2xl border border-stone-200 bg-white shadow-sm md:mx-0">
-      <div className="border-b border-stone-100 px-4 py-3 md:px-6 md:py-4">
-        <div className="flex items-center gap-3">
-          <StepDot active={step >= 1} done={step > 1} label="1" />
-          <div className="h-px flex-1 bg-stone-200" />
-          <StepDot active={step >= 2} done={false} label="2" />
+      {!skipStep1 && (
+        <div className="border-b border-stone-100 px-4 py-3 md:px-6 md:py-4">
+          <div className="flex items-center gap-3">
+            <StepDot active={step >= 1} done={step > 1} label="1" />
+            <div className="h-px flex-1 bg-stone-200" />
+            <StepDot active={step >= 2} done={false} label="2" />
+          </div>
+          <p className="mt-3 text-xs font-medium uppercase tracking-wide text-stone-500">
+            Step {step} of 2
+          </p>
         </div>
-        <p className="mt-3 text-xs font-medium uppercase tracking-wide text-stone-500">
-          Step {step} of 2
-        </p>
-      </div>
+      )}
 
-      {step === 1 && (
+      {step === 1 && !externalProblemSelection && (
         <div className="p-4 md:p-6">
           <h3 className="text-lg font-semibold text-stone-900 md:text-xl">
             Tell us what&apos;s going on
@@ -248,27 +289,30 @@ export function LeadForm({
           {errors.problemType && (
             <p className={`${errorClass} mt-3`}>{errors.problemType.message}</p>
           )}
-          <button
-            type="button"
-            onClick={goToStep2}
-            className="btn-touch-lg mt-5 w-full rounded-xl bg-stone-900 text-base font-semibold text-white active:bg-stone-800"
-          >
-            Continue — tell us more
-          </button>
         </div>
       )}
 
-      {step === 2 && (
+      {externalProblemSelection && !selectedProblem && (
+        <div className="p-6 text-center">
+          <p className="text-sm text-stone-600">
+            Tap a category above to continue with your request.
+          </p>
+        </div>
+      )}
+
+      {showFormStep && (
         <form onSubmit={handleSubmit(onSubmit)} className="p-4 md:p-6">
-          <button
-            type="button"
-            onClick={() => setStep(1)}
-            className="btn-touch min-h-[2.75rem] text-sm font-medium text-stone-600 active:text-stone-900"
-          >
-            ← Change problem type
-          </button>
-          <h3 className="mt-3 text-lg font-semibold text-stone-900 md:mt-4 md:text-xl">
-            How can we reach you?
+          {!skipStep1 && (
+            <button
+              type="button"
+              onClick={() => setStep(1)}
+              className="btn-touch min-h-[2.75rem] text-sm font-medium text-stone-600 active:text-stone-900"
+            >
+              ← Change problem type
+            </button>
+          )}
+          <h3 className={`text-lg font-semibold text-stone-900 md:text-xl ${skipStep1 ? "" : "mt-3 md:mt-4"}`}>
+            {showCompactStep2 ? "Quick request" : "How can we reach you?"}
           </h3>
           {selectedProblem && (
             <p className="mt-1 text-sm text-stone-600">
@@ -323,7 +367,7 @@ export function LeadForm({
               </div>
               <div>
                 <label className={labelClass} htmlFor="zip">
-                  ZIP
+                  ZIP <span className="font-normal text-stone-500">(optional)</span>
                 </label>
                 <input
                   id="zip"
@@ -352,6 +396,7 @@ export function LeadForm({
               )}
             </div>
 
+            {!showCompactStep2 && (
             <fieldset>
               <legend className={labelClass}>What&apos;s present right now? (optional)</legend>
               <div className="mt-2 space-y-2">
@@ -371,7 +416,9 @@ export function LeadForm({
                 ))}
               </div>
             </fieldset>
+            )}
 
+            {!showCompactStep2 && (
             <div>
               <label className={labelClass} htmlFor="urgency">
                 How urgent is this?
@@ -383,43 +430,42 @@ export function LeadForm({
                 <option value="estimate-only">Just researching / not urgent</option>
               </select>
             </div>
+            )}
 
+            {!showCompactStep2 && (
             <p className="text-sm text-stone-600">
-              Photos can help. After submitting, you may be asked to send pictures of the issue.
+              Photos help — text them after you submit using the link below.
             </p>
+            )}
 
             <details className="rounded-xl border border-stone-200 bg-stone-50 px-4 py-3">
               <summary className="cursor-pointer py-1 text-sm font-medium text-stone-700">
-                Add email or attach a photo (optional)
+                Add email (optional)
               </summary>
-              <div className="mt-4 space-y-4">
-                <div>
-                  <label className={labelClass} htmlFor="email">
-                    Email
-                  </label>
-                  <input
-                    id="email"
-                    type="email"
-                    autoComplete="email"
-                    className={inputClass}
-                    {...register("email")}
-                  />
-                  {errors.email && <p className={errorClass}>{errors.email.message}</p>}
-                </div>
-                <div>
-                  <label className={labelClass} htmlFor="photoUpload">
-                    Photo
-                  </label>
-                  <input
-                    id="photoUpload"
-                    type="file"
-                    accept="image/*"
-                    className="mt-1.5 text-sm text-stone-600"
-                    {...register("photoUpload")}
-                  />
-                </div>
+              <div className="mt-4">
+                <label className={labelClass} htmlFor="email">
+                  Email
+                </label>
+                <input
+                  id="email"
+                  type="email"
+                  autoComplete="email"
+                  className={inputClass}
+                  {...register("email")}
+                />
+                {errors.email && <p className={errorClass}>{errors.email.message}</p>}
               </div>
             </details>
+
+            {showCompactStep2 && (
+              <p className="text-sm text-stone-600">
+                Have photos?{" "}
+                <a href={smsHref(TEXT_NUMBER)} className="font-medium text-stone-900 underline">
+                  Text them to {TEXT_NUMBER}
+                </a>{" "}
+                after submitting.
+              </p>
+            )}
           </div>
 
           <input type="hidden" {...register("problemType")} />
@@ -448,24 +494,12 @@ export function LeadForm({
             </p>
           )}
 
-          <label className="mt-6 flex cursor-pointer items-start gap-3 rounded-xl border border-stone-200 bg-stone-50 p-4">
-            <input
-              type="checkbox"
-              className="mt-1 h-4 w-4 shrink-0 rounded border-stone-300 text-stone-900 focus:ring-stone-500"
-              {...register("smsOptIn")}
-            />
-            <span className="text-sm leading-relaxed text-stone-700">
-              I agree to receive calls or texts about my request. Consent is not a condition of
-              purchase.
-            </span>
-          </label>
-
           <button
             type="submit"
             disabled={submitStatus === "loading"}
             className="btn-touch-lg mt-6 w-full rounded-xl bg-stone-900 text-base font-semibold text-white active:bg-stone-800 disabled:opacity-50"
           >
-            {submitStatus === "loading" ? "Sending..." : "Start a property response request"}
+            {submitStatus === "loading" ? "Sending..." : "Send request"}
           </button>
           <p className="mt-4 text-xs leading-relaxed text-stone-500">
             {FORM_SUBMIT_FINE_PRINT}{" "}

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useMobileNav } from "@/components/MobileNavContext";
+import { getHelpHref } from "@/lib/intakeLinks";
 import { PHONE_NUMBER, TEXT_NUMBER } from "@/lib/siteConfig";
 import { phoneHref, smsHref } from "@/lib/tracking";
 
@@ -14,6 +15,8 @@ export function StickyMobileCTA() {
   if (pathname === "/request-help" || menuOpen) {
     return null;
   }
+
+  const helpHref = getHelpHref(pathname);
 
   return (
     <div
@@ -39,7 +42,7 @@ export function StickyMobileCTA() {
           Text
         </a>
         <Link
-          href="/request-help"
+          href={helpHref}
           data-analytics-event="click_request_help"
           data-analytics-source="sticky_mobile"
           className="btn-touch-fill rounded-xl border-2 border-stone-300 bg-white text-stone-900 active:bg-stone-50"

@@ -1,15 +1,11 @@
 import { Suspense } from "react";
-import { CTASection } from "@/components/CTASection";
-import { DisclosureBlock } from "@/components/DisclosureBlock";
 import { FAQ } from "@/components/FAQ";
 import { Hero } from "@/components/Hero";
-import { HomeSteps } from "@/components/HomeSteps";
 import { LeadForm } from "@/components/LeadForm";
-import { ProviderRouting } from "@/components/ProviderRouting";
 import { SchemaScript } from "@/components/SchemaScript";
 import { ServiceAreaLinks } from "@/components/ServiceAreaLinks";
-import { SymptomCards, TriageCards } from "@/components/TriageCards";
-import { TrustSection } from "@/components/TrustSection";
+import { TriageCards } from "@/components/TriageCards";
+import { HubDisclosureLine } from "@/components/ConversionHub";
 import { homeFaqs } from "@/lib/homeFaqs";
 import { homeMetadata } from "@/lib/seo";
 import {
@@ -19,7 +15,6 @@ import {
   webPageSchema,
   websiteSchema,
 } from "@/lib/schema";
-import { TAGLINE } from "@/lib/siteConfig";
 
 export const metadata = homeMetadata();
 
@@ -29,7 +24,8 @@ export default function HomePage() {
     websiteSchema(),
     webPageSchema({
       title: "Berks Property Response",
-      description: TAGLINE,
+      description:
+        "Drain backup, plumbing leak, or water damage in Berks County? Call now or send a quick request.",
       path: "/",
     }),
     faqSchema(homeFaqs)
@@ -39,42 +35,32 @@ export default function HomePage() {
     <>
       <SchemaScript schemas={schemas} />
       <Hero
-        headline="Not sure who to call for a leak, drain backup, water damage, or property repair issue?"
-        subheadline="Berks Property Response helps route Berks County homeowners to the right local provider. One request — we review it and connect you with independent local help."
+        headline="Drain backup, leak, or water damage in Berks County?"
+        subheadline="Call now or pick what happened below."
         showEmergency
         showTrustLine
       />
       <TriageCards />
-      <SymptomCards />
-      <HomeSteps />
-      <TrustSection />
-      <ProviderRouting />
-      <section className="border-t border-stone-200 bg-white px-4 py-10 md:py-12">
-        <div className="mx-auto max-w-xl">
-          <h2 className="text-center text-xl font-semibold text-stone-900 md:text-2xl">
-            Start a property response request
+      <section id="get-help" className="border-t border-stone-200 bg-stone-50 px-4 py-8 md:py-10">
+        <div className="mx-auto max-w-lg">
+          <h2 className="text-center text-xl font-semibold text-stone-900">
+            Send a quick request
           </h2>
-          <p className="mt-2 text-center text-sm text-stone-600">
-            Tell us what&apos;s going on. No obligation to hire.
+          <p className="mt-1 text-center text-sm text-stone-600">
+            Pick a category above first, then add your details.
           </p>
-          <div className="mt-6">
-            <Suspense fallback={<div className="h-96 animate-pulse rounded-lg bg-stone-100" />}>
-              <LeadForm pageType="home" />
+          <div className="mt-5">
+            <Suspense fallback={<div className="h-72 animate-pulse rounded-2xl bg-stone-100" />}>
+              <LeadForm pageType="home" externalProblemSelection />
             </Suspense>
+          </div>
+          <div className="mt-4 text-center">
+            <HubDisclosureLine />
           </div>
         </div>
       </section>
       <ServiceAreaLinks />
-      <FAQ items={homeFaqs} title="Common questions" />
-      <section className="px-4 py-8 md:py-10">
-        <div className="mx-auto max-w-3xl">
-          <DisclosureBlock />
-        </div>
-      </section>
-      <CTASection
-        title="Get routed to the right local provider"
-        subtitle="Call, send details, or start a request — Berks County provider network."
-      />
+      <FAQ items={homeFaqs.slice(0, 4)} title="Quick answers" />
     </>
   );
 }

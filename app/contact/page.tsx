@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { SchemaScript } from "@/components/SchemaScript";
+import { HubLandingPage } from "@/components/HubLandingPage";
 import { breadcrumbItems, buildMetadata } from "@/lib/seo";
 import {
   breadcrumbSchema,
@@ -8,13 +8,13 @@ import {
   organizationSchema,
   webPageSchema,
 } from "@/lib/schema";
-import { PHONE_NUMBER, SITE_NAME } from "@/lib/siteConfig";
-import { phoneHref } from "@/lib/tracking";
+import { PHONE_NUMBER, TEXT_NUMBER } from "@/lib/siteConfig";
+import { phoneHref, smsHref } from "@/lib/tracking";
 
 export const metadata = buildMetadata({
   title: "Contact",
   description:
-    "Contact Berks Property Response for plumbing, drain, sewer, water damage, and repair help in Berks County. Call, text, or use the request form.",
+    "Contact Berks Property Response for plumbing, drain, and repair help in Berks County.",
   path: "/contact",
 });
 
@@ -33,28 +33,38 @@ export default function ContactPage() {
   return (
     <>
       <SchemaScript schemas={schemas} />
-      <Breadcrumbs items={crumbs} />
-      <section className="px-4 py-10">
-        <div className="mx-auto max-w-2xl">
-          <h1 className="text-3xl font-semibold text-stone-900">Contact</h1>
-          <p className="mt-4 text-stone-600">
-            Need help with a plumbing, drain, or repair issue in Berks County? Call, text photos, or use the request form.
-          </p>
-          <div className="mt-8 space-y-4 text-stone-700">
+      <HubLandingPage
+        breadcrumbs={crumbs}
+        title="Contact"
+        subtitle="Call or text for the fastest response."
+        variant="emergency"
+        emergencyHeadline="Need help right now?"
+        showForm={false}
+        middle={
+          <div className="space-y-2 text-sm text-stone-700">
             <p>
               <strong>Phone:</strong>{" "}
-              <a href={phoneHref(PHONE_NUMBER)} className="font-medium text-stone-900 underline hover:text-stone-600">
+              <a href={phoneHref(PHONE_NUMBER)} className="font-medium underline">
                 {PHONE_NUMBER}
               </a>
             </p>
             <p>
-              <Link href="/request-help" className="font-medium text-stone-900 underline hover:text-stone-600">
-                Submit a request form →
-              </Link>
+              <strong>Text:</strong>{" "}
+              <a href={smsHref(TEXT_NUMBER)} className="font-medium underline">
+                {TEXT_NUMBER}
+              </a>
             </p>
           </div>
-        </div>
-      </section>
+        }
+        footer={
+          <Link
+            href="/request-help"
+            className="btn-touch-lg block rounded-xl bg-stone-900 py-4 text-center text-base font-semibold text-white active:bg-stone-800"
+          >
+            Send a request online
+          </Link>
+        }
+      />
     </>
   );
 }

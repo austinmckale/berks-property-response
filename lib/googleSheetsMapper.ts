@@ -59,7 +59,7 @@ export function mapToGoogleSheetRow(
     email: form.email ?? "",
     street_address: form.streetAddress ?? "",
     city: form.city,
-    zip: form.zip,
+    zip: form.zip ?? "",
     property_type: form.propertyType ?? "residential",
     service_requested: form.serviceRequested ?? form.problemDescription,
     urgency: form.urgency ?? "same-day",
