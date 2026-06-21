@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
 import { leadFormSchema } from "@/lib/formSchema";
+import { captureLead } from "@/lib/leadCapture";
 import { mapToGoogleSheetRow } from "@/lib/googleSheetsMapper";
-import { notifyLeadSubmitted } from "@/lib/leadNotifications";
 import { getProblemType } from "@/lib/problemTypes";
 import { routeLead } from "@/lib/routing";
 import { mapToWebhookPayload } from "@/lib/webhookMapper";
+import { PHONE_NUMBER } from "@/lib/siteConfig";
 
 export async function POST(request: Request) {
   try {
@@ -40,25 +41,26 @@ export async function POST(request: Request) {
     const sheetRow = mapToGoogleSheetRow(form, routing);
     const webhookPayload = mapToWebhookPayload(form, routing, sheetRow);
 
-    const notificationResults = await notifyLeadSubmitted({ form, routing });
-
-    if (process.env.LEAD_WEBHOOK_URL) {
-      await fetch(process.env.LEAD_WEBHOOK_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(webhookPayload),
-      }).catch(() => {
-        // Webhook failures should not block user confirmation
-      });
-    }
+    const capture = await captureLead({ form, routing, webhookPayload });
 
     if (process.env.NODE_ENV === "development") {
-      console.log("[lead]", { routing, sheetRow, notificationResults });
+      console.log("[lead]", { routing, sheetRow, capture });
+    }
+
+    if (!capture.captured) {
+      return NextResponse.json(
+        {
+          error: `We could not save your request. Please call ${PHONE_NUMBER} so we can help right away.`,
+          leadId: routing.leadId,
+        },
+        { status: 503 }
+      );
     }
 
     return NextResponse.json({
       success: true,
       routing,
+      leadId: routing.leadId,
       message: "Request received.",
     });
   } catch {

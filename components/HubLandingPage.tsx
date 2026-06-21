@@ -4,7 +4,7 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import {
   EmergencyCallBanner,
   HubDisclosureLine,
-  HubQuickActions,
+  PageIntakeCue,
 } from "@/components/ConversionHub";
 import {
   FormSymptomPicker,
@@ -51,8 +51,8 @@ export function HubLandingPage({
   middle,
   symptoms,
   symptomTitle,
-  formTitle = "Send a request",
-  formSubtitle = "Name, phone, city, and what happened.",
+  formTitle = "Request local help",
+  formSubtitle = "Name, phone, city, and a short description of what's happening.",
   form,
   showForm = true,
   footer,
@@ -60,23 +60,27 @@ export function HubLandingPage({
   return (
     <>
       <Breadcrumbs items={breadcrumbs} />
-      <section className="px-4 py-5 md:py-8">
-        <div className="mx-auto max-w-lg">
+      <section className="px-4 py-6 md:py-10">
+        <div className="page-container">
           <h1 className="text-2xl font-semibold text-stone-900 md:text-3xl">{title}</h1>
           <p className="mt-2 text-stone-600">{subtitle}</p>
 
           <div className="mt-5">
             {variant === "emergency" ? (
-              <>
-                <EmergencyCallBanner headline={emergencyHeadline} />
-                <div className="mt-3">
-                  <HubQuickActions callPrimary />
-                </div>
-              </>
+              <EmergencyCallBanner headline={emergencyHeadline} />
             ) : (
-              <HubQuickActions />
+              <PageIntakeCue />
             )}
           </div>
+          {variant === "emergency" && (
+            <p className="mt-3 text-sm text-stone-600">
+              Prefer not to call?{" "}
+              <a href="#get-help" className="font-medium text-stone-900 underline">
+                Send a request below
+              </a>
+              <span className="md:hidden"> or use the bottom bar</span>.
+            </p>
+          )}
 
           {alert && <div className="mt-5">{alert}</div>}
 

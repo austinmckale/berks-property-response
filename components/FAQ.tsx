@@ -16,7 +16,7 @@ export function FAQ({ items, title = "Questions" }: FAQProps) {
   return (
     <section className="border-t border-stone-200 px-4 py-10">
       <div className="mx-auto max-w-2xl">
-        <h2 className="text-lg font-semibold text-stone-900">{title}</h2>
+        <h2 className="font-display text-lg font-semibold text-stone-900 md:text-xl">{title}</h2>
         <dl className="mt-6 space-y-6">
           {items.map((item) => (
             <div key={item.question}>

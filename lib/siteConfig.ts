@@ -23,24 +23,25 @@ export const TAGLINE =
   "Local intake and matching for drain backups, plumbing leaks, water damage, repair work, and urgent property issues across Berks County.";
 
 export const SITE_SUBTITLE =
-  "Berks County property response intake — drains, plumbing, water damage, and repair help";
+  "Local intake and routing for Berks County homeowners — drains, plumbing, water damage, and property repair help.";
 
-/** Primary header nav — keep short for emergency users */
+/** Primary header nav */
 export const HEADER_NAV_LINKS = [
+  { href: "/", label: "Home" },
   { href: "/emergency", label: "Emergency Help" },
-  { href: "/request-help", label: "Get Help" },
   { href: "/drains", label: "Drain & Sewer" },
   { href: "/plumbing-and-leaks", label: "Plumbing & Leaks" },
   { href: "/after-leak", label: "Water Damage & Repairs" },
 ] as const;
 
-/** Secondary links — menu and footer */
+/** Secondary links — hamburger menu */
 export const MORE_NAV_LINKS = [
   { href: "/storm-fire-mold-help", label: "Storm / Fire / Mold" },
   { href: "/service-areas", label: "Service Areas" },
   { href: "/how-it-works", label: "How It Works" },
-  { href: "/contact", label: "Contact" },
 ] as const;
+
+export const REQUEST_HELP_LINK = { href: "/request-help", label: "Request Help" } as const;
 
 /** @deprecated Use HEADER_NAV_LINKS + MORE_NAV_LINKS */
 export const NAV_LINKS = [...HEADER_NAV_LINKS, ...MORE_NAV_LINKS] as const;
@@ -60,11 +61,13 @@ export const FOOTER_SERVICE_LINKS = [
 ] as const;
 
 export const FOOTER_ABOUT_LINKS = [
-  { href: "/how-it-works", label: "How it works" },
-  { href: "/local-partners", label: "Local provider network" },
+  { href: "/request-help", label: "Request Help" },
+  { href: "/how-it-works", label: "How It Works" },
+  { href: "/service-areas", label: "Service Areas" },
+  { href: "/local-partners", label: "Local Provider Network" },
   { href: "/disclosure", label: "Disclosure" },
   { href: "/contact", label: "Contact" },
-  { href: "/privacy-policy", label: "Privacy" },
+  { href: "/privacy-policy", label: "Privacy Policy" },
   { href: "/terms", label: "Terms" },
 ] as const;
 

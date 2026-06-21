@@ -180,8 +180,10 @@ export function LeadForm({
         body: JSON.stringify(payload),
       });
       const json = await res.json();
-      if (!res.ok) throw new Error(json.error ?? "Submission failed");
-      setRouteResult(json.routing ?? null);
+      if (!res.ok || !json.success) {
+        throw new Error(json.error ?? "Submission failed");
+      }
+      setRouteResult(json.routing ?? { leadId: json.leadId });
       setSubmitStatus("success");
       trackEvent("generate_lead", {
         page_type: pageType,
@@ -193,27 +195,47 @@ export function LeadForm({
   }
 
   if (submitStatus === "success") {
+    const leadId = (routeResult as { leadId?: string })?.leadId;
     return (
-      <div className="rounded-2xl border border-green-200 bg-green-50 p-8">
-        <p className="text-sm font-medium uppercase tracking-wide text-green-800">
-          Request received
-        </p>
-        <h3 className="mt-2 text-2xl font-semibold text-green-950">
-          We&apos;re on it.
-        </h3>
-        <p className="mt-3 text-green-900 leading-relaxed">
-          Thanks for reaching out. We&apos;ll review your request and a local pro may call or text
-          you about availability and next steps. There is no obligation to hire.
+      <div className="card-elevated border-green-200 bg-green-50 p-6 md:p-8">
+        <div className="flex items-start gap-3">
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-green-600 text-sm font-bold text-white">
+            ✓
+          </span>
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-wide text-green-800">
+              Request received
+            </p>
+            <h3 className="mt-1 text-xl font-semibold text-green-950 md:text-2xl">
+              We&apos;re on it.
+            </h3>
+          </div>
+        </div>
+        {leadId && (
+          <p className="mt-4 rounded-lg border border-green-200 bg-white px-4 py-3 text-sm text-green-900">
+            <span className="font-medium text-green-800">Your reference ID</span>
+            <span className="mt-1 block font-mono text-base font-semibold tracking-tight">
+              {leadId}
+            </span>
+          </p>
+        )}
+        <p className="mt-4 leading-relaxed text-green-900">
+          A local independent provider may call or text you about availability and next steps.
+          There is no obligation to hire.
         </p>
         <p className="mt-3 text-sm text-green-800">
-          Need to send photos?{" "}
-          <a href={smsHref(TEXT_NUMBER)} className="font-medium underline">
+          Have photos?{" "}
+          <a href={smsHref(TEXT_NUMBER)} className="font-semibold underline">
             Text them to {TEXT_NUMBER}
           </a>
           .
         </p>
+        <p className="mt-3 text-xs leading-relaxed text-green-700">
+          Berks Property Response does not perform the work directly — we route your request to
+          independent local providers.
+        </p>
         {isEmergency && (
-          <div className="mt-6 rounded-lg bg-red-600 p-4 text-center">
+          <div className="mt-6 rounded-xl bg-red-600 p-4 text-center">
             <p className="text-sm font-medium text-white">
               Active backup or leak? Don&apos;t wait—call now.
             </p>
@@ -225,22 +247,17 @@ export function LeadForm({
             </a>
           </div>
         )}
-        {routeResult && (
-          <p className="mt-4 text-xs text-green-700">
-            Reference: {(routeResult as { leadId?: string }).leadId}
-          </p>
-        )}
       </div>
     );
   }
 
   const inputClass =
-    "mt-1.5 w-full rounded-xl border border-stone-300 bg-white px-4 py-3.5 text-base text-stone-900 placeholder:text-stone-400 focus:border-stone-500 focus:outline-none focus:ring-2 focus:ring-stone-200";
-  const labelClass = "block text-sm font-medium text-stone-800";
+    "mt-2 w-full rounded-xl border border-stone-300 bg-white px-4 py-3.5 text-base text-stone-900 shadow-sm placeholder:text-stone-400 focus:border-stone-600 focus:outline-none focus:ring-2 focus:ring-stone-200";
+  const labelClass = "block text-sm font-semibold text-stone-800";
   const errorClass = "mt-1.5 text-sm text-red-600";
 
   return (
-    <div className="-mx-0 rounded-2xl border border-stone-200 bg-white shadow-sm md:mx-0">
+    <div className="card-elevated overflow-hidden md:mx-0">
       {!skipStep1 && (
         <div className="border-b border-stone-100 px-4 py-3 md:px-6 md:py-4">
           <div className="flex items-center gap-3">
@@ -485,21 +502,21 @@ export function LeadForm({
           <input type="hidden" {...register("waterOrSewagePresent")} />
 
           {submitStatus === "error" && (
-            <p className="mt-4 text-sm text-red-600">
-              Something went wrong. Please{" "}
-              <a href={phoneHref(PHONE_NUMBER)} className="font-medium underline">
+            <div className="mt-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+              We couldn&apos;t save your request. Please{" "}
+              <a href={phoneHref(PHONE_NUMBER)} className="font-semibold underline">
                 call {PHONE_NUMBER}
               </a>{" "}
-              or try again.
-            </p>
+              or try again in a moment.
+            </div>
           )}
 
           <button
             type="submit"
             disabled={submitStatus === "loading"}
-            className="btn-touch-lg mt-6 w-full rounded-xl bg-stone-900 text-base font-semibold text-white active:bg-stone-800 disabled:opacity-50"
+            className="btn-touch-lg mt-6 w-full rounded-xl bg-brand text-base font-semibold text-white shadow-sm active:bg-brand-hover disabled:opacity-50"
           >
-            {submitStatus === "loading" ? "Sending..." : "Send request"}
+            {submitStatus === "loading" ? "Sending..." : "Request local help"}
           </button>
           <p className="mt-4 text-xs leading-relaxed text-stone-500">
             {FORM_SUBMIT_FINE_PRINT}{" "}

@@ -10,10 +10,11 @@ import {
   webPageSchema,
 } from "@/lib/schema";
 import { Breadcrumbs } from "./Breadcrumbs";
-import { EmergencyCallBanner, HubDisclosureLine, HubQuickActions } from "./ConversionHub";
+import { EmergencyCallBanner, HubDisclosureLine, PageIntakeCue } from "./ConversionHub";
 import { FormSymptomPicker } from "./FormSymptomPicker";
 import { FAQ } from "./FAQ";
 import { LeadForm } from "./LeadForm";
+import { RoutingInfoCards } from "@/components/RoutingStepsSection";
 import { SchemaScript } from "./SchemaScript";
 
 export function generateCityMetadata(city: CityPage) {
@@ -53,19 +54,26 @@ export function CityPageTemplate({ city }: { city: CityPage }) {
       <Breadcrumbs items={crumbs} />
 
       <section className="px-4 py-6 md:py-10">
-        <div className="mx-auto max-w-lg">
+        <div className="page-container">
           <h1 className="text-2xl font-semibold text-stone-900 md:text-3xl">{city.headline}</h1>
           <p className="mt-2 text-stone-600">{city.intro}</p>
 
           <div className="mt-5">
             <EmergencyCallBanner headline="Active backup or leak in your home?" />
+            <p className="mt-3 text-sm text-stone-600">
+              <a href="#get-help" className="font-medium text-stone-900 underline">
+                Send a request for {city.name}
+              </a>
+            </p>
           </div>
-          <div className="mt-3">
-            <HubQuickActions callPrimary />
-          </div>
+          <PageIntakeCue />
 
           <div className="mt-8">
             <FormSymptomPicker title="What's going on?" options={citySymptoms} />
+          </div>
+
+          <div className="mt-6">
+            <RoutingInfoCards />
           </div>
 
           <div id="get-help" className="mt-10 scroll-mt-6 border-t border-stone-200 pt-8">

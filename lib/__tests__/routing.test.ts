@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { isLeadId } from "@/lib/leadId";
 import { routeLead } from "@/lib/routing";
 
 describe("routeLead", () => {
@@ -13,6 +14,7 @@ describe("routeLead", () => {
     });
     expect(result.primaryRoute).toBe("apex");
     expect(result.leadScore).toBeGreaterThanOrEqual(50);
+    expect(isLeadId(result.leadId)).toBe(true);
     expect(result.payoutCategory).toBe("Apex emergency sewer lead");
   });
 

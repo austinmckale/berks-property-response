@@ -14,13 +14,31 @@ export default function Icon() {
           alignItems: "center",
           justifyContent: "center",
           background: "#1c1917",
-          color: "#fafaf9",
-          fontSize: 18,
-          fontWeight: 700,
-          borderRadius: 6,
+          borderRadius: 8,
+          position: "relative",
         }}
       >
-        B
+        <div
+          style={{
+            width: 0,
+            height: 0,
+            borderLeft: "7px solid transparent",
+            borderRight: "7px solid transparent",
+            borderBottom: "9px solid #fafaf9",
+            marginTop: 3,
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            top: 4,
+            right: 4,
+            width: 10,
+            height: 10,
+            borderRadius: "50%",
+            background: "#b45309",
+          }}
+        />
       </div>
     ),
     { ...size }

@@ -1,12 +1,12 @@
 import Link from "next/link";
-import { PHONE_NUMBER, TEXT_NUMBER } from "@/lib/siteConfig";
+import { PHONE_NUMBER } from "@/lib/siteConfig";
 import { TRUST_LINE } from "@/lib/disclosures";
-import { phoneHref, smsHref } from "@/lib/tracking";
+import { phoneHref } from "@/lib/tracking";
 
 interface HeroProps {
   headline: string;
   subheadline: string;
-  showEmergency?: boolean;
+  variant?: "home" | "emergency" | "standard";
   showTrustLine?: boolean;
   compact?: boolean;
 }
@@ -14,76 +14,97 @@ interface HeroProps {
 export function Hero({
   headline,
   subheadline,
-  showEmergency = false,
+  variant = "standard",
   showTrustLine = false,
   compact = false,
 }: HeroProps) {
+  const isHome = variant === "home";
+  const isEmergency = variant === "emergency";
+
   return (
     <section
-      className={`border-b border-stone-200 bg-stone-900 px-4 text-white ${compact ? "py-8 md:py-12" : "py-8 md:py-14"}`}
+      className={`hero-pattern relative overflow-hidden border-b border-stone-800 px-4 text-white ${
+        compact ? "py-10 md:py-12" : "py-12 md:py-16"
+      }`}
     >
-      <div className="mx-auto max-w-lg text-center md:max-w-2xl">
+      <div className="relative mx-auto max-w-2xl text-center">
         {showTrustLine && (
-          <p className="mb-4 text-sm leading-snug text-stone-400">{TRUST_LINE}</p>
+          <p className="eyebrow-light mb-4">{TRUST_LINE}</p>
         )}
-        <h1 className="text-balance text-[1.625rem] font-semibold leading-snug tracking-tight sm:text-3xl md:text-4xl">
+        <h1 className="font-display text-balance text-[1.875rem] font-semibold leading-[1.15] tracking-tight sm:text-4xl md:text-[2.75rem]">
           {headline}
         </h1>
-        <p className="mt-3 text-base leading-relaxed text-stone-300 md:text-lg">
+        <p className="mt-5 text-base leading-relaxed text-stone-300 md:text-lg">
           {subheadline}
         </p>
 
-        {showEmergency ? (
-          <div className="mt-6">
+        {isHome ? (
+          <div className="mt-9">
+            <Link
+              href="/request-help"
+              data-analytics-event="click_request_help"
+              data-analytics-source="hero"
+              className="btn-primary w-full sm:mx-auto sm:min-w-[14rem]"
+            >
+              Request help now
+            </Link>
+            <p className="mt-4 text-sm text-stone-400">
+              <Link href="/how-it-works" className="underline underline-offset-2 hover:text-stone-200">
+                How it works
+              </Link>
+              <span className="mx-2 text-stone-600">·</span>
+              <Link href="#get-help" className="underline underline-offset-2 hover:text-stone-200">
+                Send a request below
+              </Link>
+            </p>
+            <p className="mt-6 text-sm text-amber-100/90">
+              Active sewage or backup?{" "}
+              <a
+                href={phoneHref(PHONE_NUMBER)}
+                data-analytics-event="click_call"
+                data-analytics-source="hero_emergency"
+                className="font-semibold text-white underline underline-offset-2"
+              >
+                Call {PHONE_NUMBER}
+              </a>
+            </p>
+          </div>
+        ) : isEmergency ? (
+          <div className="mt-8">
             <a
               href={phoneHref(PHONE_NUMBER)}
               data-analytics-event="click_call"
               data-analytics-source="hero_emergency"
-              className="block rounded-2xl bg-red-600 px-5 py-5 active:bg-red-700"
+              className="block rounded-2xl bg-red-600 px-5 py-5 shadow-lg shadow-red-950/30 active:bg-red-700"
             >
-              <span className="text-sm font-semibold text-red-100">Active backup or sewage?</span>
-              <span className="mt-1 block text-3xl font-bold tracking-tight md:text-4xl">
+              <span className="text-sm font-semibold text-red-100">Tap to call now</span>
+              <span className="font-display mt-1 block text-3xl font-semibold tracking-tight md:text-4xl">
                 {PHONE_NUMBER}
               </span>
-              <span className="mt-1 block text-sm text-red-100">Tap to call</span>
             </a>
-            <div className="mt-3 grid grid-cols-2 gap-3">
-              <a
-                href={smsHref(TEXT_NUMBER)}
-                data-analytics-event="click_text"
-                data-analytics-source="hero"
-                className="btn-touch-lg rounded-xl bg-stone-800 text-sm font-semibold text-white active:bg-stone-700"
-              >
-                Text a photo
-              </a>
-              <Link
-                href="#get-help"
-                data-analytics-event="click_request_help"
-                data-analytics-source="hero"
-                className="btn-touch-lg rounded-xl border-2 border-stone-600 text-sm font-semibold text-white active:bg-stone-800"
-              >
-                Describe it
+            <p className="mt-4 text-sm text-stone-400">
+              Not able to call?{" "}
+              <Link href="#get-help" className="text-white underline underline-offset-2">
+                Send a request below
               </Link>
-            </div>
+            </p>
           </div>
         ) : (
-          <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
-            <a
-              href={phoneHref(PHONE_NUMBER)}
-              data-analytics-event="click_call"
-              data-analytics-source="hero"
-              className="btn-touch-lg rounded-xl bg-red-600 font-semibold text-white active:bg-red-700"
-            >
-              Call {PHONE_NUMBER}
-            </a>
+          <div className="mt-9">
             <Link
               href="#get-help"
               data-analytics-event="click_request_help"
               data-analytics-source="hero"
-              className="btn-touch-lg rounded-xl bg-white font-semibold text-stone-900 active:bg-stone-100"
+              className="btn-primary w-full sm:mx-auto sm:min-w-[14rem]"
             >
-              Tell us what happened
+              Request help now
             </Link>
+            <p className="mt-4 hidden text-sm text-stone-400 md:block">
+              Or call{" "}
+              <a href={phoneHref(PHONE_NUMBER)} className="text-white underline underline-offset-2">
+                {PHONE_NUMBER}
+              </a>
+            </p>
           </div>
         )}
       </div>

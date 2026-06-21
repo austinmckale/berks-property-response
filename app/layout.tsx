@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { DM_Sans, Fraunces } from "next/font/google";
 import { Footer } from "@/components/Footer";
 import { AnalyticsListener } from "@/components/AnalyticsListener";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
@@ -9,13 +9,13 @@ import { StickyMobileCTA } from "@/components/StickyMobileCTA";
 import { SITE_NAME, SITE_URL, TAGLINE } from "@/lib/siteConfig";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const dmSans = DM_Sans({
+  variable: "--font-dm-sans",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
   subsets: ["latin"],
 });
 
@@ -41,10 +41,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
+    <html lang="en" className={`${dmSans.variable} ${fraunces.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col pb-mobile-cta">
         <GoogleAnalytics />
         <AnalyticsListener />

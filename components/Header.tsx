@@ -3,16 +3,16 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
+import { BrandLogo } from "@/components/BrandLogo";
 import { useMobileNav } from "@/components/MobileNavContext";
 import {
   HEADER_NAV_LINKS,
   MORE_NAV_LINKS,
   PHONE_NUMBER,
-  SITE_NAME,
+  REQUEST_HELP_LINK,
 } from "@/lib/siteConfig";
 import { phoneHref } from "@/lib/tracking";
 
-/** All nav destinations — primary first, then secondary */
 const MENU_LINKS = [...HEADER_NAV_LINKS, ...MORE_NAV_LINKS];
 
 export function Header() {
@@ -30,35 +30,48 @@ export function Header() {
     };
   }, [menuOpen]);
 
+  const desktopLinks = HEADER_NAV_LINKS.filter(
+    (l) => l.href !== "/" && l.href !== "/emergency"
+  );
+
   return (
     <header className="sticky top-0 z-50 border-b border-stone-200 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/90">
-      <div className="mx-auto flex max-w-5xl items-center justify-between gap-2 px-3 py-2.5 sm:px-4 sm:py-3">
-        <Link
-          href="/"
-          className="min-w-0 truncate text-sm font-semibold text-stone-900 sm:text-base"
-        >
-          {SITE_NAME}
-        </Link>
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-3 py-2.5 sm:px-4 sm:py-3">
+        <BrandLogo variant="header" className="min-w-0 max-w-[11rem] sm:max-w-[14rem]" />
 
-        <div className="relative z-10 flex shrink-0 items-center gap-1.5 sm:gap-2">
+        <nav className="hidden items-center gap-0.5 lg:flex" aria-label="Main">
           <Link
             href="/emergency"
-            className="btn-touch hidden rounded-lg px-2.5 text-sm font-semibold text-red-700 hover:bg-red-50 sm:inline-flex"
+            className="btn-touch rounded-lg px-2.5 text-sm font-semibold text-red-700 hover:bg-red-50"
           >
             Emergency
           </Link>
+          {desktopLinks.slice(0, 3).map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={`btn-touch rounded-lg px-2 text-sm font-medium hover:bg-stone-100 ${
+                pathname === link.href ? "text-stone-900" : "text-stone-600"
+              }`}
+            >
+              {link.label.replace(" & ", " / ")}
+            </Link>
+          ))}
+        </nav>
+
+        <div className="relative z-10 flex shrink-0 items-center gap-1.5 sm:gap-2">
           <Link
-            href="/request-help"
-            className="btn-touch hidden rounded-lg px-2.5 text-sm font-medium text-stone-700 hover:bg-stone-100 sm:inline-flex"
+            href={REQUEST_HELP_LINK.href}
+            className="btn-touch hidden rounded-lg bg-brand px-3 text-sm font-semibold text-white hover:bg-brand-hover md:inline-flex"
           >
-            Get Help
+            {REQUEST_HELP_LINK.label}
           </Link>
 
           <a
             href={phoneHref(PHONE_NUMBER)}
             data-analytics-event="click_call"
             data-analytics-source="header"
-            className="btn-touch shrink-0 rounded-lg bg-red-600 px-3 text-sm font-semibold text-white hover:bg-red-700 sm:px-4"
+            className="btn-touch hidden shrink-0 rounded-lg bg-red-600 px-3 text-sm font-semibold text-white hover:bg-red-700 md:inline-flex md:px-4"
           >
             Call
           </a>
@@ -92,9 +105,19 @@ export function Header() {
           />
           <nav
             id="site-nav"
-            className="relative z-50 max-h-[min(75vh,calc(100dvh-4rem))] overflow-y-auto border-t border-stone-200 bg-white px-4 py-3 shadow-lg"
+            className="relative z-50 max-h-[min(80vh,calc(100dvh-4rem))] overflow-y-auto border-t border-stone-200 bg-white px-4 py-3 shadow-lg"
           >
-            <div className="flex flex-col gap-1">
+            <div className="mb-3 border-b border-stone-100 pb-3">
+              <BrandLogo variant="header" linked={false} />
+            </div>
+            <Link
+              href={REQUEST_HELP_LINK.href}
+              className="btn-primary mb-3 w-full"
+              onClick={() => setMenuOpen(false)}
+            >
+              {REQUEST_HELP_LINK.label}
+            </Link>
+            <div className="flex flex-col gap-0.5">
               {MENU_LINKS.map((link) => (
                 <Link
                   key={link.href}
@@ -111,14 +134,6 @@ export function Header() {
                   {link.label}
                 </Link>
               ))}
-              <div className="my-2 border-t border-stone-100" />
-              <Link
-                href="/disclosure"
-                className="flex min-h-[2.5rem] items-center rounded-lg px-3 text-sm text-stone-500"
-                onClick={() => setMenuOpen(false)}
-              >
-                Disclosure
-              </Link>
             </div>
           </nav>
         </>

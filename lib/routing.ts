@@ -1,4 +1,5 @@
 import type { ProviderId } from "./providers";
+import { generateLeadId } from "./leadId";
 import { evanConfirmedServices } from "./services";
 import { isFirstWaveCity } from "./cities";
 
@@ -129,12 +130,6 @@ function combinedText(input: LeadInput): string {
 
 function matchesAny(text: string, keywords: string[]): string[] {
   return keywords.filter((k) => text.includes(k));
-}
-
-function generateLeadId(): string {
-  const ts = Date.now().toString(36);
-  const rand = Math.random().toString(36).slice(2, 8);
-  return `bpr-${ts}-${rand}`;
 }
 
 export function scoreLead(input: LeadInput, primaryRoute: ProviderId): number {

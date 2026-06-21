@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { SchemaScript } from "@/components/SchemaScript";
 import { HubLandingPage } from "@/components/HubLandingPage";
+import { LocalTrustSection } from "@/components/LocalTrustSection";
 import { cities } from "@/lib/cities";
 import { breadcrumbItems, buildMetadata } from "@/lib/seo";
 import {
@@ -32,6 +33,7 @@ export default function ServiceAreasPage() {
   return (
     <>
       <SchemaScript schemas={schemas} />
+      <LocalTrustSection />
       <HubLandingPage
         breadcrumbs={crumbs}
         title="Service areas"

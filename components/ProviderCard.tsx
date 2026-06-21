@@ -11,28 +11,30 @@ interface ProviderCardProps {
 
 export function ProviderCard({ provider, note, intakeOnly = false }: ProviderCardProps) {
   return (
-    <div className="rounded-xl border border-stone-200 bg-white p-5">
+    <div className="card-elevated p-5 md:p-6">
       {provider.logoImage && (
-        <div className="mb-4 flex justify-center">
+        <div className="mb-4 flex justify-center rounded-lg bg-stone-50 p-3">
           <Image
             src={provider.logoImage}
             alt={`${provider.name} logo`}
             width={120}
             height={120}
-            className="h-20 w-auto object-contain"
+            className="h-16 w-auto object-contain"
           />
         </div>
       )}
-      <h3 className="font-semibold text-stone-900">{provider.name}</h3>
-      <p className="text-sm text-stone-500">{provider.type}</p>
+      <h3 className="text-lg font-semibold text-stone-900">{provider.name}</h3>
+      <p className="text-sm font-medium text-stone-500">{provider.type}</p>
       {provider.serviceArea && (
         <p className="mt-1 text-sm text-stone-600">{provider.serviceArea}</p>
       )}
-      {note && <p className="mt-2 text-sm text-stone-600">{note}</p>}
+      {note && (
+        <p className="mt-3 text-sm leading-relaxed text-stone-700">{note}</p>
+      )}
       {intakeOnly ? (
-        <p className="mt-3 text-sm text-stone-600">
-          Requests for this type of work go through{" "}
-          <Link href="/request-help" className="font-medium text-stone-900 underline">
+        <p className="mt-4 rounded-lg bg-stone-50 px-3 py-2.5 text-sm text-stone-600">
+          Requests for this type of work are routed through{" "}
+          <Link href="/request-help" className="font-semibold text-stone-900 underline">
             Berks Property Response
           </Link>
           .
@@ -62,14 +64,14 @@ export function ProviderCard({ provider, note, intakeOnly = false }: ProviderCar
         </>
       )}
       {provider.verifiedClaims.licensed && provider.verifiedClaims.insured && (
-        <p className="mt-2 text-xs text-stone-500">Licensed and insured (per provider)</p>
+        <p className="mt-3 text-xs text-stone-500">Licensed and insured (per provider)</p>
       )}
       {provider.website && (
         <a
           href={provider.website}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-3 inline-block text-sm font-medium text-stone-800 underline hover:text-stone-600"
+          className="mt-4 inline-block text-sm font-medium text-stone-800 underline hover:text-stone-600"
         >
           Visit website →
         </a>

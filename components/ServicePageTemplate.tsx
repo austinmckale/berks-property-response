@@ -11,12 +11,13 @@ import {
   webPageSchema,
 } from "@/lib/schema";
 import { Breadcrumbs } from "./Breadcrumbs";
-import { EmergencyCallBanner, HubDisclosureLine, HubQuickActions } from "./ConversionHub";
+import { EmergencyCallBanner, HubDisclosureLine, PageIntakeCue } from "./ConversionHub";
 import { FAQ } from "./FAQ";
 import { inferProblemTypeFromContext } from "@/lib/problemTypes";
 import { LeadForm } from "./LeadForm";
 import { PlumbingTriageNotice } from "./PlumbingTriageNotice";
 import { SchemaScript } from "./SchemaScript";
+import { RoutingInfoCards } from "@/components/RoutingStepsSection";
 import { ServiceAreaCrossLinks } from "./ServiceAreaCrossLinks";
 
 interface ServicePageTemplateProps {
@@ -74,8 +75,8 @@ export function ServicePageTemplate({ service }: ServicePageTemplateProps) {
       <SchemaScript schemas={schemas} />
       <Breadcrumbs items={crumbs} />
 
-      <article className="px-4 py-6 md:py-10">
-        <div className="mx-auto max-w-lg">
+      <article className="section-pad px-4">
+        <div className="page-container">
           <h1 className="text-2xl font-semibold text-stone-900 md:text-3xl">
             {service.headline}
           </h1>
@@ -84,19 +85,23 @@ export function ServicePageTemplate({ service }: ServicePageTemplateProps) {
           {isEmergency ? (
             <div className="mt-5">
               <EmergencyCallBanner />
-              <div className="mt-3">
-                <HubQuickActions callPrimary />
-              </div>
+              <p className="mt-3 text-sm text-stone-600">
+                <a href="#get-help" className="font-medium text-stone-900 underline">
+                  Send a request instead
+                </a>
+              </p>
             </div>
           ) : (
-            <div className="mt-5">
-              <HubQuickActions />
-            </div>
+            <PageIntakeCue />
           )}
 
           {isRidgeLinePlumbing && <PlumbingTriageNotice />}
 
-          <div id="get-help" className="mt-8 scroll-mt-6">
+          <div className="mt-6">
+            <RoutingInfoCards />
+          </div>
+
+          <div id="get-help" className="mt-8 scroll-mt-6 border-t border-stone-200 pt-8">
             <h2 className="text-lg font-semibold text-stone-900">
               {isEmergency ? "Or send a quick request" : "Send a request"}
             </h2>

@@ -45,9 +45,9 @@ export function StickyMobileCTA() {
           href={helpHref}
           data-analytics-event="click_request_help"
           data-analytics-source="sticky_mobile"
-          className="btn-touch-fill rounded-xl border-2 border-stone-300 bg-white text-stone-900 active:bg-stone-50"
+          className="btn-touch-fill rounded-xl bg-brand text-white active:bg-brand-hover"
         >
-          Help
+          Request
         </Link>
       </div>
     </div>

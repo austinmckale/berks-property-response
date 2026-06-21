@@ -1,4 +1,5 @@
 import type { LeadFormData } from "./formSchema";
+import { getProblemType } from "./problemTypes";
 import { getProvider } from "./providers";
 import type { RouteResult } from "./routing";
 import { SITE_NAME, SITE_URL } from "./siteConfig";
@@ -59,26 +60,32 @@ export async function sendDiscordLeadNotification(
         color: isEmergency ? 0xdc2626 : 0x44403c,
         description: form.problemDescription.slice(0, 500),
         fields: [
+          { name: "Lead ID", value: routing.leadId, inline: true },
           { name: "Name", value: form.name, inline: true },
           { name: "Phone", value: form.phone, inline: true },
-          { name: "City", value: `${form.city}, ${form.zip}`, inline: true },
+          { name: "City", value: `${form.city}, PA ${form.zip || ""}`.trim(), inline: true },
+          {
+            name: "Issue type",
+            value: getProblemType(form.problemType).title,
+            inline: true,
+          },
           {
             name: "Urgency",
             value: urgencyLabel(form.urgency),
             inline: true,
           },
           {
-            name: "Route",
+            name: "Recommended provider",
             value: providerLabel(routing.primaryRoute),
             inline: true,
           },
           {
-            name: "Lead ID",
-            value: routing.leadId,
-            inline: true,
+            name: "Source page",
+            value: form.landingPage?.trim() || "—",
+            inline: false,
           },
         ],
-        footer: { text: summary.split("\n").slice(-2).join(" · ") },
+        footer: { text: summary },
         timestamp: new Date().toISOString(),
       },
     ],
@@ -120,8 +127,8 @@ function buildAdminEmailHtml(payload: LeadNotificationPayload): string {
 }
 
 function buildCustomerEmailHtml(payload: LeadNotificationPayload): string {
-  const { form } = payload;
-  return `<!DOCTYPE html><html><body style="font-family:system-ui,sans-serif;background:#fafaf9;padding:24px"><div style="max-width:560px;margin:0 auto;background:#fff;border:1px solid #e7e5e4;border-radius:12px;padding:24px"><h1 style="margin:0 0 12px;font-size:20px;color:#1c1917">We received your request</h1><p style="color:#44403c;line-height:1.6">Hi ${escapeHtml(form.name)},</p><p style="color:#44403c;line-height:1.6">Thanks for reaching out to ${SITE_NAME}. We received your message and will connect you with local help in Berks County. Someone should contact you at <strong>${escapeHtml(form.phone)}</strong> soon.</p><p style="color:#44403c;line-height:1.6">If sewage or water is actively backing up, call now rather than waiting for email.</p><p style="margin-top:24px;font-size:13px;color:#78716c"><a href="${SITE_URL}/disclosure" style="color:#44403c">Referral disclosure</a></p></div></body></html>`;
+  const { form, routing } = payload;
+  return `<!DOCTYPE html><html><body style="font-family:system-ui,sans-serif;background:#fafaf9;padding:24px"><div style="max-width:560px;margin:0 auto;background:#fff;border:1px solid #e7e5e4;border-radius:12px;padding:24px"><h1 style="margin:0 0 12px;font-size:20px;color:#1c1917">We received your request</h1><p style="color:#44403c;line-height:1.6">Hi ${escapeHtml(form.name)},</p><p style="color:#44403c;line-height:1.6">Thanks for reaching out to ${SITE_NAME}. We received your message and will connect you with local help in Berks County. Someone should contact you at <strong>${escapeHtml(form.phone)}</strong> soon.</p><p style="color:#44403c;line-height:1.6;margin-top:16px">Your reference number is <strong>${escapeHtml(routing.leadId)}</strong>.</p><p style="color:#44403c;line-height:1.6">If sewage or water is actively backing up, call now rather than waiting for email.</p><p style="margin-top:24px;font-size:13px;color:#78716c"><a href="${SITE_URL}/disclosure" style="color:#44403c">Referral disclosure</a></p></div></body></html>`;
 }
 
 function escapeHtml(text: string): string {
@@ -167,8 +174,8 @@ export async function sendAdminEmailNotification(
   const { form, routing } = payload;
   const subject =
     form.urgency === "emergency"
-      ? `[Emergency] New lead from ${form.name} — ${form.city}`
-      : `New lead from ${form.name} — ${form.city}`;
+      ? `[Emergency] ${routing.leadId} — ${form.name} — ${form.city}`
+      : `New lead ${routing.leadId} — ${form.name} — ${form.city}`;
 
   return sendResendEmail({
     to,
