@@ -1,5 +1,6 @@
 import { SchemaScript } from "@/components/SchemaScript";
 import { HubAlert, HubFooterLink, HubLandingPage } from "@/components/HubLandingPage";
+import { FUTURE_SERVICE_DISCLAIMER } from "@/lib/disclosures";
 import { breadcrumbItems, buildMetadata } from "@/lib/seo";
 import {
   breadcrumbSchema,
@@ -11,7 +12,7 @@ import {
 export const metadata = buildMetadata({
   title: "Storm, Fire & Mold Help",
   description:
-    "Storm, fire, smoke, mold, or major property issues in Berks County? Tell us what happened.",
+    "Storm, fire, smoke, or mold in Berks County? Tell us what happened — we review whether a suitable local provider connection is available.",
   path: "/storm-fire-mold-help",
 });
 
@@ -23,7 +24,7 @@ export default function StormFireMoldHelpPage() {
     organizationSchema(),
     webPageSchema({
       title: "Storm, Fire & Mold Help",
-      description: "Major property issue help in Berks County.",
+      description: "Major property issue review in Berks County.",
       path: "/storm-fire-mold-help",
     }),
     breadcrumbSchema(crumbs)
@@ -35,14 +36,22 @@ export default function StormFireMoldHelpPage() {
       <HubLandingPage
         breadcrumbs={crumbs}
         title="Storm, fire, mold, or major issues"
-        subtitle="Tell us what happened. We review whether we can connect you with local help."
+        subtitle={FUTURE_SERVICE_DISCLAIMER}
         alert={
-          <HubAlert>
-            Active drain backup or fixture leak? Try{" "}
-            <HubFooterLink href="/emergency">emergency</HubFooterLink>,{" "}
-            <HubFooterLink href="/plumbing-and-leaks">plumbing</HubFooterLink>, or{" "}
-            <HubFooterLink href="/after-leak">water damage</HubFooterLink> help first.
-          </HubAlert>
+          <div className="space-y-3">
+            <HubAlert>
+              If there is immediate danger — active fire, suspected gas leak, electrical hazard,
+              structural collapse, or a medical emergency — leave the unsafe area when appropriate
+              and contact 911, the fire department, or the applicable utility. Berks Property
+              Response is not an emergency-response agency.
+            </HubAlert>
+            <HubAlert>
+              Active drain backup or fixture leak? Try{" "}
+              <HubFooterLink href="/emergency">emergency</HubFooterLink>,{" "}
+              <HubFooterLink href="/plumbing-and-leaks">plumbing</HubFooterLink>, or{" "}
+              <HubFooterLink href="/after-leak">water damage</HubFooterLink> help first.
+            </HubAlert>
+          </div>
         }
         form={{
           pageType: "major-property",
@@ -63,9 +72,7 @@ export default function StormFireMoldHelpPage() {
               <li>Hail or roof leak damage</li>
               <li>Basement flooding (non-drain)</li>
             </ul>
-            <p className="mt-3 text-xs text-stone-500">
-              Availability varies. No obligation to hire.
-            </p>
+            <p className="mt-3 text-xs text-stone-500">{FUTURE_SERVICE_DISCLAIMER}</p>
           </details>
         }
       />

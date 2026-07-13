@@ -37,7 +37,7 @@ interface PageIntakeCueProps {
  */
 export function PageIntakeCue({
   href = "#get-help",
-  label = "Request help now",
+  label = "Send a request",
 }: PageIntakeCueProps) {
   return (
     <div className="mt-5 hidden md:block">
@@ -50,9 +50,14 @@ export function PageIntakeCue({
         {label}
       </Link>
       <p className="mt-2 text-sm text-stone-500">
-        Or call{" "}
-        <a href={phoneHref(PHONE_NUMBER)} className="font-medium text-stone-800 underline">
-          {PHONE_NUMBER}
+        Or{" "}
+        <a
+          href={phoneHref(PHONE_NUMBER)}
+          data-analytics-event="click_call"
+          data-analytics-source="page_intake_cue"
+          className="font-medium text-stone-800 underline"
+        >
+          Call BPR now
         </a>
       </p>
     </div>

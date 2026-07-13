@@ -347,7 +347,7 @@ export const services: ServicePage[] = [
       {
         question: "Who performs the inspection?",
         answer:
-          "Berks Property Response connects you with an independent local drain specialist. We do not perform the inspection ourselves.",
+          "Berks Property Response reviews the request and coordinates an introduction to an appropriate local drain specialist for the inspection.",
       },
     ],
     relatedSlugs: ["hydro-jetting-berks-county-pa", "drain-cleaning-berks-county-pa"],
@@ -736,7 +736,7 @@ export const services: ServicePage[] = [
       {
         question: "Does Berks Property Response perform the repair work?",
         answer:
-          "No. We connect you with independent local build-back help such as RHI Pros. Actual repair work is performed by the provider you choose.",
+          "No. We coordinate an introduction to local build-back help such as RHI Pros. The provider you choose supplies the estimate and performs the repair.",
       },
     ],
     relatedSlugs: [
@@ -793,7 +793,7 @@ export const services: ServicePage[] = [
       {
         question: "Who performs the drywall repair?",
         answer:
-          "Build-back repair routes to RHI Pros through Berks Property Response. We connect you with independent local help—we do not perform the work.",
+          "Build-back repair routes to RHI Pros through Berks Property Response. We review the request and coordinate the local handoff.",
       },
     ],
     relatedSlugs: [

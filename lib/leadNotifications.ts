@@ -2,7 +2,8 @@ import type { LeadFormData } from "./formSchema";
 import { getProblemType } from "./problemTypes";
 import { getProvider } from "./providers";
 import type { RouteResult } from "./routing";
-import { SITE_NAME, SITE_URL } from "./siteConfig";
+import { PHONE_NUMBER, SITE_NAME, SITE_URL, TEXT_NUMBER } from "./siteConfig";
+import { phoneHref, smsHref } from "./tracking";
 
 export interface LeadNotificationPayload {
   form: LeadFormData;
@@ -30,12 +31,12 @@ export function buildLeadSummary({ form, routing }: LeadNotificationPayload) {
     `Name: ${form.name}`,
     `Phone: ${form.phone}`,
     form.email ? `Email: ${form.email}` : null,
-    `Location: ${form.city}, PA ${form.zip}`,
+    `Location: ${form.city}, PA ${form.zip || ""}`.trim(),
     `Urgency: ${urgencyLabel(form.urgency)}`,
     `Problem: ${form.problemDescription}`,
-    `Route: ${providerLabel(routing.primaryRoute)} (${routing.qualifiedStatus})`,
-    `Score: ${routing.leadScore}`,
+    `Route: ${providerLabel(routing.primaryRoute)}`,
     form.landingPage ? `Page: ${form.landingPage}` : null,
+    form.utmSource ? `UTM: ${form.utmSource}/${form.utmMedium || "—"}/${form.utmCampaign || "—"}` : null,
   ].filter(Boolean);
 
   return lines.join("\n");
@@ -49,7 +50,6 @@ export async function sendDiscordLeadNotification(
 
   const { form, routing } = payload;
   const isEmergency = form.urgency === "emergency";
-  const summary = buildLeadSummary(payload);
 
   const body = {
     embeds: [
@@ -75,7 +75,7 @@ export async function sendDiscordLeadNotification(
             inline: true,
           },
           {
-            name: "Recommended provider",
+            name: "Suggested route",
             value: providerLabel(routing.primaryRoute),
             inline: true,
           },
@@ -84,8 +84,14 @@ export async function sendDiscordLeadNotification(
             value: form.landingPage?.trim() || "—",
             inline: false,
           },
+          {
+            name: "UTM",
+            value: [form.utmSource, form.utmMedium, form.utmCampaign, form.utmTerm]
+              .filter(Boolean)
+              .join(" / ") || "—",
+            inline: false,
+          },
         ],
-        footer: { text: summary },
         timestamp: new Date().toISOString(),
       },
     ],
@@ -95,6 +101,7 @@ export async function sendDiscordLeadNotification(
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
+    signal: AbortSignal.timeout(6000),
   });
 
   return res.ok;
@@ -107,19 +114,25 @@ function buildAdminEmailHtml(payload: LeadNotificationPayload): string {
     ["Name", form.name],
     ["Phone", form.phone],
     ["Email", form.email || "—"],
-    ["City", `${form.city}, PA ${form.zip}`],
+    ["City / ZIP", `${form.city}, PA ${form.zip || ""}`.trim()],
+    ["Problem type", getProblemType(form.problemType).title],
     ["Urgency", urgencyLabel(form.urgency)],
-    ["Route", providerLabel(routing.primaryRoute)],
-    ["Status", routing.qualifiedStatus],
-    ["Score", String(routing.leadScore)],
-    ["Problem", form.problemDescription],
-    ["Page", form.landingPage || "—"],
+    ["Description", form.problemDescription],
+    ["Suggested route", providerLabel(routing.primaryRoute)],
+    ["Landing page", form.landingPage || "—"],
+    ["UTM source", form.utmSource || "—"],
+    ["UTM medium", form.utmMedium || "—"],
+    ["UTM campaign", form.utmCampaign || "—"],
+    ["UTM term", form.utmTerm || "—"],
+    ["Referrer", form.referrer || "—"],
+    ["Call", phoneHref(form.phone)],
+    ["Text", smsHref(form.phone)],
   ];
 
   const tableRows = rows
     .map(
       ([label, value]) =>
-        `<tr><td style="padding:8px 12px;border-bottom:1px solid #e7e5e4;color:#57534e;width:120px">${label}</td><td style="padding:8px 12px;border-bottom:1px solid #e7e5e4;color:#1c1917">${escapeHtml(String(value))}</td></tr>`
+        `<tr><td style="padding:8px 12px;border-bottom:1px solid #e7e5e4;color:#57534e;width:140px">${label}</td><td style="padding:8px 12px;border-bottom:1px solid #e7e5e4;color:#1c1917">${escapeHtml(String(value))}</td></tr>`
     )
     .join("");
 
@@ -128,7 +141,7 @@ function buildAdminEmailHtml(payload: LeadNotificationPayload): string {
 
 function buildCustomerEmailHtml(payload: LeadNotificationPayload): string {
   const { form, routing } = payload;
-  return `<!DOCTYPE html><html><body style="font-family:system-ui,sans-serif;background:#fafaf9;padding:24px"><div style="max-width:560px;margin:0 auto;background:#fff;border:1px solid #e7e5e4;border-radius:12px;padding:24px"><h1 style="margin:0 0 12px;font-size:20px;color:#1c1917">We received your request</h1><p style="color:#44403c;line-height:1.6">Hi ${escapeHtml(form.name)},</p><p style="color:#44403c;line-height:1.6">Thanks for reaching out to ${SITE_NAME}. We received your message and will connect you with local help in Berks County. Someone should contact you at <strong>${escapeHtml(form.phone)}</strong> soon.</p><p style="color:#44403c;line-height:1.6;margin-top:16px">Your reference number is <strong>${escapeHtml(routing.leadId)}</strong>.</p><p style="color:#44403c;line-height:1.6">If sewage or water is actively backing up, call now rather than waiting for email.</p><p style="margin-top:24px;font-size:13px;color:#78716c"><a href="${SITE_URL}/disclosure" style="color:#44403c">Referral disclosure</a></p></div></body></html>`;
+  return `<!DOCTYPE html><html><body style="font-family:system-ui,sans-serif;background:#fafaf9;padding:24px"><div style="max-width:560px;margin:0 auto;background:#fff;border:1px solid #e7e5e4;border-radius:12px;padding:24px"><h1 style="margin:0 0 12px;font-size:20px;color:#1c1917">We received your request</h1><p style="color:#44403c;line-height:1.6">Hi ${escapeHtml(form.name)},</p><p style="color:#44403c;line-height:1.6">We received your request. A Berks Property Response coordinator will review the details and arrange the appropriate local handoff. A provider may contact you about availability, pricing, and next steps.</p><p style="color:#44403c;line-height:1.6;margin-top:16px">Your reference number is <strong>${escapeHtml(routing.leadId)}</strong>.</p><p style="color:#44403c;line-height:1.6">Have photos? Text them to <a href="${smsHref(TEXT_NUMBER)}" style="color:#1c1917">${escapeHtml(TEXT_NUMBER)}</a> and include your reference ID.</p><p style="color:#44403c;line-height:1.6">Need to reach us by phone? Call <a href="${phoneHref(PHONE_NUMBER)}" style="color:#1c1917">${escapeHtml(PHONE_NUMBER)}</a>.</p><p style="color:#44403c;line-height:1.6">There is no obligation to hire.</p><p style="margin-top:24px;font-size:13px;color:#78716c"><a href="${SITE_URL}/disclosure" style="color:#44403c">Disclosure</a> · <a href="${SITE_URL}/privacy-policy" style="color:#44403c">Privacy Policy</a></p></div></body></html>`;
 }
 
 function escapeHtml(text: string): string {
@@ -160,6 +173,7 @@ async function sendResendEmail(params: {
       subject: params.subject,
       html: params.html,
     }),
+    signal: AbortSignal.timeout(6000),
   });
 
   return res.ok;

@@ -81,18 +81,25 @@ export function ServicePageTemplate({ service }: ServicePageTemplateProps) {
             {service.headline}
           </h1>
           <p className="mt-2 text-stone-600">{service.subheadline}</p>
+          <p className="mt-3 text-sm leading-relaxed text-stone-700">
+            Start here. Tell us what is happening and we will review the request and coordinate the
+            appropriate local handoff.
+            {isEmergency ? " Call if the problem is active now." : ""}
+          </p>
 
           {isEmergency ? (
             <div className="mt-5">
-              <EmergencyCallBanner />
+              <EmergencyCallBanner headline="Call for urgent help" />
               <p className="mt-3 text-sm text-stone-600">
                 <a href="#get-help" className="font-medium text-stone-900 underline">
-                  Send a request instead
+                  Send a request
                 </a>
               </p>
             </div>
           ) : (
-            <PageIntakeCue />
+            <div className="mt-5 flex flex-col gap-3 md:flex-row md:items-center">
+              <PageIntakeCue label="Send a request" />
+            </div>
           )}
 
           {isRidgeLinePlumbing && <PlumbingTriageNotice />}

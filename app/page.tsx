@@ -4,6 +4,8 @@ import { Hero } from "@/components/Hero";
 import { HubDisclosureLine } from "@/components/ConversionHub";
 import { LeadForm } from "@/components/LeadForm";
 import { LocalTrustSection } from "@/components/LocalTrustSection";
+import { WhyBprSection } from "@/components/WhyBprSection";
+import { CoordinatorSection } from "@/components/CoordinatorSection";
 import { SchemaScript } from "@/components/SchemaScript";
 import { ServiceAreaLinks } from "@/components/ServiceAreaLinks";
 import { TriageCards } from "@/components/TriageCards";
@@ -26,7 +28,7 @@ export default function HomePage() {
     webPageSchema({
       title: "Berks Property Response",
       description:
-        "Not sure who to call for a leak, drain backup, or water damage in Berks County? Get routed to a local independent provider.",
+        "One local contact for drain backups, plumbing leaks, and water-damage repairs in Berks County.",
       path: "/",
     }),
     faqSchema(homeFaqs)
@@ -37,11 +39,13 @@ export default function HomePage() {
       <SchemaScript schemas={schemas} />
       <Hero
         variant="home"
-        headline="Not sure who to call for a leak, drain backup, or water damage?"
-        subheadline="Berks Property Response helps homeowners across Berks County get routed to the right local independent provider."
+        eyebrow="Local property response coordination"
+        headline="One local contact for drain, plumbing, and water-damage problems."
+        subheadline="Tell us what happened. A local Berks Property Response coordinator will personally review the request and coordinate the appropriate provider handoff."
         showTrustLine
       />
       <TriageCards />
+      <WhyBprSection />
       <section
         id="get-help"
         className="section-pad scroll-mt-6 border-y border-stone-200 bg-brand-subtle px-4"
@@ -64,9 +68,10 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+      <CoordinatorSection />
       <LocalTrustSection />
       <ServiceAreaLinks />
-      <FAQ items={homeFaqs.slice(0, 4)} title="Quick answers" />
+      <FAQ items={homeFaqs.slice(0, 5)} title="Quick answers" />
     </>
   );
 }

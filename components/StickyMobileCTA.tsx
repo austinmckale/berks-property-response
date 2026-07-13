@@ -30,16 +30,16 @@ export function StickyMobileCTA() {
           data-analytics-source="sticky_mobile"
           className="btn-touch-fill rounded-xl bg-red-600 text-white active:bg-red-700"
         >
-          Call
+          Call BPR
         </a>
         <a
           href={smsHref(TEXT_NUMBER)}
           data-analytics-event="click_text"
           data-analytics-source="sticky_mobile"
           className="btn-touch-fill rounded-xl bg-stone-900 text-white active:bg-stone-800"
-          aria-label="Text a photo"
+          aria-label="Text photos"
         >
-          Text
+          Text photos
         </a>
         <Link
           href={helpHref}

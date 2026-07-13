@@ -24,8 +24,22 @@ export interface LeadCaptureResult {
   };
 }
 
+const SHEETS_TIMEOUT_MS = 8000;
+const NOTIFY_TIMEOUT_MS = 6000;
+
 function isConfigured(value: string | undefined): boolean {
   return Boolean(value?.trim());
+}
+
+async function fetchWithTimeout(
+  url: string,
+  init: RequestInit,
+  timeoutMs: number
+): Promise<Response> {
+  return fetch(url, {
+    ...init,
+    signal: AbortSignal.timeout(timeoutMs),
+  });
 }
 
 async function postGoogleSheetsWebhook(
@@ -37,11 +51,15 @@ async function postGoogleSheetsWebhook(
   }
 
   try {
-    const res = await fetch(url!, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(webhookPayload),
-    });
+    const res = await fetchWithTimeout(
+      url!,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(webhookPayload),
+      },
+      SHEETS_TIMEOUT_MS
+    );
     const text = await res.text();
     let body: { ok?: boolean; error?: string } = {};
     try {
@@ -64,6 +82,27 @@ async function postGoogleSheetsWebhook(
   }
 }
 
+async function withTimeout<T>(
+  promise: Promise<T>,
+  timeoutMs: number,
+  label: string
+): Promise<T> {
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  try {
+    return await Promise.race([
+      promise,
+      new Promise<T>((_, reject) => {
+        timer = setTimeout(
+          () => reject(new Error(`${label} timed out after ${timeoutMs}ms`)),
+          timeoutMs
+        );
+      }),
+    ]);
+  } finally {
+    if (timer) clearTimeout(timer);
+  }
+}
+
 async function postDiscord(
   payload: LeadNotificationPayload
 ): Promise<DestinationResult> {
@@ -72,7 +111,11 @@ async function postDiscord(
   }
 
   try {
-    const ok = await sendDiscordLeadNotification(payload);
+    const ok = await withTimeout(
+      sendDiscordLeadNotification(payload),
+      NOTIFY_TIMEOUT_MS,
+      "discord"
+    );
     if (ok) return { configured: true, ok: true };
     console.error("[lead] Discord webhook failed: HTTP error");
     return { configured: true, ok: false, error: "HTTP error" };
@@ -96,7 +139,11 @@ async function postAdminEmail(
   }
 
   try {
-    const ok = await sendAdminEmailNotification(payload);
+    const ok = await withTimeout(
+      sendAdminEmailNotification(payload),
+      NOTIFY_TIMEOUT_MS,
+      "adminEmail"
+    );
     if (ok) return { configured: true, ok: true };
     console.error("[lead] Admin email notification failed: HTTP error");
     return { configured: true, ok: false, error: "HTTP error" };
@@ -128,7 +175,11 @@ async function postCustomerEmail(
   }
 
   try {
-    const ok = await sendCustomerEmailConfirmation(payload);
+    const ok = await withTimeout(
+      sendCustomerEmailConfirmation(payload),
+      NOTIFY_TIMEOUT_MS,
+      "customerEmail"
+    );
     if (ok) return { configured: true, ok: true };
     return { configured: true, ok: false, error: "HTTP error" };
   } catch (err) {

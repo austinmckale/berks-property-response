@@ -47,6 +47,8 @@ export function LeadForm({
     "idle" | "loading" | "success" | "error"
   >("idle");
   const [formError, setFormError] = useState<string | null>(null);
+  const [formStartedAt] = useState(() => Date.now());
+  const [formStartedTracked, setFormStartedTracked] = useState(false);
   const [routeResult, setRouteResult] = useState<Record<string, unknown> | null>(
     null
   );
@@ -97,6 +99,10 @@ export function LeadForm({
   const showCompactStep2 = Boolean(selectedProblem);
   const showFormStep =
     step === 2 && (!externalProblemSelection || Boolean(selectedProblem));
+
+  useEffect(() => {
+    setValue("formStartedAt", formStartedAt);
+  }, [formStartedAt, setValue]);
 
   useEffect(() => {
     setValue("landingPage", pathname);
@@ -151,6 +157,10 @@ export function LeadForm({
     setValue("serviceCategory", option.serviceCategory);
     setValue("defaultRoute", option.defaultRoute);
     setStep(2);
+    trackEvent("select_problem_category", {
+      problem_type: id,
+      page_type: pageType,
+    });
     if (typeof window !== "undefined") {
       const anchor = document.getElementById("get-help");
       if (anchor) {
@@ -159,9 +169,16 @@ export function LeadForm({
     }
   }
 
+  function markFormStarted() {
+    if (formStartedTracked) return;
+    setFormStartedTracked(true);
+    trackEvent("form_started", { page_type: pageType });
+  }
+
   async function onSubmit(data: LeadFormData) {
     setFormError(null);
     setSubmitStatus("loading");
+    trackEvent("form_submitted", { page_type: pageType });
     const problem = getProblemType(data.problemType);
     const payload: LeadFormData = {
       ...data,
@@ -173,6 +190,8 @@ export function LeadForm({
       submittedAt: new Date().toISOString(),
       activeConditions: activeConditions.join(", ") || data.activeConditions,
       smsOptIn: Boolean(data.smsOptIn),
+      formStartedAt,
+      companyWebsite: data.companyWebsite ?? "",
       waterOrSewagePresent:
         data.waterOrSewagePresent === "" || data.waterOrSewagePresent == null
           ? undefined
@@ -191,12 +210,17 @@ export function LeadForm({
       }
       setRouteResult(json.routing ?? { leadId: json.leadId });
       setSubmitStatus("success");
+      trackEvent("form_success", {
+        page_type: pageType,
+        service_category: problem.serviceCategory,
+      });
       trackEvent("generate_lead", {
         page_type: pageType,
-        service_category: serviceCategory,
+        service_category: problem.serviceCategory,
       });
     } catch {
       setSubmitStatus("error");
+      trackEvent("form_error", { page_type: pageType });
     }
   }
 
@@ -217,7 +241,7 @@ export function LeadForm({
               Request received
             </p>
             <h3 className="mt-1 text-xl font-semibold text-green-950 md:text-2xl">
-              We&apos;re on it.
+              We&apos;re reviewing the details.
             </h3>
           </div>
         </div>
@@ -230,27 +254,32 @@ export function LeadForm({
           </p>
         )}
         <p className="mt-4 leading-relaxed text-green-900">
-          A local independent provider may call or text you about availability and next steps.
-          There is no obligation to hire.
+          A Berks Property Response coordinator will review your request and arrange the
+          appropriate local handoff. A provider may then call or text you about availability,
+          pricing, and next steps.
         </p>
         <p className="mt-3 text-sm text-green-800">
           Have photos?{" "}
-          <a href={smsHref(TEXT_NUMBER)} className="font-semibold underline">
+          <a
+            href={smsHref(TEXT_NUMBER)}
+            data-analytics-event="click_text"
+            data-analytics-source="form_success"
+            className="font-semibold underline"
+          >
             Text them to {TEXT_NUMBER}
-          </a>
-          .
-        </p>
-        <p className="mt-3 text-xs leading-relaxed text-green-700">
-          Berks Property Response does not perform the work directly — we route your request to
-          independent local providers.
+          </a>{" "}
+          and include your reference ID.
         </p>
         {isEmergency && (
           <div className="mt-6 rounded-xl bg-red-600 p-4 text-center">
             <p className="text-sm font-medium text-white">
-              Active backup or leak? Don&apos;t wait—call now.
+              Active water or sewage problem? Call now rather than waiting for an online
+              response.
             </p>
             <a
               href={phoneHref(PHONE_NUMBER)}
+              data-analytics-event="click_call"
+              data-analytics-source="form_success_emergency"
               className="mt-2 inline-block text-lg font-semibold text-white underline"
             >
               {PHONE_NUMBER}
@@ -267,7 +296,7 @@ export function LeadForm({
   const errorClass = "mt-1.5 text-sm text-red-600";
 
   return (
-    <div className="card-elevated overflow-hidden md:mx-0">
+    <div className="card-elevated relative overflow-hidden md:mx-0">
       {!skipStep1 && (
         <div className="border-b border-stone-100 px-4 py-3 md:px-6 md:py-4">
           <div className="flex items-center gap-3">
@@ -328,7 +357,11 @@ export function LeadForm({
       )}
 
       {showFormStep && (
-        <form onSubmit={handleSubmit(onSubmit, onInvalid)} className="p-4 md:p-6">
+        <form
+          onSubmit={handleSubmit(onSubmit, onInvalid)}
+          onFocus={markFormStarted}
+          className="p-4 md:p-6"
+        >
           {!skipStep1 && (
             <button
               type="button"
@@ -369,6 +402,7 @@ export function LeadForm({
                 <input
                   id="phone"
                   type="tel"
+                  inputMode="tel"
                   autoComplete="tel"
                   placeholder="(484) 555-0100"
                   className={inputClass}
@@ -510,9 +544,24 @@ export function LeadForm({
           <input type="hidden" {...register("activeConditions")} />
           <input type="hidden" {...register("submittedAt")} />
           <input type="hidden" {...register("waterOrSewagePresent")} />
+          <input type="hidden" {...register("formStartedAt")} />
+          {/* Honeypot — leave empty; hidden from assistive tech via CSS + tabindex */}
+          <div className="pointer-events-none absolute left-[-10000px] top-auto h-px w-px overflow-hidden opacity-0" aria-hidden="true">
+            <label htmlFor="companyWebsite">Company website</label>
+            <input
+              id="companyWebsite"
+              type="text"
+              tabIndex={-1}
+              autoComplete="off"
+              {...register("companyWebsite")}
+            />
+          </div>
 
           {(formError || submitStatus === "error") && (
-            <div className="mt-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+            <div
+              className="mt-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800"
+              role="alert"
+            >
               {formError ?? (
                 <>
                   We couldn&apos;t save your request. Please{" "}
@@ -533,11 +582,16 @@ export function LeadForm({
             {submitStatus === "loading" ? "Sending..." : "Request local help"}
           </button>
           <p className="mt-4 text-xs leading-relaxed text-stone-500">
-            {FORM_SUBMIT_FINE_PRINT}{" "}
+            {FORM_SUBMIT_FINE_PRINT}
+          </p>
+          <p className="mt-2 text-xs text-stone-500">
             <Link href="/disclosure" className="underline hover:text-stone-700">
               Disclosure
             </Link>
-            .
+            <span className="mx-1.5 text-stone-300">·</span>
+            <Link href="/privacy-policy" className="underline hover:text-stone-700">
+              Privacy Policy
+            </Link>
           </p>
         </form>
       )}

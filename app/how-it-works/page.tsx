@@ -8,12 +8,12 @@ import {
   organizationSchema,
   webPageSchema,
 } from "@/lib/schema";
-import { HOME_STEPS } from "@/lib/siteConfig";
+import { HOME_STEPS, HOW_IT_WORKS_FOOTNOTE } from "@/lib/siteConfig";
 
 export const metadata = buildMetadata({
   title: "How It Works",
   description:
-    "How Berks Property Response helps Berks County homeowners get local help. No obligation to hire.",
+    "How Berks Property Response reviews requests and coordinates a local provider handoff in Berks County.",
   path: "/how-it-works",
 });
 
@@ -25,7 +25,7 @@ export default function HowItWorksPage() {
     organizationSchema(),
     webPageSchema({
       title: "How It Works",
-      description: "How Berks Property Response works in Berks County.",
+      description: "How Berks Property Response coordinates provider handoffs in Berks County.",
       path: "/how-it-works",
     }),
     breadcrumbSchema(crumbs)
@@ -37,27 +37,29 @@ export default function HowItWorksPage() {
       <HubLandingPage
         breadcrumbs={crumbs}
         title="How it works"
-        subtitle="Call, text, or send a request. We connect you with local help."
+        subtitle="Call, text, or send a request. A local coordinator reviews the details and arranges the appropriate handoff."
         middle={
-          <ol className="space-y-5">
-            {HOME_STEPS.map((step, index) => (
-              <li key={step.title} className="flex gap-3">
-                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-stone-900 text-xs font-semibold text-white">
-                  {index + 1}
-                </span>
-                <div>
-                  <h2 className="text-sm font-semibold text-stone-900">{step.title}</h2>
-                  <p className="mt-1 text-sm text-stone-600">{step.body}</p>
-                </div>
-              </li>
-            ))}
+          <div className="space-y-5">
+            <ol className="space-y-5">
+              {HOME_STEPS.map((step, index) => (
+                <li key={step.title} className="flex gap-3">
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-stone-900 text-xs font-semibold text-white">
+                    {index + 1}
+                  </span>
+                  <div>
+                    <h2 className="text-sm font-semibold text-stone-900">{step.title}</h2>
+                    <p className="mt-1 text-sm text-stone-600">{step.body}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+            <p className="text-sm text-stone-600">{HOW_IT_WORKS_FOOTNOTE}</p>
             <p className="text-sm text-stone-600">
               <Link href="/disclosure" className="font-medium underline">
                 Full disclosure
-              </Link>{" "}
-              — who performs the work and that there is no obligation to hire.
+              </Link>
             </p>
-          </ol>
+          </div>
         }
         form={{ pageType: "how-it-works" }}
       />

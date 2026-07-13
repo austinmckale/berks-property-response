@@ -1,5 +1,12 @@
 import { z } from "zod";
 import { problemTypeOptions } from "./problemTypes";
+import { isValidPhoneDigits } from "./phone";
+import {
+  MAX_CITY_LENGTH,
+  MAX_DESCRIPTION_LENGTH,
+  MAX_EMAIL_LENGTH,
+  MAX_NAME_LENGTH,
+} from "./spamProtection";
 
 const problemTypeIds = problemTypeOptions.map((p) => p.id) as [
   (typeof problemTypeOptions)[number]["id"],
@@ -28,29 +35,46 @@ export const urgencyOptions = [
   { value: "estimate-only", label: "Just researching" },
 ] as const;
 
+const zipPattern = /^(\d{5})(-\d{4})?$/;
+
 export const leadFormSchema = z.object({
   problemType: z.enum(problemTypeIds, {
     message: "Please choose what you need help with",
   }),
-  name: z.string().min(2, "Name is required"),
-  phone: z.string().min(10, "Valid phone number is required"),
-  city: z.string().min(2, "City is required"),
+  name: z
+    .string()
+    .min(2, "Name is required")
+    .max(MAX_NAME_LENGTH, "Name is too long"),
+  phone: z
+    .string()
+    .min(1, "Phone is required")
+    .refine(isValidPhoneDigits, "Enter a valid 10-digit phone number"),
+  city: z
+    .string()
+    .min(2, "City is required")
+    .max(MAX_CITY_LENGTH, "City is too long"),
   zip: z
     .string()
     .optional()
     .or(z.literal(""))
-    .refine((v) => !v || v.replace(/\D/g, "").length >= 5, {
-      message: "Enter a valid ZIP or leave blank",
+    .refine((v) => !v || zipPattern.test(v.trim()), {
+      message: "Enter a 5-digit ZIP or ZIP+4, or leave blank",
     }),
-  problemDescription: z.string().min(5, "A few words about the problem helps"),
+  problemDescription: z
+    .string()
+    .min(5, "A few words about the problem helps")
+    .max(MAX_DESCRIPTION_LENGTH, "Description is too long"),
   urgency: z.enum(urgencyLevels).optional(),
-  email: z.string().email("Valid email is required").optional().or(z.literal("")),
-  /** Derived or prefilled — not shown on the simplified form */
+  email: z
+    .string()
+    .max(MAX_EMAIL_LENGTH)
+    .email("Valid email is required")
+    .optional()
+    .or(z.literal("")),
   propertyType: z.enum(propertyTypes).optional(),
   serviceRequested: z.string().optional(),
   streetAddress: z.string().optional(),
   fixturesAffected: z.string().optional(),
-  // Hidden inputs can submit "" — treat blank like unset (same pattern as zip/email)
   waterOrSewagePresent: z
     .enum(["yes", "no", "unknown"])
     .optional()
@@ -68,6 +92,12 @@ export const leadFormSchema = z.object({
   referrer: z.string().optional(),
   activeConditions: z.string().optional(),
   submittedAt: z.string().optional(),
+  /** Honeypot — must stay empty */
+  companyWebsite: z.string().optional(),
+  /** Client render timestamp (ms) for timing checks */
+  formStartedAt: z.union([z.string(), z.number()]).optional(),
+  /** Optional Cloudflare Turnstile token */
+  turnstileToken: z.string().optional(),
 });
 
 export type LeadFormData = z.infer<typeof leadFormSchema>;

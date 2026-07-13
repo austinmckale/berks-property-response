@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { BrandLogo } from "@/components/BrandLogo";
-import { REFERRAL_DISCLOSURE_INLINE } from "@/lib/disclosures";
+import { FOOTER_DISCLOSURE } from "@/lib/disclosures";
 import {
   FOOTER_ABOUT_LINKS,
   FOOTER_SERVICE_LINKS,
@@ -18,9 +18,6 @@ export function Footer() {
           <div>
             <BrandLogo variant="footer" />
             <p className="mt-3 text-sm leading-relaxed text-stone-400">{SITE_SUBTITLE}</p>
-            <p className="mt-3 text-xs leading-relaxed text-stone-500">
-              Berks Property Response is a local intake and referral network — not a contractor.
-            </p>
             <a
               href={phoneHref(PHONE_NUMBER)}
               data-analytics-event="click_call"
@@ -33,7 +30,7 @@ export function Footer() {
               href={REQUEST_HELP_LINK.href}
               className="mt-3 block text-sm font-semibold text-stone-200 underline-offset-2 hover:underline"
             >
-              {REQUEST_HELP_LINK.label} →
+              Send a request →
             </Link>
           </div>
           <div>
@@ -70,7 +67,7 @@ export function Footer() {
       </div>
       <div className="border-t border-stone-800 px-4 py-6">
         <p className="mx-auto max-w-6xl text-xs leading-relaxed text-stone-500">
-          {REFERRAL_DISCLOSURE_INLINE}{" "}
+          {FOOTER_DISCLOSURE}{" "}
           <Link href="/disclosure" className="underline hover:text-stone-400">
             Full disclosure
           </Link>

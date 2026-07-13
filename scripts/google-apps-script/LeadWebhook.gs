@@ -10,6 +10,10 @@
  * 4. Copy the /exec URL into LEAD_WEBHOOK_URL (Vercel + .env.local)
  *
  * Browser GET shows status. Site POSTs JSON from /api/submit-lead.
+ *
+ * Do not reorder HEADERS — the webhook appends values by this contract.
+ * Track operational status (contact attempted, handoff completed, job won/lost,
+ * referral fee status, etc.) in extra columns or a second tab — see docs/launch-checklist.md.
  */
 
 var SHEET_NAME = "Leads";

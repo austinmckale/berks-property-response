@@ -1,29 +1,33 @@
+import { PLACEHOLDER_PHONE } from "./env";
+
 export const SITE_NAME = "Berks Property Response";
 export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://berkspropertyresponse.com";
 
 /**
- * Call tracking number shown site-wide (Call Now, footer, emergency banners).
- *
- * Before launch: set NEXT_PUBLIC_PHONE in .env.local to your final CallRail,
- * WhatConverts, or Google Voice tracking number. The fallback below is a
- * PLACEHOLDER — not a verified production tracking line.
+ * Call tracking number shown site-wide.
+ * Set NEXT_PUBLIC_PHONE in production. The fallback is a known PLACEHOLDER —
+ * production builds fail when this placeholder is still in use (see lib/env.ts).
  */
 export const PHONE_NUMBER =
-  process.env.NEXT_PUBLIC_PHONE ?? "(484) 525-0459"; // PLACEHOLDER
+  process.env.NEXT_PUBLIC_PHONE ?? PLACEHOLDER_PHONE;
 
 /**
- * SMS / "Text photos" number. Defaults to PHONE_NUMBER so call and text use
- * the same tracking line unless you set NEXT_PUBLIC_TEXT_NUMBER separately.
+ * SMS / "Text photos" number. Defaults to PHONE_NUMBER unless
+ * NEXT_PUBLIC_TEXT_NUMBER is set separately.
  */
 export const TEXT_NUMBER =
   process.env.NEXT_PUBLIC_TEXT_NUMBER ?? PHONE_NUMBER;
 
+/** Optional public contact email — only show when configured */
+export const CONTACT_EMAIL =
+  process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() || "";
+
 export const TAGLINE =
-  "Local intake and matching for drain backups, plumbing leaks, water damage, repair work, and urgent property issues across Berks County.";
+  "One local contact for drain, plumbing, and water-damage problems across Berks County.";
 
 export const SITE_SUBTITLE =
-  "Local intake and routing for Berks County homeowners — drains, plumbing, water damage, and property repair help.";
+  "Local property-response coordination for Berks County — drains, plumbing, water damage, and related repairs.";
 
 /** Primary header nav */
 export const HEADER_NAV_LINKS = [
@@ -71,20 +75,28 @@ export const FOOTER_ABOUT_LINKS = [
   { href: "/terms", label: "Terms" },
 ] as const;
 
+/** How It Works — four-step handoff */
 export const HOME_STEPS = [
   {
-    title: "Tell us what's going on",
-    body: "Call, text a photo, or send a short request — drain backup, leak, water damage, or another property issue in Berks County.",
+    title: "Tell us what happened",
+    body: "Call, text, email, or send a short request describing the drain, plumbing, or water-damage issue.",
   },
   {
-    title: "We review your request",
-    body: "Berks Property Response reviews the details and connects you with local help suited to that type of job.",
+    title: "We review the situation",
+    body: "A local coordinator reviews the location, problem type, urgency, and important details.",
   },
   {
-    title: "Someone local reaches out",
-    body: "A local company contacts you about availability and next steps. They perform the work and handle pricing, scheduling, and warranties. Berks Property Response does not perform the work directly.",
+    title: "We coordinate the handoff",
+    body: "We select an appropriate local provider based on the service needed, location, scope, and known provider coverage.",
+  },
+  {
+    title: "The provider contacts you",
+    body: "The provider discusses availability, diagnosis, pricing, scheduling, and the work directly with you.",
   },
 ] as const;
+
+export const HOW_IT_WORKS_FOOTNOTE =
+  "Submitting a request does not guarantee provider availability and does not obligate you to hire anyone.";
 
 export const SERVICE_CLUSTERS = [
   {

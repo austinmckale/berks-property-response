@@ -57,16 +57,18 @@ export function CityPageTemplate({ city }: { city: CityPage }) {
         <div className="page-container">
           <h1 className="text-2xl font-semibold text-stone-900 md:text-3xl">{city.headline}</h1>
           <p className="mt-2 text-stone-600">{city.intro}</p>
+          <p className="mt-3 text-sm text-stone-700">
+            Start here for drain, plumbing, or water-damage help in {city.name}. Tell us what is
+            happening and we will review the request and coordinate the appropriate local handoff.
+          </p>
 
-          <div className="mt-5">
-            <EmergencyCallBanner headline="Active backup or leak in your home?" />
-            <p className="mt-3 text-sm text-stone-600">
-              <a href="#get-help" className="font-medium text-stone-900 underline">
-                Send a request for {city.name}
-              </a>
+          <div className="mt-5 space-y-3">
+            <p className="text-sm font-medium text-stone-800">
+              Active backup or uncontrolled water? Call for urgent help.
             </p>
+            <EmergencyCallBanner headline="Active backup or leak in your home?" />
+            <PageIntakeCue label="Send a request" />
           </div>
-          <PageIntakeCue />
 
           <div className="mt-8">
             <FormSymptomPicker title="What's going on?" options={citySymptoms} />

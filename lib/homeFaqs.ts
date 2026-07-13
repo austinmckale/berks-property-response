@@ -5,63 +5,38 @@ export interface HomeFAQItem {
 
 export const homeFaqs: HomeFAQItem[] = [
   {
-    question: "Does Berks Property Response perform the work directly?",
+    question: "What happens after I submit a request?",
     answer:
-      "No. Berks Property Response is a local intake and matching service. Independent local providers perform the work, set pricing, and handle scheduling.",
+      "A local coordinator reviews the details, determines the appropriate service category, and coordinates an introduction to a suitable local provider. The provider then discusses availability, pricing, and next steps with you.",
   },
   {
-    question: "Who will contact me after I submit a request?",
+    question: "Is there a fee to request help?",
     answer:
-      "An independent local provider suited to your issue may contact you by phone or text. Berks Property Response helps route the request — we are not the contractor on site.",
+      "No. There is no fee to call, text, or submit a request through Berks Property Response, and there is no obligation to hire a provider.",
   },
   {
-    question: "Do I have to hire the provider you connect me with?",
+    question: "Who performs the work?",
     answer:
-      "No. Submitting a request does not create an obligation to hire. You can discuss availability and pricing with the provider and decide what makes sense for you.",
+      "Berks Property Response handles the initial intake and coordinates the connection. The local provider you choose supplies the estimate, performs the work, and contracts with you directly.",
   },
   {
-    question: "Is there a fee to submit a request?",
+    question: "Can I send photos?",
     answer:
-      "Berks Property Response does not charge homeowners a fee to submit a request. The provider you speak with handles their own pricing and estimates.",
+      "Yes. You can text photos to the number shown on the site after submitting your request. Include your name or reference ID.",
+  },
+  {
+    question: "Do you guarantee availability?",
+    answer:
+      "No. Availability depends on the location, type of problem, scheduling, and current provider workload. For active water or sewage problems, call instead of relying only on the online form.",
   },
   {
     question: "What should I do if sewage is backing up?",
     answer:
-      "Stop using water, keep people away from contaminated areas, and call or submit a request right away. Sewer and floor drain backups typically route to Apex Drain Services for drain and sewer response.",
+      "Stop using water when safe, keep people away from contaminated areas, and call Berks Property Response right away so we can coordinate drain and sewer help.",
   },
   {
-    question: "Can I send photos of the issue?",
+    question: "What if I am not sure what kind of help I need?",
     answer:
-      "Yes. Photos help providers understand urgency. You can text photos to our line or mention details in your request. After submitting, you may be asked to send pictures of the issue.",
-  },
-  {
-    question: "What types of jobs go to Apex Drain Services?",
-    answer:
-      "Sewer backups, sewage backup, floor drain and basement drain backups, multiple clogged drains, main line clogs, hydro jetting, camera inspections, and urgent drain or sewer issues.",
-  },
-  {
-    question: "What types of plumbing jobs go to Ridge Line Plumbing?",
-    answer:
-      "Smaller residential plumbing and fixture-level repairs — leaking or running toilets, faucet leaks, supply line leaks, shutoff valve issues, and basic fixture plumbing when main line or sewer symptoms are not present.",
-  },
-  {
-    question: "What types of repair jobs go to RHI Pros?",
-    answer:
-      "Water damage repair, drywall and ceiling damage, flooring damage, paint repair, demolition, build-back after leaks or backups, and general property repair after plumbing or water events.",
-  },
-  {
-    question: "Can you help after a toilet, sink, or pipe leak damages drywall or flooring?",
-    answer:
-      "Yes, once the active leak or backup is under control. Build-back and finish repair often routes to RHI Pros after the plumbing or drain issue is addressed.",
-  },
-  {
-    question: "Can you help with storm, fire, mold, or hail damage?",
-    answer:
-      "Berks Property Response is expanding its provider network for major property issues. Submit a request and we will review whether we have a suitable local provider connection. We do not guarantee immediate availability for every category.",
-  },
-  {
-    question: "What if I am not sure what kind of contractor I need?",
-    answer:
-      "Describe what you see in plain language and submit one request. We review the details and route it to the right provider lane — drain and sewer, plumbing, water damage and build-back, or manual review for major property issues.",
+      "Describe what you see in plain language and submit one request. We review the details and coordinate the appropriate local handoff — drain and sewer, plumbing, water-damage repair, or further review for major property issues.",
   },
 ];
