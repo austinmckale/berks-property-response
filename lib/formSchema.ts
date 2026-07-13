@@ -50,7 +50,11 @@ export const leadFormSchema = z.object({
   serviceRequested: z.string().optional(),
   streetAddress: z.string().optional(),
   fixturesAffected: z.string().optional(),
-  waterOrSewagePresent: z.enum(["yes", "no", "unknown"]).optional(),
+  // Hidden inputs can submit "" — treat blank like unset (same pattern as zip/email)
+  waterOrSewagePresent: z
+    .enum(["yes", "no", "unknown"])
+    .optional()
+    .or(z.literal("")),
   smsOptIn: z.boolean().optional(),
   landingPage: z.string().optional(),
   pageType: z.string().optional(),

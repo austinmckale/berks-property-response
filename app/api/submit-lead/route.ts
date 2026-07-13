@@ -29,6 +29,11 @@ export async function POST(request: Request) {
       defaultRoute: parsed.data.defaultRoute || problem.defaultRoute,
       propertyType: parsed.data.propertyType ?? "residential",
       smsOptIn: parsed.data.smsOptIn === true,
+      waterOrSewagePresent:
+        parsed.data.waterOrSewagePresent === "" ||
+        parsed.data.waterOrSewagePresent == null
+          ? undefined
+          : parsed.data.waterOrSewagePresent,
     };
     const photoUploaded = false;
     const routing = routeLead({

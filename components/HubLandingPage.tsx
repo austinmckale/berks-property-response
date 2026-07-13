@@ -37,10 +37,12 @@ interface HubLandingPageProps {
   formTitle?: string;
   formSubtitle?: string;
   showForm?: boolean;
+  /** Form before call CTA — use on /request-help where visitors expect the intake form */
+  intakeFirst?: boolean;
   footer?: ReactNode;
 }
 
-/** Shared layout for every main nav landing page — call first, form second, details last */
+/** Shared layout for hub landing pages — call-first by default; form-first when intakeFirst */
 export function HubLandingPage({
   breadcrumbs,
   title,
@@ -55,8 +57,68 @@ export function HubLandingPage({
   formSubtitle = "Name, phone, city, and a short description of what's happening.",
   form,
   showForm = true,
+  intakeFirst = false,
   footer,
 }: HubLandingPageProps) {
+  const formBlock =
+    showForm && form ? (
+      <div
+        id="get-help"
+        className={
+          intakeFirst
+            ? "mt-6 scroll-mt-6"
+            : "mt-8 scroll-mt-6 border-t border-stone-200 pt-8"
+        }
+      >
+        <h2 className="text-lg font-semibold text-stone-900">{formTitle}</h2>
+        {formSubtitle && (
+          <p className="mt-1 text-sm text-stone-600">{formSubtitle}</p>
+        )}
+        <div className="mt-4">
+          <Suspense
+            fallback={<div className="h-72 animate-pulse rounded-2xl bg-stone-100" />}
+          >
+            <LeadForm
+              pageType={form.pageType}
+              serviceCategory={form.serviceCategory}
+              defaultRoute={form.defaultRoute}
+              defaultService={form.defaultService}
+              initialProblemType={form.initialProblemType}
+              defaultCity={form.defaultCity}
+            />
+          </Suspense>
+        </div>
+        <div className="mt-4">
+          <HubDisclosureLine />
+        </div>
+      </div>
+    ) : null;
+
+  const callBlock =
+    variant === "emergency" ? (
+      <div className={intakeFirst ? "mt-8 border-t border-stone-200 pt-8" : "mt-5"}>
+        {intakeFirst && (
+          <p className="mb-3 text-sm font-medium text-stone-700">
+            Active emergency? Call is fastest.
+          </p>
+        )}
+        <EmergencyCallBanner headline={emergencyHeadline} />
+        {!intakeFirst && (
+          <p className="mt-3 text-sm text-stone-600">
+            Prefer not to call?{" "}
+            <a href="#get-help" className="font-medium text-stone-900 underline">
+              Send a request below
+            </a>
+            <span className="md:hidden"> or use the bottom bar</span>.
+          </p>
+        )}
+      </div>
+    ) : (
+      <div className="mt-5">
+        <PageIntakeCue />
+      </div>
+    );
+
   return (
     <>
       <Breadcrumbs items={breadcrumbs} />
@@ -64,23 +126,6 @@ export function HubLandingPage({
         <div className="page-container">
           <h1 className="text-2xl font-semibold text-stone-900 md:text-3xl">{title}</h1>
           <p className="mt-2 text-stone-600">{subtitle}</p>
-
-          <div className="mt-5">
-            {variant === "emergency" ? (
-              <EmergencyCallBanner headline={emergencyHeadline} />
-            ) : (
-              <PageIntakeCue />
-            )}
-          </div>
-          {variant === "emergency" && (
-            <p className="mt-3 text-sm text-stone-600">
-              Prefer not to call?{" "}
-              <a href="#get-help" className="font-medium text-stone-900 underline">
-                Send a request below
-              </a>
-              <span className="md:hidden"> or use the bottom bar</span>.
-            </p>
-          )}
 
           {alert && <div className="mt-5">{alert}</div>}
 
@@ -92,30 +137,16 @@ export function HubLandingPage({
             </div>
           )}
 
-          {showForm && form && (
-          <div id="get-help" className="mt-8 scroll-mt-6 border-t border-stone-200 pt-8">
-            <h2 className="text-lg font-semibold text-stone-900">{formTitle}</h2>
-            {formSubtitle && (
-              <p className="mt-1 text-sm text-stone-600">{formSubtitle}</p>
-            )}
-            <div className="mt-4">
-              <Suspense
-                fallback={<div className="h-72 animate-pulse rounded-2xl bg-stone-100" />}
-              >
-                <LeadForm
-                  pageType={form.pageType}
-                  serviceCategory={form.serviceCategory}
-                  defaultRoute={form.defaultRoute}
-                  defaultService={form.defaultService}
-                  initialProblemType={form.initialProblemType}
-                  defaultCity={form.defaultCity}
-                />
-              </Suspense>
-            </div>
-            <div className="mt-4">
-              <HubDisclosureLine />
-            </div>
-          </div>
+          {intakeFirst ? (
+            <>
+              {formBlock}
+              {callBlock}
+            </>
+          ) : (
+            <>
+              {callBlock}
+              {formBlock}
+            </>
           )}
 
           {footer && <div className="mt-8">{footer}</div>}

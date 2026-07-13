@@ -46,6 +46,7 @@ export function LeadForm({
   const [submitStatus, setSubmitStatus] = useState<
     "idle" | "loading" | "success" | "error"
   >("idle");
+  const [formError, setFormError] = useState<string | null>(null);
   const [routeResult, setRouteResult] = useState<Record<string, unknown> | null>(
     null
   );
@@ -159,6 +160,7 @@ export function LeadForm({
   }
 
   async function onSubmit(data: LeadFormData) {
+    setFormError(null);
     setSubmitStatus("loading");
     const problem = getProblemType(data.problemType);
     const payload: LeadFormData = {
@@ -171,6 +173,10 @@ export function LeadForm({
       submittedAt: new Date().toISOString(),
       activeConditions: activeConditions.join(", ") || data.activeConditions,
       smsOptIn: Boolean(data.smsOptIn),
+      waterOrSewagePresent:
+        data.waterOrSewagePresent === "" || data.waterOrSewagePresent == null
+          ? undefined
+          : data.waterOrSewagePresent,
     };
 
     try {
@@ -192,6 +198,10 @@ export function LeadForm({
     } catch {
       setSubmitStatus("error");
     }
+  }
+
+  function onInvalid() {
+    setFormError("Please check the required fields and try again.");
   }
 
   if (submitStatus === "success") {
@@ -318,7 +328,7 @@ export function LeadForm({
       )}
 
       {showFormStep && (
-        <form onSubmit={handleSubmit(onSubmit)} className="p-4 md:p-6">
+        <form onSubmit={handleSubmit(onSubmit, onInvalid)} className="p-4 md:p-6">
           {!skipStep1 && (
             <button
               type="button"
@@ -501,13 +511,17 @@ export function LeadForm({
           <input type="hidden" {...register("submittedAt")} />
           <input type="hidden" {...register("waterOrSewagePresent")} />
 
-          {submitStatus === "error" && (
+          {(formError || submitStatus === "error") && (
             <div className="mt-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
-              We couldn&apos;t save your request. Please{" "}
-              <a href={phoneHref(PHONE_NUMBER)} className="font-semibold underline">
-                call {PHONE_NUMBER}
-              </a>{" "}
-              or try again in a moment.
+              {formError ?? (
+                <>
+                  We couldn&apos;t save your request. Please{" "}
+                  <a href={phoneHref(PHONE_NUMBER)} className="font-semibold underline">
+                    call {PHONE_NUMBER}
+                  </a>{" "}
+                  or try again in a moment.
+                </>
+              )}
             </div>
           )}
 

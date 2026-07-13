@@ -35,6 +35,7 @@ export default function RequestHelpPage() {
         title="Get local help"
         subtitle="Pick what happened, then add your name and phone."
         variant="emergency"
+        intakeFirst
         emergencyHeadline="Active backup or leak right now?"
         formTitle="Your request"
         formSubtitle="Two quick steps. No obligation."
