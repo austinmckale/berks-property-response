@@ -70,7 +70,7 @@ Server Settings → Integrations → Webhooks → New Webhook → paste URL into
 
 ## GA4 setup
 
-Set `NEXT_PUBLIC_GA_MEASUREMENT_ID`. Events include `phone_click`, `text_click`, `click_request_help`, `select_problem_category`, `form_started`, `form_submitted`, `form_error`, `generate_lead`. Do not send names, phones, emails, addresses, descriptions, or lead IDs. `phone_click` / `text_click` measure button taps — not confirmed completed Google Voice calls.
+Set `NEXT_PUBLIC_GA_MEASUREMENT_ID`. Events include `phone_click`, `text_click`, `click_request_help`, `click_partner_website`, `select_problem_category`, `form_started`, `form_submitted`, `form_error`, `generate_lead`. Do not send names, phones, emails, addresses, descriptions, or lead IDs. `phone_click` / `text_click` measure button taps — not confirmed completed Google Voice calls.
 
 ## Spam protection
 

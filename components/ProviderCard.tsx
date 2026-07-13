@@ -31,6 +31,19 @@ export function ProviderCard({ provider, note, intakeOnly = false }: ProviderCar
       {note && (
         <p className="mt-3 text-sm leading-relaxed text-stone-700">{note}</p>
       )}
+      {provider.id === "rhi" && provider.website && (
+        <a
+          href={provider.website}
+          target="_blank"
+          rel="noopener noreferrer"
+          data-analytics-event="click_partner_website"
+          data-analytics-provider="rhi"
+          data-analytics-source="local_partners"
+          className="mt-3 inline-block text-sm font-medium text-stone-800 underline underline-offset-2 hover:text-stone-600"
+        >
+          Visit RHI Pros →
+        </a>
+      )}
       {intakeOnly ? (
         <p className="mt-4 rounded-lg bg-stone-50 px-3 py-2.5 text-sm text-stone-600">
           Requests for this type of work are routed through{" "}
@@ -65,18 +78,6 @@ export function ProviderCard({ provider, note, intakeOnly = false }: ProviderCar
       )}
       {provider.verifiedClaims.licensed && provider.verifiedClaims.insured && (
         <p className="mt-3 text-xs text-stone-500">Licensed and insured (per provider)</p>
-      )}
-      {provider.website && (
-        <a
-          href={provider.website}
-          target="_blank"
-          rel="noopener noreferrer"
-          data-analytics-event="click_provider_website"
-          data-analytics-provider={provider.id}
-          className="mt-4 inline-block text-sm font-medium text-stone-800 underline hover:text-stone-600"
-        >
-          Visit website →
-        </a>
       )}
     </div>
   );

@@ -17,6 +17,7 @@ import {
   type ProblemTypeId,
 } from "@/lib/problemTypes";
 import { isProblemTypeId } from "@/lib/intakeLinks";
+import { getCustomerReference } from "@/lib/leadId";
 import { PHONE_NUMBER, TEXT_NUMBER } from "@/lib/siteConfig";
 import { phoneHref, smsHref } from "@/lib/tracking";
 import {
@@ -262,6 +263,7 @@ export function LeadForm({
 
   if (submitStatus === "success") {
     const leadId = routeResult?.leadId;
+    const customerReference = leadId ? getCustomerReference(leadId) : undefined;
     const showUrgent = isActiveProblem({
       waterOrSewagePresent: routeResult?.waterOrSewagePresent,
       urgency: routeResult?.urgency,
@@ -283,9 +285,9 @@ export function LeadForm({
         </div>
         {leadId && (
           <p className="mt-4 rounded-lg border border-green-200 bg-white px-4 py-3 text-sm text-green-900">
-            <span className="font-medium text-green-800">Your reference ID</span>
+            <span className="font-medium text-green-800">Your reference code</span>
             <span className="mt-1 block font-mono text-base font-semibold tracking-tight">
-              {leadId}
+              {customerReference}
             </span>
           </p>
         )}
@@ -299,7 +301,9 @@ export function LeadForm({
           <a
             href={smsHref(
               TEXT_NUMBER,
-              leadId ? `Reference ${leadId} — photos` : "Photos for my request"
+              customerReference
+                ? `Reference ${customerReference} — photos`
+                : "Photos for my request"
             )}
             data-analytics-event="text_click"
             data-analytics-source="form_success"
@@ -307,7 +311,7 @@ export function LeadForm({
           >
             Text them to {TEXT_NUMBER}
           </a>{" "}
-          and include your reference ID.
+          and include your reference code.
         </p>
         {showUrgent && (
           <div className="mt-6 rounded-xl bg-red-600 p-4 text-center">

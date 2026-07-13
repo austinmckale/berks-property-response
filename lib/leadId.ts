@@ -36,3 +36,15 @@ export function generateLeadId(now = new Date()): string {
 export function isLeadId(value: string): boolean {
   return LEAD_ID_PATTERN.test(value);
 }
+
+/**
+ * Short customer-facing reference. The full lead ID remains the canonical
+ * identifier for routing, storage, and operations.
+ */
+export function getCustomerReference(leadId: string): string {
+  const match = /^BPR-\d{4}(\d{2})(\d{2})-\d{6}-(\d{4})$/.exec(leadId);
+  if (!match) return leadId;
+
+  const [, month, day, suffix] = match;
+  return `BPR-${month}${day}-${suffix}`;
+}

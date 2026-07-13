@@ -97,7 +97,8 @@ export const providers: Record<Exclude<ProviderId, "manual_review">, Provider> =
     type: "contractor/restoration/build-back provider",
     description:
       "Routes water damage repair, drywall, paint, flooring, ceiling, demo, and property repairs after plumbing, drain, or water events. Broader remodeling lives at RHIpros.com.",
-    website: "https://rhipros.com",
+    website:
+      "https://www.rhipros.com/?utm_source=berkspropertyresponse&utm_medium=referral&utm_campaign=local_partners",
     phone: "(484) 706-9229",
     email: "quotes@rhipros.com",
     logoImage: "/images/rhi-pros-logo.png",

@@ -5,6 +5,7 @@ export const ANALYTICS_EVENT_NAMES = [
   "phone_click",
   "text_click",
   "click_request_help",
+  "click_partner_website",
   "select_problem_category",
   "form_started",
   "form_submitted",

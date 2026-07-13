@@ -157,6 +157,20 @@ describe("Sheets mapping compatibility", () => {
     expect(row.zip).toBe("");
   });
 
+  it("maps the submitted name and phone into their Sheets fields", () => {
+    const form = leadFormSchema.parse({
+      problemType: "plumbing-leak",
+      name: "Jane Smith",
+      phone: "4845550100",
+      city: "Reading",
+      problemDescription: "Kitchen faucet drip under the sink.",
+      waterOrSewagePresent: "no",
+    });
+    const row = mapToGoogleSheetRow(form, routing);
+    expect(row.customer_name).toBe("Jane Smith");
+    expect(row.phone).toBe("4845550100");
+  });
+
   it("keeps supplied email and ZIP for existing inbound payloads", () => {
     const form = leadFormSchema.parse({
       problemType: "plumbing-leak",
@@ -180,6 +194,7 @@ describe("analytics event contract", () => {
       "phone_click",
       "text_click",
       "click_request_help",
+      "click_partner_website",
       "select_problem_category",
       "form_started",
       "form_submitted",
