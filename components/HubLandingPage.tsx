@@ -2,8 +2,8 @@ import Link from "next/link";
 import { Suspense, type ReactNode } from "react";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import {
+  CompactUrgentCallStrip,
   EmergencyCallBanner,
-  HubDisclosureLine,
   PageIntakeCue,
 } from "@/components/ConversionHub";
 import {
@@ -26,9 +26,11 @@ interface HubLandingPageProps {
   breadcrumbs: { name: string; path: string }[];
   title: string;
   subtitle: string;
-  /** emergency = giant call banner; standard = call + text row */
+  /** emergency = giant call banner; standard = request-first with optional compact call */
   variant?: "emergency" | "standard";
   emergencyHeadline?: string;
+  /** Compact call strip above the form (request-help) */
+  showCompactUrgentCall?: boolean;
   alert?: ReactNode;
   middle?: ReactNode;
   symptoms?: FormSymptomOption[];
@@ -37,23 +39,24 @@ interface HubLandingPageProps {
   formTitle?: string;
   formSubtitle?: string;
   showForm?: boolean;
-  /** Form before call CTA — use on /request-help where visitors expect the intake form */
+  /** Form before large call CTA */
   intakeFirst?: boolean;
   footer?: ReactNode;
 }
 
-/** Shared layout for hub landing pages — call-first by default; form-first when intakeFirst */
+/** Shared layout for hub landing pages */
 export function HubLandingPage({
   breadcrumbs,
   title,
   subtitle,
   variant = "standard",
   emergencyHeadline,
+  showCompactUrgentCall = false,
   alert,
   middle,
   symptoms,
   symptomTitle,
-  formTitle = "Request local help",
+  formTitle = "Send a quick request",
   formSubtitle = "Name, phone, city, and a short description of what's happening.",
   form,
   showForm = true,
@@ -65,7 +68,7 @@ export function HubLandingPage({
       <div
         id="get-help"
         className={
-          intakeFirst
+          intakeFirst || showCompactUrgentCall
             ? "mt-6 scroll-mt-6"
             : "mt-8 scroll-mt-6 border-t border-stone-200 pt-8"
         }
@@ -88,36 +91,40 @@ export function HubLandingPage({
             />
           </Suspense>
         </div>
-        <div className="mt-4">
-          <HubDisclosureLine />
-        </div>
+      </div>
+    ) : null;
+
+  const compactCall =
+    showCompactUrgentCall ? (
+      <div className="mt-5">
+        <CompactUrgentCallStrip
+          message={
+            emergencyHeadline ??
+            "Active water or sewage right now? Calling is fastest."
+          }
+        />
       </div>
     ) : null;
 
   const callBlock =
-    variant === "emergency" ? (
+    variant === "emergency" && !showCompactUrgentCall ? (
       <div className={intakeFirst ? "mt-8 border-t border-stone-200 pt-8" : "mt-5"}>
-        {intakeFirst && (
-          <p className="mb-3 text-sm font-medium text-stone-700">
-            Active emergency? Call is fastest.
-          </p>
-        )}
         <EmergencyCallBanner headline={emergencyHeadline} />
         {!intakeFirst && (
           <p className="mt-3 text-sm text-stone-600">
             Prefer not to call?{" "}
             <a href="#get-help" className="font-medium text-stone-900 underline">
-              Send a request below
+              Send a quick request below
             </a>
             <span className="md:hidden"> or use the bottom bar</span>.
           </p>
         )}
       </div>
-    ) : (
+    ) : variant === "standard" && !showCompactUrgentCall ? (
       <div className="mt-5">
         <PageIntakeCue />
       </div>
-    );
+    ) : null;
 
   return (
     <>
@@ -137,7 +144,9 @@ export function HubLandingPage({
             </div>
           )}
 
-          {intakeFirst ? (
+          {showCompactUrgentCall && compactCall}
+
+          {intakeFirst || showCompactUrgentCall ? (
             <>
               {formBlock}
               {callBlock}

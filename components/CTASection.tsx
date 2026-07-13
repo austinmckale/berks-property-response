@@ -22,7 +22,7 @@ export function CTASection({
         <div className="mt-5 flex flex-col gap-3 md:mt-6 md:flex-row md:items-center md:justify-center">
           <a
             href={phoneHref(PHONE_NUMBER)}
-            data-analytics-event="click_call"
+            data-analytics-event="phone_click"
             data-analytics-source="cta_section"
             className="btn-touch-lg w-full rounded-xl bg-red-600 text-base font-semibold text-white active:bg-red-700 md:w-auto md:rounded-lg md:px-8"
           >
@@ -30,7 +30,7 @@ export function CTASection({
           </a>
           <a
             href={smsHref(TEXT_NUMBER)}
-            data-analytics-event="click_text"
+            data-analytics-event="text_click"
             data-analytics-source="cta_section"
             className="btn-touch-lg w-full rounded-xl bg-stone-900 text-base font-semibold text-white active:bg-stone-800 md:w-auto md:rounded-lg md:px-6"
           >

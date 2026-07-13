@@ -67,9 +67,9 @@ export const services: ServicePage[] = [
     ],
     faqs: [
       {
-        question: "Is Berks Property Response the company that does the drain work?",
+        question: "Who handles the drain work?",
         answer:
-          "No. Berks Property Response helps you get connected with local specialists. Actual drain and sewer work is performed by the independent local company we connect you with.",
+          "Berks Property Response reviews the request and coordinates the handoff. The local drain specialist you choose supplies the estimate, performs the work, and contracts with you directly.",
       },
       {
         question: "Should I keep using water if only one drain is slow?",

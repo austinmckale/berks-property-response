@@ -10,7 +10,7 @@ import {
   webPageSchema,
 } from "@/lib/schema";
 import { Breadcrumbs } from "./Breadcrumbs";
-import { EmergencyCallBanner, HubDisclosureLine, PageIntakeCue } from "./ConversionHub";
+import { EmergencyCallBanner, PageIntakeCue } from "./ConversionHub";
 import { FormSymptomPicker } from "./FormSymptomPicker";
 import { FAQ } from "./FAQ";
 import { LeadForm } from "./LeadForm";
@@ -88,9 +88,6 @@ export function CityPageTemplate({ city }: { city: CityPage }) {
                 defaultCity={city.name}
               />
             </Suspense>
-            <div className="mt-4">
-              <HubDisclosureLine />
-            </div>
           </div>
 
           {city.neighborhoods && (

@@ -1,4 +1,5 @@
-import Link from "next/link";
+"use client";
+
 import {
   CloudLightning,
   Droplets,
@@ -7,8 +8,12 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { triageCards } from "@/lib/problems";
+import type { ProblemTypeId } from "@/lib/problemTypes";
 
-const iconMap: Record<string, { Icon: LucideIcon; iconBg: string; iconColor: string; accent: string }> = {
+const iconMap: Record<
+  string,
+  { Icon: LucideIcon; iconBg: string; iconColor: string; accent: string }
+> = {
   drain: {
     Icon: Pipette,
     iconBg: "bg-red-50",
@@ -35,45 +40,91 @@ const iconMap: Record<string, { Icon: LucideIcon; iconBg: string; iconColor: str
   },
 };
 
-export function TriageCards() {
+interface TriageCardsProps {
+  /** When provided, cards select in-place instead of navigating */
+  onSelect?: (problem: ProblemTypeId) => void;
+  selected?: ProblemTypeId;
+  /** Pass null to hide the section heading (parent already titled the intake) */
+  heading?: "default" | null;
+}
+
+export function TriageCards({
+  onSelect,
+  selected,
+  heading = "default",
+}: TriageCardsProps = {}) {
   return (
-    <section className="section-pad px-4">
-      <div className="page-container-wide md:max-w-6xl">
-        <p className="eyebrow">Start here</p>
-        <h2 className="font-display mt-2 text-2xl font-semibold tracking-tight text-stone-900 md:text-3xl">
-          What&apos;s going on?
-        </h2>
-        <p className="mt-2 max-w-xl text-sm text-stone-600 md:text-base">
-          Pick the closest match — we&apos;ll pre-fill the request form below.
-        </p>
-        <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 lg:gap-4">
-          {triageCards.map((card) => {
-            const style = iconMap[card.icon] ?? iconMap.plumbing;
-            const { Icon } = style;
-            return (
-              <Link
-                key={card.title}
-                href={`/?problem=${card.problem}#get-help`}
-                className={`card-touch card-elevated group block border-l-4 bg-white p-5 transition hover:shadow-md ${style.accent}`}
+    <div>
+      {heading === "default" && (
+        <>
+          <p className="eyebrow">Start here</p>
+          <h2 className="font-display mt-2 text-2xl font-semibold tracking-tight text-stone-900 md:text-3xl">
+            What&apos;s going on?
+          </h2>
+          <p className="mt-2 max-w-xl text-sm text-stone-600 md:text-base">
+            Pick the closest match — we&apos;ll open the request form next.
+          </p>
+        </>
+      )}
+      <div
+        className={`grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 lg:gap-4 ${
+          heading === "default" ? "mt-6" : ""
+        }`}
+        role={onSelect ? "listbox" : undefined}
+        aria-label={onSelect ? "Problem category" : undefined}
+      >
+        {triageCards.map((card) => {
+          const style = iconMap[card.icon] ?? iconMap.plumbing;
+          const { Icon } = style;
+          const isSelected = selected === card.problem;
+          const className = `card-touch card-elevated group block w-full border-l-4 bg-white p-5 text-left transition hover:shadow-md ${style.accent} ${
+            isSelected ? "ring-2 ring-stone-900 ring-offset-2" : ""
+          }`;
+
+          const content = (
+            <>
+              <span
+                className={`flex h-11 w-11 items-center justify-center rounded-xl ${style.iconBg}`}
               >
-                <span
-                  className={`flex h-11 w-11 items-center justify-center rounded-xl ${style.iconBg}`}
-                >
-                  <Icon className={`h-5 w-5 ${style.iconColor}`} strokeWidth={2} aria-hidden />
+                <Icon className={`h-5 w-5 ${style.iconColor}`} strokeWidth={2} aria-hidden />
+              </span>
+              <h3 className="mt-4 font-semibold leading-snug text-stone-900">{card.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-stone-600">{card.description}</p>
+              <span className="mt-4 inline-flex items-center text-sm font-semibold text-brand group-hover:underline">
+                {isSelected ? "Selected" : card.cta}
+                <span className="ml-1 transition group-hover:translate-x-0.5" aria-hidden>
+                  →
                 </span>
-                <h3 className="mt-4 font-semibold leading-snug text-stone-900">{card.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-stone-600">{card.description}</p>
-                <span className="mt-4 inline-flex items-center text-sm font-semibold text-brand group-hover:underline">
-                  {card.cta}
-                  <span className="ml-1 transition group-hover:translate-x-0.5" aria-hidden>
-                    →
-                  </span>
-                </span>
-              </Link>
+              </span>
+            </>
+          );
+
+          if (onSelect) {
+            return (
+              <button
+                key={card.title}
+                type="button"
+                role="option"
+                aria-selected={isSelected}
+                onClick={() => onSelect(card.problem)}
+                className={className}
+              >
+                {content}
+              </button>
             );
-          })}
-        </div>
+          }
+
+          return (
+            <a
+              key={card.title}
+              href={`/?problem=${card.problem}#get-help`}
+              className={className}
+            >
+              {content}
+            </a>
+          );
+        })}
       </div>
-    </section>
+    </div>
   );
 }

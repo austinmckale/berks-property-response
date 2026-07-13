@@ -47,7 +47,7 @@ export function Hero({
             <div className="flex flex-col items-stretch gap-3 sm:mx-auto sm:max-w-md">
               <a
                 href={phoneHref(PHONE_NUMBER)}
-                data-analytics-event="click_call"
+                data-analytics-event="phone_click"
                 data-analytics-source="hero"
                 className="btn-touch-lg inline-flex w-full items-center justify-center rounded-xl bg-red-600 px-5 py-3.5 text-base font-semibold text-white shadow-sm active:bg-red-700"
               >
@@ -59,13 +59,13 @@ export function Hero({
                 data-analytics-source="hero"
                 className="btn-primary w-full"
               >
-                Send a request
+                Send a quick request
               </Link>
             </div>
             <p className="mt-4 text-sm text-stone-400">
               <a
                 href={smsHref(TEXT_NUMBER)}
-                data-analytics-event="click_text"
+                data-analytics-event="text_click"
                 data-analytics-source="hero"
                 className="font-medium text-stone-200 underline underline-offset-2 hover:text-white"
               >
@@ -89,7 +89,7 @@ export function Hero({
           <div className="mt-8">
             <a
               href={phoneHref(PHONE_NUMBER)}
-              data-analytics-event="click_call"
+              data-analytics-event="phone_click"
               data-analytics-source="hero_emergency"
               className="block rounded-2xl bg-red-600 px-5 py-5 shadow-lg shadow-red-950/30 active:bg-red-700"
             >
@@ -121,7 +121,7 @@ export function Hero({
               Or call{" "}
               <a
                 href={phoneHref(PHONE_NUMBER)}
-                data-analytics-event="click_call"
+                data-analytics-event="phone_click"
                 data-analytics-source="hero"
                 className="text-white underline underline-offset-2"
               >

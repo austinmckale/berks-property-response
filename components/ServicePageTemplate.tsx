@@ -11,7 +11,7 @@ import {
   webPageSchema,
 } from "@/lib/schema";
 import { Breadcrumbs } from "./Breadcrumbs";
-import { EmergencyCallBanner, HubDisclosureLine, PageIntakeCue } from "./ConversionHub";
+import { EmergencyCallBanner, PageIntakeCue } from "./ConversionHub";
 import { FAQ } from "./FAQ";
 import { inferProblemTypeFromContext } from "@/lib/problemTypes";
 import { LeadForm } from "./LeadForm";
@@ -123,9 +123,6 @@ export function ServicePageTemplate({ service }: ServicePageTemplateProps) {
                   initialProblemType={initialProblemType}
                 />
               </Suspense>
-            </div>
-            <div className="mt-4">
-              <HubDisclosureLine />
             </div>
           </div>
 

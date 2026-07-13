@@ -6,6 +6,7 @@ import { getProblemType } from "@/lib/problemTypes";
 import { routeLead } from "@/lib/routing";
 import { mapToWebhookPayload } from "@/lib/webhookMapper";
 import { PHONE_NUMBER } from "@/lib/siteConfig";
+import { resolveUrgency } from "@/lib/urgency";
 import {
   checkDistributedRateLimit,
   checkSpamFields,
@@ -78,20 +79,20 @@ export async function POST(request: Request) {
     }
 
     const problem = getProblemType(parsed.data.problemType);
+    const urgency = resolveUrgency({
+      categoryDefault: parsed.data.urgency ?? problem.urgency,
+      waterOrSewagePresent: parsed.data.waterOrSewagePresent,
+    });
     const form = {
       ...parsed.data,
-      urgency: parsed.data.urgency ?? problem.urgency,
+      urgency,
       serviceRequested:
         parsed.data.serviceRequested || problem.defaultService,
       serviceCategory: parsed.data.serviceCategory ?? problem.serviceCategory,
       defaultRoute: parsed.data.defaultRoute || problem.defaultRoute,
       propertyType: parsed.data.propertyType ?? "residential",
       smsOptIn: parsed.data.smsOptIn === true,
-      waterOrSewagePresent:
-        parsed.data.waterOrSewagePresent === "" ||
-        parsed.data.waterOrSewagePresent == null
-          ? undefined
-          : parsed.data.waterOrSewagePresent,
+      waterOrSewagePresent: parsed.data.waterOrSewagePresent,
     };
     const photoUploaded = false;
     const routing = routeLead({

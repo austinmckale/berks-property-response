@@ -144,6 +144,7 @@ export function scoreLead(input: LeadInput, primaryRoute: ProviderId): number {
     text.includes("water damage")
   )
     score += 30;
+  if (input.urgency === "emergency") score += 25;
   if (input.urgency === "same-day") score += 20;
   if (input.phone) score += 15;
   if (input.photoUploaded) score += 10;

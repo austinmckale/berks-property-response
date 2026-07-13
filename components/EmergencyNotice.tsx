@@ -16,7 +16,7 @@ export function EmergencyNotice({
       <p className="mt-2 text-sm text-red-900">{message}</p>
       <a
         href={phoneHref(PHONE_NUMBER)}
-        data-analytics-event="click_call"
+        data-analytics-event="phone_click"
         data-analytics-source="emergency_notice"
         className="mt-4 inline-block rounded-lg bg-red-600 px-5 py-2 text-sm font-semibold text-white hover:bg-red-700"
       >

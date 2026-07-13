@@ -6,18 +6,18 @@ export const SITE_URL =
 
 /**
  * Call number shown site-wide.
- * Production must set NEXT_PUBLIC_PHONE explicitly (see lib/env.ts).
- * Local/dev may fall back to the confirmed BPR business number.
+ * Defaults to the confirmed BPR Google Voice number.
+ * Optional NEXT_PUBLIC_PHONE override for future tracking numbers.
  */
 export const PHONE_NUMBER =
-  process.env.NEXT_PUBLIC_PHONE ?? DEFAULT_DEV_PHONE;
+  process.env.NEXT_PUBLIC_PHONE?.trim() || DEFAULT_DEV_PHONE;
 
 /**
- * SMS / "Text photos" number. Defaults to PHONE_NUMBER unless a different
- * text line is configured via NEXT_PUBLIC_TEXT_NUMBER.
+ * SMS / "Text photos" number.
+ * Defaults to PHONE_NUMBER unless NEXT_PUBLIC_TEXT_NUMBER is set.
  */
 export const TEXT_NUMBER =
-  process.env.NEXT_PUBLIC_TEXT_NUMBER ?? PHONE_NUMBER;
+  process.env.NEXT_PUBLIC_TEXT_NUMBER?.trim() || PHONE_NUMBER;
 
 /** Optional public contact email — only show when configured */
 export const CONTACT_EMAIL =
@@ -79,7 +79,7 @@ export const FOOTER_ABOUT_LINKS = [
 export const HOME_STEPS = [
   {
     title: "Tell us what happened",
-    body: "Call, text, email, or send a short request describing the drain, plumbing, or water-damage issue.",
+    body: "Call, text, email, or send a short request.",
   },
   {
     title: "We review the situation",
@@ -87,7 +87,7 @@ export const HOME_STEPS = [
   },
   {
     title: "We coordinate the handoff",
-    body: "We select an appropriate local provider based on the service needed, location, scope, and known provider coverage.",
+    body: "We select an appropriate local provider based on the service needed, location, scope, and current coverage.",
   },
   {
     title: "The provider contacts you",

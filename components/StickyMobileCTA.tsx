@@ -7,16 +7,20 @@ import { getHelpHref } from "@/lib/intakeLinks";
 import { PHONE_NUMBER, TEXT_NUMBER } from "@/lib/siteConfig";
 import { phoneHref, smsHref } from "@/lib/tracking";
 
-/** Fixed thumb-zone actions — hidden on form page, desktop, and when mobile nav is open */
+/**
+ * Fixed thumb-zone actions — Call (urgent), Request (primary), Text (supporting).
+ * Hidden when mobile nav is open. Visible on /request-help so Call stays available mid-form.
+ */
 export function StickyMobileCTA() {
   const pathname = usePathname();
   const { menuOpen } = useMobileNav();
 
-  if (pathname === "/request-help" || menuOpen) {
+  if (menuOpen) {
     return null;
   }
 
-  const helpHref = getHelpHref(pathname);
+  const helpHref = pathname === "/request-help" ? "#get-help" : getHelpHref(pathname);
+  const onRequestHelp = pathname === "/request-help";
 
   return (
     <div
@@ -26,29 +30,40 @@ export function StickyMobileCTA() {
       <div className="grid grid-cols-3 gap-1.5 p-2 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
         <a
           href={phoneHref(PHONE_NUMBER)}
-          data-analytics-event="click_call"
+          data-analytics-event="phone_click"
           data-analytics-source="sticky_mobile"
           className="btn-touch-fill rounded-xl bg-red-600 text-white active:bg-red-700"
         >
-          Call BPR
+          Call now
         </a>
+        {onRequestHelp ? (
+          <a
+            href="#get-help"
+            data-analytics-event="click_request_help"
+            data-analytics-source="sticky_mobile"
+            className="btn-touch-fill rounded-xl bg-brand text-white active:bg-brand-hover"
+          >
+            Request
+          </a>
+        ) : (
+          <Link
+            href={helpHref}
+            data-analytics-event="click_request_help"
+            data-analytics-source="sticky_mobile"
+            className="btn-touch-fill rounded-xl bg-brand text-white active:bg-brand-hover"
+          >
+            Request
+          </Link>
+        )}
         <a
           href={smsHref(TEXT_NUMBER)}
-          data-analytics-event="click_text"
+          data-analytics-event="text_click"
           data-analytics-source="sticky_mobile"
-          className="btn-touch-fill rounded-xl bg-stone-900 text-white active:bg-stone-800"
+          className="btn-touch-fill rounded-xl border border-stone-300 bg-white text-stone-800 active:bg-stone-50"
           aria-label="Text photos"
         >
           Text photos
         </a>
-        <Link
-          href={helpHref}
-          data-analytics-event="click_request_help"
-          data-analytics-source="sticky_mobile"
-          className="btn-touch-fill rounded-xl bg-brand text-white active:bg-brand-hover"
-        >
-          Request
-        </Link>
       </div>
     </div>
   );

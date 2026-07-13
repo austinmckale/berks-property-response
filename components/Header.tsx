@@ -69,7 +69,7 @@ export function Header() {
 
           <a
             href={phoneHref(PHONE_NUMBER)}
-            data-analytics-event="click_call"
+            data-analytics-event="phone_click"
             data-analytics-source="header"
             className="btn-touch hidden shrink-0 rounded-lg bg-red-600 px-3 text-sm font-semibold text-white hover:bg-red-700 md:inline-flex md:px-4"
           >

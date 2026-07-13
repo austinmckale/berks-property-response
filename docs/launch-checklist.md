@@ -10,8 +10,8 @@ Use this checklist before a public soft launch. Check items only after they are 
 - [ ] HTTPS working
 - [ ] `NEXT_PUBLIC_SITE_URL` set to the custom HTTPS domain (not `*.vercel.app`)
 - [ ] Canonical domain confirmed in sitemap / page source
-- [ ] BPR phone tested (`NEXT_PUBLIC_PHONE` set explicitly in Vercel — confirmed `(484) 509-0748`)
-- [ ] BPR SMS / text-photos tested (same as phone, or `NEXT_PUBLIC_TEXT_NUMBER` when different)
+- [ ] BPR phone tested (default `(484) 509-0748`, or override via `NEXT_PUBLIC_PHONE`)
+- [ ] BPR SMS / text-photos tested (same number, or `NEXT_PUBLIC_TEXT_NUMBER` when different)
 - [ ] Voicemail tested
 - [ ] Missed-call behavior tested
 - [ ] Business email tested (if used)

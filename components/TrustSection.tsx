@@ -8,9 +8,9 @@ const trustItems = [
       "Berks Property Response reviews your request and routes it to an independent local provider suited to the issue. That provider may contact you about availability, pricing, and next steps.",
   },
   {
-    question: "Is Berks Property Response the contractor?",
+    question: "Who performs the work?",
     answer:
-      "No. Berks Property Response is a local intake and matching service. Independent providers perform the work, set pricing, and handle scheduling, estimates, workmanship, and warranties.",
+      "Berks Property Response handles intake and coordinates the connection. The local provider you choose supplies the estimate, performs the work, and contracts with you directly.",
   },
   {
     question: "Is there any obligation?",
@@ -18,9 +18,9 @@ const trustItems = [
       "No. Submitting a request does not require you to hire anyone. You can discuss the job with the provider and decide what makes sense.",
   },
   {
-    question: "Does Berks Property Response charge the homeowner?",
+    question: "Is there a fee to request help?",
     answer:
-      "Berks Property Response does not charge homeowners a fee to submit a request. The provider you speak with handles their own pricing and estimates.",
+      "No. There is no fee to call, text, or submit a request. The provider you speak with handles their own pricing and estimates.",
   },
   {
     question: "How are jobs routed?",

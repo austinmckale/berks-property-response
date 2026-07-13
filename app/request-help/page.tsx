@@ -33,12 +33,12 @@ export default function RequestHelpPage() {
       <HubLandingPage
         breadcrumbs={crumbs}
         title="Get local help"
-        subtitle="Pick what happened, then add your name and phone."
-        variant="emergency"
-        intakeFirst
-        emergencyHeadline="Active backup or leak right now?"
+        subtitle="Pick what happened, answer one quick triage question, then add your name and phone."
+        variant="standard"
+        showCompactUrgentCall
+        emergencyHeadline="Active water or sewage right now? Calling is fastest."
         formTitle="Your request"
-        formSubtitle="Two quick steps. No obligation."
+        formSubtitle="No fee to request help. No obligation to hire."
         form={{ pageType: "request-help" }}
       />
     </>

@@ -32,10 +32,10 @@ export function RoutingStepsSection() {
         </ol>
 
         <div className="mt-8 rounded-xl border border-stone-200 bg-white p-4 text-sm text-stone-700">
-          <p className="font-medium text-stone-900">Is Berks Property Response the contractor?</p>
+          <p className="font-medium text-stone-900">What happens after you reach out?</p>
           <p className="mt-1.5 leading-relaxed">
-            No. BPR is a local intake hub. An independent provider may call or text you about
-            availability and next steps. There is no obligation to hire.
+            A local coordinator reviews the details and coordinates an appropriate provider handoff.
+            Submitting a request does not guarantee availability and does not obligate you to hire.
           </p>
         </div>
 

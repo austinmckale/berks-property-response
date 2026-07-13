@@ -1,5 +1,5 @@
 import { Breadcrumbs } from "@/components/Breadcrumbs";
-import { HubDisclosureLine, PageIntakeCue } from "@/components/ConversionHub";
+import { PageIntakeCue } from "@/components/ConversionHub";
 import { ProviderCard } from "@/components/ProviderCard";
 import { SchemaScript } from "@/components/SchemaScript";
 import { PROVIDER_AVAILABILITY_NOTE } from "@/lib/disclosures";
@@ -61,10 +61,6 @@ export default function LocalPartnersPage() {
           </div>
 
           <p className="mt-6 text-sm text-stone-600">{PROVIDER_AVAILABILITY_NOTE}</p>
-
-          <div className="mt-4">
-            <HubDisclosureLine />
-          </div>
         </div>
       </section>
     </>

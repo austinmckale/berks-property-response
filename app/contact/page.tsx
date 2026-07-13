@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { SchemaScript } from "@/components/SchemaScript";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
-import { EmergencyCallBanner, HubDisclosureLine } from "@/components/ConversionHub";
+import { EmergencyCallBanner } from "@/components/ConversionHub";
 import { LeadForm } from "@/components/LeadForm";
 import { SERVICE_AREA_NATURAL_COPY } from "@/lib/brand";
 import { breadcrumbItems, buildMetadata } from "@/lib/seo";
@@ -22,12 +22,20 @@ export const metadata = buildMetadata({
   path: "/contact",
 });
 
+const routingHelps = [
+  "What is happening.",
+  "Whether water or sewage is active now.",
+  "Which fixture, room, or drain is affected.",
+  "City or ZIP.",
+  "Photos when available.",
+] as const;
+
 export default function ContactPage() {
   const crumbs = breadcrumbItems([{ name: "Contact", path: "/contact" }]);
   const schemas = combineSchemas(
     organizationSchema(),
     webPageSchema({
-      title: "Contact",
+      title: "Tell us what is happening",
       description: "Contact Berks Property Response.",
       path: "/contact",
     }),
@@ -40,10 +48,12 @@ export default function ContactPage() {
       <Breadcrumbs items={crumbs} />
       <section className="px-4 py-6 md:py-10">
         <div className="page-container">
-          <h1 className="text-2xl font-semibold text-stone-900 md:text-3xl">Contact</h1>
+          <h1 className="text-2xl font-semibold text-stone-900 md:text-3xl">
+            Tell us what is happening
+          </h1>
           <p className="mt-2 text-stone-600">
-            Tell us what is happening and where the property is located. We will review the request
-            and coordinate the appropriate next step.
+            Call, text, or send the details and the property location. A local coordinator will
+            review the request and coordinate the appropriate next step.
           </p>
 
           <div className="mt-5">
@@ -53,7 +63,7 @@ export default function ContactPage() {
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
             <a
               href={phoneHref(PHONE_NUMBER)}
-              data-analytics-event="click_call"
+              data-analytics-event="phone_click"
               data-analytics-source="contact"
               className="btn-touch-lg inline-flex items-center justify-center rounded-xl bg-red-600 px-4 py-3.5 text-center text-base font-semibold text-white active:bg-red-700"
             >
@@ -61,7 +71,7 @@ export default function ContactPage() {
             </a>
             <a
               href={smsHref(TEXT_NUMBER)}
-              data-analytics-event="click_text"
+              data-analytics-event="text_click"
               data-analytics-source="contact"
               className="btn-touch-lg inline-flex items-center justify-center rounded-xl bg-stone-900 px-4 py-3.5 text-center text-base font-semibold text-white active:bg-stone-800"
             >
@@ -89,11 +99,22 @@ export default function ContactPage() {
           <p className="mt-3 text-sm text-stone-600">
             After you contact us, a local coordinator reviews the details and coordinates a warm
             handoff to an appropriate provider. The provider then discusses availability, pricing,
-            and next steps with you.{" "}
+            and next steps with you. You do not need to know which provider to ask for.{" "}
             <Link href="/how-it-works" className="font-medium underline">
               How it works
             </Link>
           </p>
+
+          <div className="mt-8 rounded-2xl border border-stone-200 bg-stone-50 px-5 py-5">
+            <h2 className="text-base font-semibold text-stone-900">
+              What helps us route the request
+            </h2>
+            <ul className="mt-3 list-disc space-y-1.5 pl-5 text-sm text-stone-600">
+              {routingHelps.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
 
           <div id="get-help" className="mt-8 scroll-mt-6 border-t border-stone-200 pt-8">
             <h2 className="text-lg font-semibold text-stone-900">Send a request</h2>
@@ -106,9 +127,6 @@ export default function ContactPage() {
               >
                 <LeadForm pageType="contact" />
               </Suspense>
-            </div>
-            <div className="mt-4">
-              <HubDisclosureLine />
             </div>
           </div>
         </div>

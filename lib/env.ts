@@ -7,9 +7,8 @@
  */
 
 /**
- * Confirmed Berks Property Response business number.
- * Used as the local/dev fallback when NEXT_PUBLIC_PHONE is unset.
- * Production must set NEXT_PUBLIC_PHONE explicitly (this value is valid when configured).
+ * Confirmed Berks Property Response Google Voice business number.
+ * Valid code default for call and text. Optional env overrides may replace it.
  */
 export const DEFAULT_DEV_PHONE = "(484) 509-0748";
 
@@ -30,6 +29,10 @@ function trim(value: string | undefined): string {
 
 function isConfigured(value: string | undefined): boolean {
   return Boolean(trim(value));
+}
+
+function phoneDigitCount(value: string): number {
+  return value.replace(/\D/g, "").length;
 }
 
 /** Durable ops ledger — Sheets or complete Resend admin email. Discord alone is not enough. */
@@ -106,15 +109,26 @@ export function collectProductionEnvIssues(
   const issues: EnvIssue[] = [];
   const siteUrl = trim(env.NEXT_PUBLIC_SITE_URL);
   const phone = trim(env.NEXT_PUBLIC_PHONE);
+  const text = trim(env.NEXT_PUBLIC_TEXT_NUMBER);
 
   issues.push(...validateSiteUrl(siteUrl, options));
 
-  if (!phone) {
+  // Phone env vars are optional — DEFAULT_DEV_PHONE is the confirmed Google Voice number.
+  if (phone && phoneDigitCount(phone) < 10) {
     issues.push({
       level: "error",
-      code: "PHONE_MISSING",
+      code: "PHONE_INVALID",
       message:
-        "NEXT_PUBLIC_PHONE is required in production. Set it explicitly in Vercel (local/dev may fall back to DEFAULT_DEV_PHONE).",
+        "NEXT_PUBLIC_PHONE must contain at least 10 digits when set.",
+    });
+  }
+
+  if (text && phoneDigitCount(text) < 10) {
+    issues.push({
+      level: "error",
+      code: "TEXT_INVALID",
+      message:
+        "NEXT_PUBLIC_TEXT_NUMBER must contain at least 10 digits when set.",
     });
   }
 
@@ -147,7 +161,6 @@ export function collectProductionEnvIssues(
     isConfigured(env.DISCORD_WEBHOOK_URL) &&
     !hasDurableLeadDestination(env)
   ) {
-    // Already covered by NO_DURABLE_LEAD_DESTINATION; keep a clarifying warn
     issues.push({
       level: "warn",
       code: "DISCORD_NOT_DURABLE",
@@ -211,8 +224,7 @@ export function assertProductionEnv(): void {
       allowVercelPreviewHost: true,
     });
     for (const issue of previewIssues) {
-      const log = issue.level === "error" ? console.warn : console.warn;
-      log(`[env:preview] ${issue.code}: ${issue.message}`);
+      console.warn(`[env:preview] ${issue.code}: ${issue.message}`);
     }
     return;
   }

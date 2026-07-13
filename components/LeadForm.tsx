@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { usePathname, useSearchParams } from "next/navigation";
@@ -19,6 +19,11 @@ import {
 import { isProblemTypeId } from "@/lib/intakeLinks";
 import { PHONE_NUMBER, TEXT_NUMBER } from "@/lib/siteConfig";
 import { phoneHref, smsHref } from "@/lib/tracking";
+import {
+  isActiveProblem,
+  resolveUrgency,
+  type WaterSewageAnswer,
+} from "@/lib/urgency";
 
 interface LeadFormProps {
   pageType?: string;
@@ -27,9 +32,18 @@ interface LeadFormProps {
   defaultService?: string;
   initialProblemType?: ProblemTypeId;
   defaultCity?: string;
-  /** When true, step 1 lives outside the form (e.g. homepage triage cards) */
-  externalProblemSelection?: boolean;
+  showCategoryChange?: boolean;
+  onChangeCategory?: () => void;
 }
+
+const WATER_OPTIONS: {
+  value: WaterSewageAnswer;
+  label: string;
+}[] = [
+  { value: "yes", label: "Yes — active right now" },
+  { value: "no", label: "No" },
+  { value: "unknown", label: "Not sure" },
+];
 
 export function LeadForm({
   pageType = "general",
@@ -38,7 +52,8 @@ export function LeadForm({
   defaultService = "",
   initialProblemType,
   defaultCity = "",
-  externalProblemSelection = false,
+  showCategoryChange = false,
+  onChangeCategory,
 }: LeadFormProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -49,15 +64,19 @@ export function LeadForm({
   const [formError, setFormError] = useState<string | null>(null);
   const [formStartedAt] = useState(() => Date.now());
   const [formStartedTracked, setFormStartedTracked] = useState(false);
-  const [routeResult, setRouteResult] = useState<Record<string, unknown> | null>(
-    null
-  );
+  const [routeResult, setRouteResult] = useState<{
+    leadId?: string;
+    waterOrSewagePresent?: string;
+    urgency?: string;
+  } | null>(null);
+  const formTopRef = useRef<HTMLDivElement>(null);
 
   const {
     register,
     handleSubmit,
     setValue,
     watch,
+    setFocus,
     formState: { errors },
   } = useForm<LeadFormData>({
     resolver: zodResolver(leadFormSchema),
@@ -71,34 +90,9 @@ export function LeadForm({
     },
   });
 
-  const [activeConditions, setActiveConditions] = useState<string[]>([]);
-
-  const toggleCondition = (value: string) => {
-    setActiveConditions((prev) => {
-      const next = prev.includes(value)
-        ? prev.filter((v) => v !== value)
-        : [...prev, value];
-      setValue("activeConditions", next.join(", "));
-      return next;
-    });
-  };
-
-  const conditionOptions = [
-    { value: "active-water", label: "Active water / leaking now" },
-    { value: "sewage", label: "Sewage or backup present" },
-    { value: "mold", label: "Visible mold or moisture concern" },
-    { value: "fire-smoke", label: "Fire or smoke damage" },
-    { value: "storm-hail", label: "Storm or hail damage" },
-    { value: "structural", label: "Structural concern (sag, crack, etc.)" },
-  ];
-
   const selectedProblem = watch("problemType");
-  const isEmergency = watch("urgency") === "emergency";
-  const skipStep1 = Boolean(initialProblemType) || externalProblemSelection;
-  /** Problem type implies urgency — skip redundant urgency/condition fields */
-  const showCompactStep2 = Boolean(selectedProblem);
-  const showFormStep =
-    step === 2 && (!externalProblemSelection || Boolean(selectedProblem));
+  const waterAnswer = watch("waterOrSewagePresent");
+  const showFormStep = Boolean(selectedProblem) && (step === 2 || Boolean(initialProblemType));
 
   useEffect(() => {
     setValue("formStartedAt", formStartedAt);
@@ -120,52 +114,65 @@ export function LeadForm({
   }, [pathname, pageType, serviceCategory, defaultRoute, searchParams, setValue]);
 
   useEffect(() => {
-    if (defaultCity) {
-      setValue("city", defaultCity);
-    }
+    if (defaultCity) setValue("city", defaultCity);
   }, [defaultCity, setValue]);
 
   useEffect(() => {
-    const problemParam = searchParams.get("problem");
-    if (problemParam && isProblemTypeId(problemParam)) {
-      const option = getProblemType(problemParam);
-      setValue("problemType", problemParam, { shouldValidate: true });
-      setValue("urgency", option.urgency);
-      setValue("serviceCategory", option.serviceCategory);
-      setValue("defaultRoute", option.defaultRoute);
-      setStep(2);
-    }
-  }, [searchParams, setValue]);
-
-  useEffect(() => {
     const cityParam = searchParams.get("city");
-    if (cityParam) {
-      setValue("city", cityParam);
-    }
+    if (cityParam) setValue("city", cityParam);
   }, [searchParams, setValue]);
 
   useEffect(() => {
-    if (activeConditions.includes("sewage")) {
-      setValue("waterOrSewagePresent", "yes");
+    const problemParam = searchParams.get("problem");
+    if (!initialProblemType && problemParam && isProblemTypeId(problemParam)) {
+      applyProblem(problemParam, { track: false });
     }
-  }, [activeConditions, setValue]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- URL preselect for embedded forms
+  }, [searchParams, initialProblemType]);
 
-  function selectProblem(id: ProblemTypeId) {
+  function applyProblem(id: ProblemTypeId, opts: { track: boolean }) {
     const option = getProblemType(id);
     setValue("problemType", id, { shouldValidate: true });
-    setValue("urgency", option.urgency);
+    const water = (watch("waterOrSewagePresent") ?? undefined) as
+      | WaterSewageAnswer
+      | undefined;
+    setValue(
+      "urgency",
+      resolveUrgency({
+        categoryDefault: option.urgency,
+        waterOrSewagePresent: water,
+      })
+    );
     setValue("serviceCategory", option.serviceCategory);
     setValue("defaultRoute", option.defaultRoute);
     setStep(2);
-    trackEvent("select_problem_category", {
-      problem_type: id,
-      page_type: pageType,
-    });
-    if (typeof window !== "undefined") {
-      const anchor = document.getElementById("get-help");
-      if (anchor) {
-        anchor.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
+    if (opts.track) {
+      trackEvent("select_problem_category", {
+        problem_type: id,
+        page_type: pageType,
+      });
+    }
+  }
+
+  function selectProblem(id: ProblemTypeId) {
+    applyProblem(id, { track: true });
+  }
+
+  function setWaterAnswer(value: WaterSewageAnswer) {
+    setValue("waterOrSewagePresent", value, { shouldValidate: true });
+    const problemId = watch("problemType");
+    if (!problemId) return;
+    const categoryDefault = getProblemType(problemId).urgency;
+    setValue(
+      "urgency",
+      resolveUrgency({ categoryDefault, waterOrSewagePresent: value })
+    );
+    if (value === "unknown") {
+      setValue("activeConditions", "water-sewage-uncertain");
+    } else if (value === "yes") {
+      setValue("activeConditions", "active-water");
+    } else {
+      setValue("activeConditions", "");
     }
   }
 
@@ -180,22 +187,22 @@ export function LeadForm({
     setSubmitStatus("loading");
     trackEvent("form_submitted", { page_type: pageType });
     const problem = getProblemType(data.problemType);
+    const urgencyResolved = resolveUrgency({
+      categoryDefault: data.urgency ?? problem.urgency,
+      waterOrSewagePresent: data.waterOrSewagePresent,
+    });
     const payload: LeadFormData = {
       ...data,
-      urgency: data.urgency ?? problem.urgency,
+      urgency: urgencyResolved,
       propertyType: "residential",
       serviceRequested: defaultService || problem.defaultService,
       serviceCategory: problem.serviceCategory,
       defaultRoute: defaultRoute || problem.defaultRoute,
       submittedAt: new Date().toISOString(),
-      activeConditions: activeConditions.join(", ") || data.activeConditions,
       smsOptIn: Boolean(data.smsOptIn),
       formStartedAt,
       bprHpField: data.bprHpField ?? "",
-      waterOrSewagePresent:
-        data.waterOrSewagePresent === "" || data.waterOrSewagePresent == null
-          ? undefined
-          : data.waterOrSewagePresent,
+      waterOrSewagePresent: data.waterOrSewagePresent,
     };
 
     try {
@@ -208,7 +215,11 @@ export function LeadForm({
       if (!res.ok || !json.success) {
         throw new Error(json.error ?? "Submission failed");
       }
-      setRouteResult({ leadId: json.leadId });
+      setRouteResult({
+        leadId: json.leadId,
+        waterOrSewagePresent: payload.waterOrSewagePresent,
+        urgency: urgencyResolved,
+      });
       setSubmitStatus("success");
       trackEvent("generate_lead", {
         page_type: pageType,
@@ -220,14 +231,36 @@ export function LeadForm({
     }
   }
 
-  function onInvalid() {
+  function onInvalid(fieldErrors: typeof errors) {
     setFormError("Please check the required fields and try again.");
+    const order: (keyof LeadFormData)[] = [
+      "problemType",
+      "waterOrSewagePresent",
+      "name",
+      "phone",
+      "city",
+      "zip",
+      "problemDescription",
+      "email",
+    ];
+    const first = order.find((key) => fieldErrors[key]);
+    if (first) {
+      try {
+        setFocus(first);
+      } catch {
+        formTopRef.current?.scrollIntoView({ block: "start" });
+      }
+    }
   }
 
   if (submitStatus === "success") {
-    const leadId = (routeResult as { leadId?: string })?.leadId;
+    const leadId = routeResult?.leadId;
+    const showUrgent = isActiveProblem({
+      waterOrSewagePresent: routeResult?.waterOrSewagePresent,
+      urgency: routeResult?.urgency,
+    });
     return (
-      <div className="card-elevated border-green-200 bg-green-50 p-6 md:p-8">
+      <div className="card-elevated border-green-200 bg-green-50 p-6 md:p-8" role="status" aria-live="polite">
         <div className="flex items-start gap-3">
           <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-green-600 text-sm font-bold text-white">
             ✓
@@ -257,8 +290,11 @@ export function LeadForm({
         <p className="mt-3 text-sm text-green-800">
           Have photos?{" "}
           <a
-            href={smsHref(TEXT_NUMBER)}
-            data-analytics-event="click_text"
+            href={smsHref(
+              TEXT_NUMBER,
+              leadId ? `Reference ${leadId} — photos` : "Photos for my request"
+            )}
+            data-analytics-event="text_click"
             data-analytics-source="form_success"
             className="font-semibold underline"
           >
@@ -266,7 +302,7 @@ export function LeadForm({
           </a>{" "}
           and include your reference ID.
         </p>
-        {isEmergency && (
+        {showUrgent && (
           <div className="mt-6 rounded-xl bg-red-600 p-4 text-center">
             <p className="text-sm font-medium text-white">
               Active water or sewage problem? Call now rather than waiting for an online
@@ -274,11 +310,11 @@ export function LeadForm({
             </p>
             <a
               href={phoneHref(PHONE_NUMBER)}
-              data-analytics-event="click_call"
+              data-analytics-event="phone_click"
               data-analytics-source="form_success_emergency"
               className="mt-2 inline-block text-lg font-semibold text-white underline"
             >
-              {PHONE_NUMBER}
+              Call {PHONE_NUMBER}
             </a>
           </div>
         )}
@@ -292,21 +328,8 @@ export function LeadForm({
   const errorClass = "mt-1.5 text-sm text-red-600";
 
   return (
-    <div className="card-elevated relative overflow-hidden md:mx-0">
-      {!skipStep1 && (
-        <div className="border-b border-stone-100 px-4 py-3 md:px-6 md:py-4">
-          <div className="flex items-center gap-3">
-            <StepDot active={step >= 1} done={step > 1} label="1" />
-            <div className="h-px flex-1 bg-stone-200" />
-            <StepDot active={step >= 2} done={false} label="2" />
-          </div>
-          <p className="mt-3 text-xs font-medium uppercase tracking-wide text-stone-500">
-            Step {step} of 2
-          </p>
-        </div>
-      )}
-
-      {step === 1 && !externalProblemSelection && (
+    <div ref={formTopRef} className="card-elevated relative overflow-hidden md:mx-0">
+      {!initialProblemType && step === 1 && (
         <div className="p-4 md:p-6">
           <h3 className="text-lg font-semibold text-stone-900 md:text-xl">
             Tell us what&apos;s going on
@@ -344,43 +367,97 @@ export function LeadForm({
         </div>
       )}
 
-      {externalProblemSelection && !selectedProblem && (
-        <div className="p-6 text-center">
-          <p className="text-sm text-stone-600">
-            Tap a category above to continue with your request.
-          </p>
-        </div>
-      )}
-
-      {showFormStep && (
+      {showFormStep && selectedProblem && (
         <form
           onSubmit={handleSubmit(onSubmit, onInvalid)}
           onFocus={markFormStarted}
           className="p-4 md:p-6"
+          noValidate
         >
-          {!skipStep1 && (
+          {(showCategoryChange || !initialProblemType) && (
             <button
               type="button"
-              onClick={() => setStep(1)}
+              onClick={() => {
+                if (onChangeCategory) {
+                  onChangeCategory();
+                } else {
+                  setStep(1);
+                }
+              }}
               className="btn-touch min-h-[2.75rem] text-sm font-medium text-stone-600 active:text-stone-900"
             >
-              ← Change problem type
+              ← Change category
             </button>
           )}
-          <h3 className={`text-lg font-semibold text-stone-900 md:text-xl ${skipStep1 ? "" : "mt-3 md:mt-4"}`}>
-            {showCompactStep2 ? "Quick request" : "How can we reach you?"}
+
+          <h3
+            className={`text-lg font-semibold text-stone-900 md:text-xl ${
+              showCategoryChange || !initialProblemType ? "mt-3" : ""
+            }`}
+          >
+            Quick request
           </h3>
-          {selectedProblem && (
-            <p className="mt-1 text-sm text-stone-600">
-              {getProblemType(selectedProblem).title}
-            </p>
+          <p className="mt-1 text-sm text-stone-600">
+            {getProblemType(selectedProblem).title}
+          </p>
+
+          <fieldset className="mt-5">
+            <legend className={labelClass}>
+              Is water or sewage actively leaking, backing up, or spreading right now?{" "}
+              <span className="font-normal text-stone-500">(required)</span>
+            </legend>
+            <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-3" role="radiogroup">
+              {WATER_OPTIONS.map((option) => {
+                const selected = waterAnswer === option.value;
+                return (
+                  <button
+                    key={option.value}
+                    type="button"
+                    role="radio"
+                    aria-checked={selected}
+                    onClick={() => setWaterAnswer(option.value)}
+                    className={`btn-touch rounded-xl border px-3 py-3.5 text-sm font-semibold transition ${
+                      selected
+                        ? option.value === "yes"
+                          ? "border-red-700 bg-red-600 text-white"
+                          : "border-stone-900 bg-stone-900 text-white"
+                        : "border-stone-300 bg-white text-stone-800 active:bg-stone-50"
+                    }`}
+                  >
+                    {option.label}
+                  </button>
+                );
+              })}
+            </div>
+            {errors.waterOrSewagePresent && (
+              <p className={errorClass} role="alert">
+                {errors.waterOrSewagePresent.message}
+              </p>
+            )}
+          </fieldset>
+
+          {waterAnswer === "yes" && (
+            <div className="mt-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3">
+              <p className="text-sm font-medium text-red-950">
+                Calling is fastest for an active water or sewage problem. You can still send this
+                request if you cannot call right now.
+              </p>
+              <a
+                href={phoneHref(PHONE_NUMBER)}
+                data-analytics-event="phone_click"
+                data-analytics-source="form_active_water"
+                className="btn-touch mt-3 inline-flex w-full items-center justify-center rounded-xl bg-red-600 px-4 py-3 text-sm font-semibold text-white active:bg-red-700 sm:w-auto"
+              >
+                Call now — {PHONE_NUMBER}
+              </a>
+            </div>
           )}
 
-          <div className="mt-5 space-y-4 md:mt-6">
+          <div className="mt-5 space-y-4">
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <div>
                 <label className={labelClass} htmlFor="name">
-                  Name
+                  Name <span className="font-normal text-stone-500">(required)</span>
                 </label>
                 <input
                   id="name"
@@ -389,11 +466,15 @@ export function LeadForm({
                   className={inputClass}
                   {...register("name")}
                 />
-                {errors.name && <p className={errorClass}>{errors.name.message}</p>}
+                {errors.name && (
+                  <p className={errorClass} role="alert">
+                    {errors.name.message}
+                  </p>
+                )}
               </div>
               <div>
                 <label className={labelClass} htmlFor="phone">
-                  Phone
+                  Phone <span className="font-normal text-stone-500">(required)</span>
                 </label>
                 <input
                   id="phone"
@@ -404,14 +485,18 @@ export function LeadForm({
                   className={inputClass}
                   {...register("phone")}
                 />
-                {errors.phone && <p className={errorClass}>{errors.phone.message}</p>}
+                {errors.phone && (
+                  <p className={errorClass} role="alert">
+                    {errors.phone.message}
+                  </p>
+                )}
               </div>
             </div>
 
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-[1fr_8rem]">
               <div>
                 <label className={labelClass} htmlFor="city">
-                  City
+                  City <span className="font-normal text-stone-500">(required)</span>
                 </label>
                 <input
                   id="city"
@@ -420,7 +505,11 @@ export function LeadForm({
                   className={inputClass}
                   {...register("city")}
                 />
-                {errors.city && <p className={errorClass}>{errors.city.message}</p>}
+                {errors.city && (
+                  <p className={errorClass} role="alert">
+                    {errors.city.message}
+                  </p>
+                )}
               </div>
               <div>
                 <label className={labelClass} htmlFor="zip">
@@ -429,71 +518,37 @@ export function LeadForm({
                 <input
                   id="zip"
                   autoComplete="postal-code"
+                  inputMode="numeric"
                   placeholder="19601"
                   className={inputClass}
                   {...register("zip")}
                 />
-                {errors.zip && <p className={errorClass}>{errors.zip.message}</p>}
+                {errors.zip && (
+                  <p className={errorClass} role="alert">
+                    {errors.zip.message}
+                  </p>
+                )}
               </div>
             </div>
 
             <div>
               <label className={labelClass} htmlFor="problemDescription">
-                What&apos;s happening?
+                What&apos;s happening?{" "}
+                <span className="font-normal text-stone-500">(required)</span>
               </label>
               <textarea
                 id="problemDescription"
                 rows={3}
-                placeholder="A sentence or two is enough—include which room, drain, or fixture if you can."
+                placeholder="A sentence or two is enough—which room, drain, or fixture if you can."
                 className={inputClass}
                 {...register("problemDescription")}
               />
               {errors.problemDescription && (
-                <p className={errorClass}>{errors.problemDescription.message}</p>
+                <p className={errorClass} role="alert">
+                  {errors.problemDescription.message}
+                </p>
               )}
             </div>
-
-            {!showCompactStep2 && (
-            <fieldset>
-              <legend className={labelClass}>What&apos;s present right now? (optional)</legend>
-              <div className="mt-2 space-y-2">
-                {conditionOptions.map((option) => (
-                  <label
-                    key={option.value}
-                    className="flex cursor-pointer items-start gap-3 rounded-lg border border-stone-200 bg-stone-50 px-3 py-2.5"
-                  >
-                    <input
-                      type="checkbox"
-                      checked={activeConditions.includes(option.value)}
-                      onChange={() => toggleCondition(option.value)}
-                      className="mt-0.5 h-4 w-4 rounded border-stone-300"
-                    />
-                    <span className="text-sm text-stone-700">{option.label}</span>
-                  </label>
-                ))}
-              </div>
-            </fieldset>
-            )}
-
-            {!showCompactStep2 && (
-            <div>
-              <label className={labelClass} htmlFor="urgency">
-                How urgent is this?
-              </label>
-              <select id="urgency" className={inputClass} {...register("urgency")}>
-                <option value="emergency">Emergency — active backup, leak, or damage now</option>
-                <option value="same-day">Same day or as soon as possible</option>
-                <option value="this-week">This week</option>
-                <option value="estimate-only">Just researching / not urgent</option>
-              </select>
-            </div>
-            )}
-
-            {!showCompactStep2 && (
-            <p className="text-sm text-stone-600">
-              Photos help — text them after you submit using the link below.
-            </p>
-            )}
 
             <details className="rounded-xl border border-stone-200 bg-stone-50 px-4 py-3">
               <summary className="cursor-pointer py-1 text-sm font-medium text-stone-700">
@@ -510,23 +565,31 @@ export function LeadForm({
                   className={inputClass}
                   {...register("email")}
                 />
-                {errors.email && <p className={errorClass}>{errors.email.message}</p>}
+                {errors.email && (
+                  <p className={errorClass} role="alert">
+                    {errors.email.message}
+                  </p>
+                )}
               </div>
             </details>
 
-            {showCompactStep2 && (
-              <p className="text-sm text-stone-600">
-                Have photos?{" "}
-                <a href={smsHref(TEXT_NUMBER)} className="font-medium text-stone-900 underline">
-                  Text them to {TEXT_NUMBER}
-                </a>{" "}
-                after submitting.
-              </p>
-            )}
+            <p className="text-sm text-stone-600">
+              Photos help — you can{" "}
+              <a
+                href={smsHref(TEXT_NUMBER)}
+                data-analytics-event="text_click"
+                data-analytics-source="form_photos_hint"
+                className="font-medium text-stone-900 underline"
+              >
+                text them to {TEXT_NUMBER}
+              </a>{" "}
+              during or after this request.
+            </p>
           </div>
 
           <input type="hidden" {...register("problemType")} />
           <input type="hidden" {...register("urgency")} />
+          <input type="hidden" {...register("waterOrSewagePresent")} />
           <input type="hidden" {...register("landingPage")} />
           <input type="hidden" {...register("pageType")} />
           <input type="hidden" {...register("serviceCategory")} />
@@ -539,9 +602,7 @@ export function LeadForm({
           <input type="hidden" {...register("referrer")} />
           <input type="hidden" {...register("activeConditions")} />
           <input type="hidden" {...register("submittedAt")} />
-          <input type="hidden" {...register("waterOrSewagePresent")} />
           <input type="hidden" {...register("formStartedAt")} />
-          {/* Honeypot — opaque name to avoid autofill; leave empty */}
           <div className="pointer-events-none absolute left-[-10000px] top-auto h-px w-px overflow-hidden opacity-0" aria-hidden="true">
             <label htmlFor="bprHpField">Leave blank</label>
             <input
@@ -578,11 +639,12 @@ export function LeadForm({
             disabled={submitStatus === "loading"}
             className="btn-touch-lg mt-6 w-full rounded-xl bg-brand text-base font-semibold text-white shadow-sm active:bg-brand-hover disabled:opacity-50"
           >
-            {submitStatus === "loading" ? "Sending..." : "Request local help"}
+            {submitStatus === "loading" ? "Sending..." : "Send my request"}
           </button>
-          <p className="mt-4 text-xs leading-relaxed text-stone-500">
-            {FORM_SUBMIT_FINE_PRINT}
+          <p className="mt-3 text-center text-sm font-medium text-stone-700">
+            No fee to request help. No obligation to hire.
           </p>
+          <p className="mt-4 text-xs leading-relaxed text-stone-500">{FORM_SUBMIT_FINE_PRINT}</p>
           <p className="mt-2 text-xs text-stone-500">
             <Link href="/disclosure" className="underline hover:text-stone-700">
               Disclosure
@@ -595,30 +657,5 @@ export function LeadForm({
         </form>
       )}
     </div>
-  );
-}
-
-function StepDot({
-  active,
-  done,
-  label,
-}: {
-  active: boolean;
-  done: boolean;
-  label: string;
-}) {
-  return (
-    <span
-      className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold ${
-        done
-          ? "bg-green-600 text-white"
-          : active
-            ? "bg-stone-900 text-white"
-            : "bg-stone-200 text-stone-500"
-      }`}
-      aria-hidden
-    >
-      {done ? "OK" : label}
-    </span>
   );
 }

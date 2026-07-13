@@ -10,9 +10,15 @@ import {
 } from "@/lib/env";
 
 describe("phone validation", () => {
+  it("uses (484) 509-0748 as the confirmed BPR default", () => {
+    expect(DEFAULT_DEV_PHONE).toBe("(484) 509-0748");
+  });
+
   it("accepts formatted US numbers with at least 10 digits", () => {
     expect(isValidPhoneDigits("(484) 555-0100")).toBe(true);
     expect(phoneDigits("(484) 555-0100")).toBe("4845550100");
+    expect(isValidPhoneDigits(DEFAULT_DEV_PHONE)).toBe(true);
+    expect(phoneDigits(DEFAULT_DEV_PHONE)).toBe("4845090748");
   });
 
   it("rejects short numbers", () => {
@@ -29,6 +35,7 @@ describe("ZIP validation", () => {
       city: "Reading",
       zip: "19601",
       problemDescription: "Kitchen faucet drip under the sink.",
+      waterOrSewagePresent: "no",
       formStartedAt: Date.now() - 5000,
     }).success).toBe(true);
 
@@ -39,6 +46,7 @@ describe("ZIP validation", () => {
       city: "Reading",
       zip: "19601-1234",
       problemDescription: "Kitchen faucet drip under the sink.",
+      waterOrSewagePresent: "no",
       formStartedAt: Date.now() - 5000,
     }).success).toBe(true);
   });
@@ -51,6 +59,7 @@ describe("ZIP validation", () => {
       city: "Reading",
       zip: "196",
       problemDescription: "Kitchen faucet drip under the sink.",
+      waterOrSewagePresent: "no",
       formStartedAt: Date.now() - 5000,
     });
     expect(result.success).toBe(false);
@@ -115,14 +124,15 @@ describe("production env validation", () => {
     vi.restoreAllMocks();
   });
 
-  it("1. missing NEXT_PUBLIC_PHONE fails in production validation", () => {
+  it("1. missing NEXT_PUBLIC_PHONE is allowed (confirmed Google Voice default)", () => {
     const codes = collectProductionEnvIssues({
       NEXT_PUBLIC_SITE_URL: "https://berkspropertyresponse.com",
       LEAD_WEBHOOK_URL: "https://script.google.com/macros/s/example/exec",
     } as unknown as NodeJS.ProcessEnv)
       .filter((i) => i.level === "error")
       .map((i) => i.code);
-    expect(codes).toContain("PHONE_MISSING");
+    expect(codes).not.toContain("PHONE_MISSING");
+    expect(codes).not.toContain("PHONE_INVALID");
   });
 
   it("1b. confirmed BPR number is accepted when explicitly set", () => {
@@ -133,6 +143,17 @@ describe("production env validation", () => {
       NEXT_PUBLIC_GA_MEASUREMENT_ID: "G-TEST",
     } as unknown as NodeJS.ProcessEnv).filter((i) => i.level === "error");
     expect(errors).toEqual([]);
+  });
+
+  it("1c. invalid phone override fails when set", () => {
+    const codes = collectProductionEnvIssues({
+      NEXT_PUBLIC_SITE_URL: "https://berkspropertyresponse.com",
+      NEXT_PUBLIC_PHONE: "555-0100",
+      LEAD_WEBHOOK_URL: "https://script.google.com/macros/s/example/exec",
+    } as unknown as NodeJS.ProcessEnv)
+      .filter((i) => i.level === "error")
+      .map((i) => i.code);
+    expect(codes).toContain("PHONE_INVALID");
   });
 
   it("2. missing production site URL fails", () => {
@@ -245,6 +266,7 @@ describe("production env validation", () => {
     expect(codes).toContain("SITE_URL_VERCEL_PREVIEW");
     expect(codes).not.toContain("PHONE_PLACEHOLDER");
     expect(codes).not.toContain("PHONE_MISSING");
+    expect(codes).not.toContain("PHONE_INVALID");
     expect(codes).toContain("NO_DURABLE_LEAD_DESTINATION");
   });
 });

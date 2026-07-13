@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { REFERRAL_DISCLOSURE_INLINE } from "@/lib/disclosures";
-import { PHONE_NUMBER } from "@/lib/siteConfig";
-import { phoneHref } from "@/lib/tracking";
+import { PHONE_NUMBER, TEXT_NUMBER } from "@/lib/siteConfig";
+import { phoneHref, smsHref } from "@/lib/tracking";
 
 interface EmergencyCallBannerProps {
   headline?: string;
@@ -16,7 +16,7 @@ export function EmergencyCallBanner({
       <p className="text-base font-semibold md:text-lg">{headline}</p>
       <a
         href={phoneHref(PHONE_NUMBER)}
-        data-analytics-event="click_call"
+        data-analytics-event="phone_click"
         data-analytics-source="emergency_banner"
         className="mt-3 block text-3xl font-bold tracking-tight underline-offset-4 hover:underline md:text-4xl"
       >
@@ -37,7 +37,7 @@ interface PageIntakeCueProps {
  */
 export function PageIntakeCue({
   href = "#get-help",
-  label = "Send a request",
+  label = "Send a quick request",
 }: PageIntakeCueProps) {
   return (
     <div className="mt-5 hidden md:block">
@@ -50,14 +50,23 @@ export function PageIntakeCue({
         {label}
       </Link>
       <p className="mt-2 text-sm text-stone-500">
-        Or{" "}
+        Urgent?{" "}
         <a
           href={phoneHref(PHONE_NUMBER)}
-          data-analytics-event="click_call"
+          data-analytics-event="phone_click"
           data-analytics-source="page_intake_cue"
           className="font-medium text-stone-800 underline"
         >
-          Call BPR now
+          Call now
+        </a>
+        <span className="mx-1.5 text-stone-300">·</span>
+        <a
+          href={smsHref(TEXT_NUMBER)}
+          data-analytics-event="text_click"
+          data-analytics-source="page_intake_cue"
+          className="font-medium text-stone-600 underline"
+        >
+          Text photos
         </a>
       </p>
     </div>
@@ -98,6 +107,27 @@ export function SymptomPicker({
           </li>
         ))}
       </ul>
+    </div>
+  );
+}
+
+/** Compact urgent-call strip — above forms without a giant competing banner. */
+export function CompactUrgentCallStrip({
+  message = "Active water or sewage right now? Calling is fastest.",
+}: {
+  message?: string;
+}) {
+  return (
+    <div className="flex flex-col gap-3 rounded-xl border border-red-200 bg-red-50 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+      <p className="text-sm font-medium text-red-950">{message}</p>
+      <a
+        href={phoneHref(PHONE_NUMBER)}
+        data-analytics-event="phone_click"
+        data-analytics-source="compact_urgent_call"
+        className="btn-touch inline-flex shrink-0 items-center justify-center rounded-xl bg-red-600 px-4 py-2.5 text-sm font-semibold text-white active:bg-red-700"
+      >
+        Call now
+      </a>
     </div>
   );
 }

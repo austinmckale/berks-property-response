@@ -38,8 +38,8 @@ Confirm Organization, WebPage, WebSite (home), BreadcrumbList, Service, and FAQP
 
 | Event | Trigger |
 |-------|---------|
-| `click_call` | Call Now / tel links |
-| `click_text` | Send Photos / SMS links |
+| `phone_click` | Call Now / tel links |
+| `text_click` | Send Photos / SMS links |
 | `click_request_help` | Request Help links |
 | `generate_lead` | Successful lead form submission |
 
@@ -49,7 +49,7 @@ UTM and `gclid` parameters are captured in lead payloads and available for attri
 
 - Search Console: indexing coverage, new query impressions, click-through rate on service pages.
 - GA4: `generate_lead` volume by landing page and source/medium.
-- Confirm `NEXT_PUBLIC_PHONE` is set in production before relying on call conversion data.
+- Confirm call CTAs use the live Google Voice number before relying on `phone_click` conversion data (measures button clicks, not completed calls).
 - Do **not** create a Google Business Profile for Berks Property Response unless it becomes a direct-service business.
 
 ## Optional later
