@@ -1,14 +1,20 @@
 import Link from "next/link";
 import { BrandLogo } from "@/components/BrandLogo";
-import { FOOTER_DISCLOSURE } from "@/lib/disclosures";
-import {
-  FOOTER_ABOUT_LINKS,
-  FOOTER_SERVICE_LINKS,
-  PHONE_NUMBER,
-  REQUEST_HELP_LINK,
-  SITE_SUBTITLE,
-} from "@/lib/siteConfig";
+import { PHONE_NUMBER, REQUEST_HELP_LINK } from "@/lib/siteConfig";
 import { phoneHref } from "@/lib/tracking";
+
+const serviceLinks = [
+  { href: "/drains", label: "Drain & sewer" },
+  { href: "/plumbing-and-leaks", label: "Plumbing & leaks" },
+  { href: "/after-leak", label: "After a leak" },
+  { href: "/service-areas", label: "Service areas" },
+] as const;
+
+const aboutLinks = [
+  { href: "/how-it-works", label: "How it works" },
+  { href: "/local-partners", label: "Local provider network" },
+  { href: "/contact", label: "Contact" },
+] as const;
 
 export function Footer() {
   return (
@@ -17,26 +23,29 @@ export function Footer() {
         <div className="grid gap-8 md:grid-cols-3 md:gap-10">
           <div>
             <BrandLogo variant="footer" />
-            <p className="mt-3 text-sm leading-relaxed text-stone-400">{SITE_SUBTITLE}</p>
+            <p className="mt-3 text-sm leading-relaxed text-stone-400">
+              Local help coordination for drain, plumbing, and water-damage problems in Berks
+              County.
+            </p>
             <a
               href={phoneHref(PHONE_NUMBER)}
               data-analytics-event="phone_click"
               data-analytics-source="footer"
               className="mt-4 inline-block text-base font-semibold text-white underline-offset-2 hover:underline"
             >
-              {PHONE_NUMBER}
+              Call {PHONE_NUMBER}
             </a>
             <Link
               href={REQUEST_HELP_LINK.href}
               className="mt-3 block text-sm font-semibold text-stone-200 underline-offset-2 hover:underline"
             >
-              Send a request →
+              Request help
             </Link>
           </div>
           <div>
-            <p className="text-sm font-semibold text-white">Common issues</p>
+            <p className="text-sm font-semibold text-white">Services</p>
             <ul className="mt-3 space-y-1">
-              {FOOTER_SERVICE_LINKS.map((link) => (
+              {serviceLinks.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
@@ -49,9 +58,9 @@ export function Footer() {
             </ul>
           </div>
           <div>
-            <p className="text-sm font-semibold text-white">About</p>
+            <p className="text-sm font-semibold text-white">Information</p>
             <ul className="mt-3 space-y-1">
-              {FOOTER_ABOUT_LINKS.map((link) => (
+              {aboutLinks.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
@@ -67,11 +76,19 @@ export function Footer() {
       </div>
       <div className="border-t border-stone-800 px-4 py-6">
         <p className="mx-auto max-w-6xl text-xs leading-relaxed text-stone-500">
-          {FOOTER_DISCLOSURE}{" "}
+          Berks Property Response coordinates requests with independent local providers. Providers
+          set pricing and perform the work.{" "}
           <Link href="/disclosure" className="underline hover:text-stone-400">
-            Full disclosure
+            Disclosure
           </Link>
-          .
+          <span aria-hidden="true"> · </span>
+          <Link href="/privacy-policy" className="underline hover:text-stone-400">
+            Privacy
+          </Link>
+          <span aria-hidden="true"> · </span>
+          <Link href="/terms" className="underline hover:text-stone-400">
+            Terms
+          </Link>
         </p>
         <p className="mx-auto mt-4 max-w-6xl text-xs text-stone-600">
           © {new Date().getFullYear()} Berks Property Response

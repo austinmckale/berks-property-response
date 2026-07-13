@@ -59,9 +59,17 @@ export default function HowItWorksPage() {
                 Full disclosure
               </Link>
             </p>
+            <Link
+              href="/request-help"
+              data-analytics-event="click_request_help"
+              data-analytics-source="how_it_works"
+              className="btn-primary mt-2 w-full md:hidden"
+            >
+              Request local help
+            </Link>
           </div>
         }
-        form={{ pageType: "how-it-works" }}
+        showForm={false}
       />
     </>
   );

@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { SchemaScript } from "@/components/SchemaScript";
 import { HubLandingPage } from "@/components/HubLandingPage";
-import { LocalTrustSection } from "@/components/LocalTrustSection";
 import { cities } from "@/lib/cities";
 import { breadcrumbItems, buildMetadata } from "@/lib/seo";
 import {
@@ -33,25 +32,34 @@ export default function ServiceAreasPage() {
   return (
     <>
       <SchemaScript schemas={schemas} />
-      <LocalTrustSection />
       <HubLandingPage
         breadcrumbs={crumbs}
         title="Service areas"
         subtitle="Pick your city — call or send a request for local help."
         middle={
-          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-            {cities.map((city) => (
-              <Link
-                key={city.slug}
-                href={`/service-areas/${city.slug}`}
-                className="btn-touch rounded-xl border-2 border-stone-200 bg-white px-3 py-4 text-center text-sm font-semibold text-stone-900 active:bg-stone-50 hover:border-stone-400"
-              >
-                {city.name}
-              </Link>
-            ))}
+          <div>
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+              {cities.map((city) => (
+                <Link
+                  key={city.slug}
+                  href={`/service-areas/${city.slug}`}
+                  className="btn-touch rounded-xl border-2 border-stone-200 bg-white px-3 py-4 text-center text-sm font-semibold text-stone-900 active:bg-stone-50 hover:border-stone-400"
+                >
+                  {city.name}
+                </Link>
+              ))}
+            </div>
+            <Link
+              href="/request-help"
+              data-analytics-event="click_request_help"
+              data-analytics-source="service_areas"
+              className="btn-primary mt-6 w-full md:hidden"
+            >
+              Request local help
+            </Link>
           </div>
         }
-        form={{ pageType: "service-areas" }}
+        showForm={false}
       />
     </>
   );

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { PageIntakeCue } from "@/components/ConversionHub";
 import { ProviderCard } from "@/components/ProviderCard";
@@ -46,13 +47,16 @@ export default function LocalPartnersPage() {
           <h1 className="text-2xl font-semibold text-stone-900 md:text-3xl">
             Local provider network
           </h1>
-          <p className="mt-3 text-base leading-relaxed text-stone-600">
-            Berks Property Response coordinates requests with local companies that serve different
-            types of property problems. The provider selected for a request depends on the service
-            needed, location, scope, and current availability.
-          </p>
 
           <PageIntakeCue href="/request-help" label="Send a request" />
+          <Link
+            href="/request-help"
+            data-analytics-event="click_request_help"
+            data-analytics-source="local_partners"
+            className="btn-primary mt-5 w-full md:hidden"
+          >
+            Send a request
+          </Link>
 
           <div className="mt-8 space-y-4">
             <ProviderCard provider={providers.apex} note={providerNotes.apex} intakeOnly />

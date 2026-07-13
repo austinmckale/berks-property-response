@@ -63,6 +63,7 @@ export function HubLandingPage({
   intakeFirst = false,
   footer,
 }: HubLandingPageProps) {
+  const requestHref = form ? "#get-help" : "/request-help";
   const formBlock =
     showForm && form ? (
       <div
@@ -122,7 +123,10 @@ export function HubLandingPage({
       </div>
     ) : variant === "standard" && !showCompactUrgentCall ? (
       <div className="mt-5">
-        <PageIntakeCue />
+        <PageIntakeCue
+          href={requestHref}
+          label={showForm ? "Send a quick request" : "Request local help"}
+        />
       </div>
     ) : null;
 

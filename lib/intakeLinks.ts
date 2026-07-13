@@ -8,9 +8,7 @@ export const INLINE_FORM_PATHS = new Set([
   "/plumbing-and-leaks",
   "/after-leak",
   "/storm-fire-mold-help",
-  "/how-it-works",
   "/property-repairs-berks-county-pa",
-  "/service-areas",
 ]);
 
 export function hasInlineForm(pathname: string): boolean {

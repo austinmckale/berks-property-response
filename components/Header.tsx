@@ -30,9 +30,7 @@ export function Header() {
     };
   }, [menuOpen]);
 
-  const desktopLinks = HEADER_NAV_LINKS.filter(
-    (l) => l.href !== "/" && l.href !== "/emergency"
-  );
+  const desktopLinks = HEADER_NAV_LINKS.filter((l) => l.href !== "/emergency");
 
   return (
     <header className="sticky top-0 z-50 border-b border-stone-200 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/90">
@@ -54,7 +52,7 @@ export function Header() {
                 pathname === link.href ? "text-stone-900" : "text-stone-600"
               }`}
             >
-              {link.label.replace(" & ", " / ")}
+              {link.label}
             </Link>
           ))}
         </nav>

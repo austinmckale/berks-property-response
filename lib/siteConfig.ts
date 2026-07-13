@@ -31,21 +31,19 @@ export const SITE_SUBTITLE =
 
 /** Primary header nav */
 export const HEADER_NAV_LINKS = [
-  { href: "/", label: "Home" },
-  { href: "/emergency", label: "Emergency Help" },
-  { href: "/drains", label: "Drain & Sewer" },
-  { href: "/plumbing-and-leaks", label: "Plumbing & Leaks" },
-  { href: "/after-leak", label: "Water Damage & Repairs" },
+  { href: "/emergency", label: "Emergency help" },
+  { href: "/drains", label: "Drain & sewer" },
+  { href: "/plumbing-and-leaks", label: "Plumbing & leaks" },
+  { href: "/after-leak", label: "After a leak" },
 ] as const;
 
 /** Secondary links — hamburger menu */
 export const MORE_NAV_LINKS = [
-  { href: "/storm-fire-mold-help", label: "Storm / Fire / Mold" },
-  { href: "/service-areas", label: "Service Areas" },
-  { href: "/how-it-works", label: "How It Works" },
+  { href: "/service-areas", label: "Service areas" },
+  { href: "/how-it-works", label: "How it works" },
 ] as const;
 
-export const REQUEST_HELP_LINK = { href: "/request-help", label: "Request Help" } as const;
+export const REQUEST_HELP_LINK = { href: "/request-help", label: "Request help" } as const;
 
 /** @deprecated Use HEADER_NAV_LINKS + MORE_NAV_LINKS */
 export const NAV_LINKS = [...HEADER_NAV_LINKS, ...MORE_NAV_LINKS] as const;

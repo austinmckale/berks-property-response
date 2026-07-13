@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { PHONE_NUMBER, TEXT_NUMBER } from "@/lib/siteConfig";
+import { PHONE_NUMBER } from "@/lib/siteConfig";
 import { TRUST_LINE } from "@/lib/disclosures";
-import { phoneHref, smsHref } from "@/lib/tracking";
+import { phoneHref } from "@/lib/tracking";
 
 interface HeroProps {
   headline: string;
@@ -51,7 +51,7 @@ export function Hero({
                 data-analytics-source="hero"
                 className="btn-touch-lg inline-flex w-full items-center justify-center rounded-xl bg-red-600 px-5 py-3.5 text-base font-semibold text-white shadow-sm active:bg-red-700"
               >
-                Call BPR now
+                Call now
               </a>
               <Link
                 href="#get-help"
@@ -62,25 +62,8 @@ export function Hero({
                 Send a quick request
               </Link>
             </div>
-            <p className="mt-4 text-sm text-stone-400">
-              <a
-                href={smsHref(TEXT_NUMBER)}
-                data-analytics-event="text_click"
-                data-analytics-source="hero"
-                className="font-medium text-stone-200 underline underline-offset-2 hover:text-white"
-              >
-                Text photos
-              </a>
-              <span className="mx-2 text-stone-600">·</span>
-              <Link
-                href="/how-it-works"
-                className="underline underline-offset-2 hover:text-stone-200"
-              >
-                How it works
-              </Link>
-            </p>
             {showTrustLine && (
-              <p className="mt-6 text-sm leading-relaxed text-amber-100/90">
+              <p className="mt-5 text-sm leading-relaxed text-amber-100/90">
                 {TRUST_LINE}
               </p>
             )}
