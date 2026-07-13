@@ -195,15 +195,19 @@ export function collectProductionEnvIssues(
  * Abort production builds when critical env is missing or still placeholder.
  * Call from next.config.ts during `next build`.
  *
- * Enforced only when VERCEL_ENV=production or FORCE_PRODUCTION_ENV_CHECK=1.
- * Local builds and Vercel previews log warnings instead of failing.
+ * Hard-fail only when FORCE_PRODUCTION_ENV_CHECK=1 (pre-launch gate).
+ * On Vercel production, issues are logged as errors but do not block deploy so
+ * preview/share URLs keep working until real phone + domain are configured.
  */
 export function assertProductionEnv(): void {
-  const isVercelProduction = process.env.VERCEL_ENV === "production";
   const forced = process.env.FORCE_PRODUCTION_ENV_CHECK === "1";
-  const shouldFail = isVercelProduction || forced;
+  const isVercelProduction = process.env.VERCEL_ENV === "production";
 
-  if (!shouldFail && process.env.NODE_ENV !== "production") {
+  if (
+    !forced &&
+    !isVercelProduction &&
+    process.env.NODE_ENV !== "production"
+  ) {
     return;
   }
 
@@ -219,13 +223,13 @@ export function assertProductionEnv(): void {
     console.error(`[env] ${issue.code}: ${issue.message}`);
   }
 
-  if (shouldFail) {
+  if (forced) {
     throw new Error(
       `Production environment validation failed (${errors.length} error(s)). See [env] logs above.`
     );
   }
 
   console.warn(
-    `[env] ${errors.length} critical issue(s) detected — production deploy will fail until fixed. Set FORCE_PRODUCTION_ENV_CHECK=1 to fail local builds.`
+    `[env] ${errors.length} critical issue(s) — set real phone/domain/lead destination before public launch. Set FORCE_PRODUCTION_ENV_CHECK=1 to fail the build.`
   );
 }
