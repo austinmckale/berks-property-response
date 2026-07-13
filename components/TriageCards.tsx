@@ -67,32 +67,32 @@ export function TriageCards({
         </>
       )}
       <div
-        className={`grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 lg:gap-4 ${
+        className={`grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-3 lg:grid-cols-4 lg:gap-4 ${
           heading === "default" ? "mt-6" : ""
         }`}
-        role={onSelect ? "listbox" : undefined}
-        aria-label={onSelect ? "Problem category" : undefined}
       >
         {triageCards.map((card) => {
           const style = iconMap[card.icon] ?? iconMap.plumbing;
           const { Icon } = style;
           const isSelected = selected === card.problem;
-          const className = `card-touch card-elevated group block w-full border-l-4 bg-white p-5 text-left transition hover:shadow-md ${style.accent} ${
+          const className = `card-touch card-elevated group flex min-h-12 w-full items-center gap-3 border-l-4 bg-white p-3 text-left transition hover:shadow-md sm:block sm:p-5 ${style.accent} ${
             isSelected ? "ring-2 ring-stone-900 ring-offset-2" : ""
           }`;
 
           const content = (
             <>
               <span
-                className={`flex h-11 w-11 items-center justify-center rounded-xl ${style.iconBg}`}
+                className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg sm:h-11 sm:w-11 sm:rounded-xl ${style.iconBg}`}
               >
-                <Icon className={`h-5 w-5 ${style.iconColor}`} strokeWidth={2} aria-hidden />
+                <Icon className={`h-4 w-4 sm:h-5 sm:w-5 ${style.iconColor}`} strokeWidth={2} aria-hidden />
               </span>
-              <h3 className="mt-4 font-semibold leading-snug text-stone-900">{card.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-stone-600">{card.description}</p>
-              <span className="mt-4 inline-flex items-center text-sm font-semibold text-brand group-hover:underline">
-                {isSelected ? "Selected" : card.cta}
-                <span className="ml-1 transition group-hover:translate-x-0.5" aria-hidden>
+              <span className="min-w-0 flex-1 sm:block">
+                <h3 className="font-semibold leading-snug text-stone-900 sm:mt-4">{card.title}</h3>
+                <p className="mt-0.5 text-sm leading-snug text-stone-600 sm:mt-2 sm:leading-relaxed">{card.description}</p>
+              </span>
+              <span className="ml-auto text-lg font-semibold text-brand sm:ml-0 sm:mt-4 sm:inline-flex sm:text-sm sm:group-hover:underline">
+                <span className="hidden sm:inline">{isSelected ? "Selected" : card.cta}</span>
+                <span className="transition group-hover:translate-x-0.5 sm:ml-1" aria-hidden>
                   →
                 </span>
               </span>
@@ -104,8 +104,7 @@ export function TriageCards({
               <button
                 key={card.title}
                 type="button"
-                role="option"
-                aria-selected={isSelected}
+                aria-pressed={isSelected}
                 onClick={() => onSelect(card.problem)}
                 className={className}
               >

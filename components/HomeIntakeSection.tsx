@@ -72,9 +72,9 @@ export function HomeIntakeSection() {
           />
         </div>
 
-        <div id="intake-fields" className="mx-auto mt-6 max-w-xl scroll-mt-24">
-          <Suspense fallback={<div className="h-72 animate-pulse rounded-2xl bg-stone-100" />}>
-            {selectedProblem ? (
+        {selectedProblem && (
+          <div id="intake-fields" className="mx-auto mt-6 max-w-xl scroll-mt-24">
+            <Suspense fallback={<div className="h-72 animate-pulse rounded-2xl bg-stone-100" />}>
               <LeadForm
                 key={selectedProblem}
                 pageType="home"
@@ -82,16 +82,9 @@ export function HomeIntakeSection() {
                 showCategoryChange
                 onChangeCategory={onClear}
               />
-            ) : (
-              <div className="card-elevated p-5 text-center md:p-6">
-                <p className="text-sm text-stone-600">
-                  Choose a problem category above to continue — your contact fields will appear
-                  here.
-                </p>
-              </div>
-            )}
-          </Suspense>
-        </div>
+            </Suspense>
+          </div>
+        )}
       </div>
     </section>
   );

@@ -27,7 +27,11 @@ export function StickyMobileCTA() {
       className="fixed bottom-0 left-0 right-0 z-40 border-t border-stone-200 bg-white/95 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] backdrop-blur md:hidden safe-bottom"
       aria-label="Quick actions"
     >
-      <div className="grid grid-cols-3 gap-1.5 p-2 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
+      <div
+        className={`grid gap-1.5 p-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] ${
+          onRequestHelp ? "grid-cols-2" : "grid-cols-3"
+        }`}
+      >
         <a
           href={phoneHref(PHONE_NUMBER)}
           data-analytics-event="phone_click"
@@ -43,7 +47,7 @@ export function StickyMobileCTA() {
             data-analytics-source="sticky_mobile"
             className="btn-touch-fill rounded-xl bg-brand text-white active:bg-brand-hover"
           >
-            Request
+            Continue request
           </a>
         ) : (
           <Link
@@ -55,15 +59,17 @@ export function StickyMobileCTA() {
             Request
           </Link>
         )}
-        <a
-          href={smsHref(TEXT_NUMBER)}
-          data-analytics-event="text_click"
-          data-analytics-source="sticky_mobile"
-          className="btn-touch-fill rounded-xl border border-stone-300 bg-white text-stone-800 active:bg-stone-50"
-          aria-label="Text photos"
-        >
-          Text photos
-        </a>
+        {!onRequestHelp && (
+          <a
+            href={smsHref(TEXT_NUMBER)}
+            data-analytics-event="text_click"
+            data-analytics-source="sticky_mobile"
+            className="btn-touch-fill rounded-xl border border-stone-300 bg-white text-stone-800 active:bg-stone-50"
+            aria-label="Text photos"
+          >
+            Text photos
+          </a>
+        )}
       </div>
     </div>
   );

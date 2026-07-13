@@ -70,6 +70,7 @@ export function LeadForm({
     urgency?: string;
   } | null>(null);
   const formTopRef = useRef<HTMLDivElement>(null);
+  const waterGroupRef = useRef<HTMLFieldSetElement>(null);
 
   const {
     register,
@@ -77,6 +78,7 @@ export function LeadForm({
     setValue,
     watch,
     setFocus,
+    getValues,
     formState: { errors },
   } = useForm<LeadFormData>({
     resolver: zodResolver(leadFormSchema),
@@ -92,6 +94,7 @@ export function LeadForm({
 
   const selectedProblem = watch("problemType");
   const waterAnswer = watch("waterOrSewagePresent");
+  const waterField = register("waterOrSewagePresent");
   const showFormStep = Boolean(selectedProblem) && (step === 2 || Boolean(initialProblemType));
 
   useEffect(() => {
@@ -133,7 +136,7 @@ export function LeadForm({
   function applyProblem(id: ProblemTypeId, opts: { track: boolean }) {
     const option = getProblemType(id);
     setValue("problemType", id, { shouldValidate: true });
-    const water = (watch("waterOrSewagePresent") ?? undefined) as
+    const water = (getValues("waterOrSewagePresent") ?? undefined) as
       | WaterSewageAnswer
       | undefined;
     setValue(
@@ -160,7 +163,7 @@ export function LeadForm({
 
   function setWaterAnswer(value: WaterSewageAnswer) {
     setValue("waterOrSewagePresent", value, { shouldValidate: true });
-    const problemId = watch("problemType");
+    const problemId = getValues("problemType");
     if (!problemId) return;
     const categoryDefault = getProblemType(problemId).urgency;
     setValue(
@@ -239,12 +242,16 @@ export function LeadForm({
       "name",
       "phone",
       "city",
-      "zip",
       "problemDescription",
-      "email",
     ];
     const first = order.find((key) => fieldErrors[key]);
     if (first) {
+      if (first === "waterOrSewagePresent") {
+        waterGroupRef.current
+          ?.querySelector<HTMLInputElement>('input[type="radio"]')
+          ?.focus();
+        return;
+      }
       try {
         setFocus(first);
       } catch {
@@ -400,23 +407,21 @@ export function LeadForm({
           <p className="mt-1 text-sm text-stone-600">
             {getProblemType(selectedProblem).title}
           </p>
+          <p className="mt-3 text-sm font-medium text-stone-700">
+            All fields below are required.
+          </p>
 
-          <fieldset className="mt-5">
+          <fieldset ref={waterGroupRef} className="mt-5">
             <legend className={labelClass}>
-              Is water or sewage actively leaking, backing up, or spreading right now?{" "}
-              <span className="font-normal text-stone-500">(required)</span>
+              Is water or sewage actively leaking, backing up, or spreading right now?
             </legend>
-            <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-3" role="radiogroup">
+            <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-3">
               {WATER_OPTIONS.map((option) => {
                 const selected = waterAnswer === option.value;
                 return (
-                  <button
+                  <label
                     key={option.value}
-                    type="button"
-                    role="radio"
-                    aria-checked={selected}
-                    onClick={() => setWaterAnswer(option.value)}
-                    className={`btn-touch rounded-xl border px-3 py-3.5 text-sm font-semibold transition ${
+                    className={`relative flex min-h-12 cursor-pointer items-center justify-center rounded-xl border px-3 py-3.5 text-center text-sm font-semibold transition focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-stone-900 ${
                       selected
                         ? option.value === "yes"
                           ? "border-red-700 bg-red-600 text-white"
@@ -424,8 +429,19 @@ export function LeadForm({
                         : "border-stone-300 bg-white text-stone-800 active:bg-stone-50"
                     }`}
                   >
+                    <input
+                      type="radio"
+                      value={option.value}
+                      className="sr-only"
+                      required={option.value === "yes"}
+                      {...waterField}
+                      onChange={(event) => {
+                        waterField.onChange(event);
+                        setWaterAnswer(option.value);
+                      }}
+                    />
                     {option.label}
-                  </button>
+                  </label>
                 );
               })}
             </div>
@@ -457,7 +473,7 @@ export function LeadForm({
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <div>
                 <label className={labelClass} htmlFor="name">
-                  Name <span className="font-normal text-stone-500">(required)</span>
+                  Name
                 </label>
                 <input
                   id="name"
@@ -474,7 +490,7 @@ export function LeadForm({
               </div>
               <div>
                 <label className={labelClass} htmlFor="phone">
-                  Phone <span className="font-normal text-stone-500">(required)</span>
+                  Phone
                 </label>
                 <input
                   id="phone"
@@ -493,48 +509,27 @@ export function LeadForm({
               </div>
             </div>
 
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-[1fr_8rem]">
-              <div>
-                <label className={labelClass} htmlFor="city">
-                  City <span className="font-normal text-stone-500">(required)</span>
-                </label>
-                <input
-                  id="city"
-                  autoComplete="address-level2"
-                  placeholder="Reading"
-                  className={inputClass}
-                  {...register("city")}
-                />
-                {errors.city && (
-                  <p className={errorClass} role="alert">
-                    {errors.city.message}
-                  </p>
-                )}
-              </div>
-              <div>
-                <label className={labelClass} htmlFor="zip">
-                  ZIP <span className="font-normal text-stone-500">(optional)</span>
-                </label>
-                <input
-                  id="zip"
-                  autoComplete="postal-code"
-                  inputMode="numeric"
-                  placeholder="19601"
-                  className={inputClass}
-                  {...register("zip")}
-                />
-                {errors.zip && (
-                  <p className={errorClass} role="alert">
-                    {errors.zip.message}
-                  </p>
-                )}
-              </div>
+            <div>
+              <label className={labelClass} htmlFor="city">
+                City
+              </label>
+              <input
+                id="city"
+                autoComplete="address-level2"
+                placeholder="Reading"
+                className={inputClass}
+                {...register("city")}
+              />
+              {errors.city && (
+                <p className={errorClass} role="alert">
+                  {errors.city.message}
+                </p>
+              )}
             </div>
 
             <div>
               <label className={labelClass} htmlFor="problemDescription">
-                What&apos;s happening?{" "}
-                <span className="font-normal text-stone-500">(required)</span>
+                What&apos;s happening?
               </label>
               <textarea
                 id="problemDescription"
@@ -550,46 +545,13 @@ export function LeadForm({
               )}
             </div>
 
-            <details className="rounded-xl border border-stone-200 bg-stone-50 px-4 py-3">
-              <summary className="cursor-pointer py-1 text-sm font-medium text-stone-700">
-                Add email (optional)
-              </summary>
-              <div className="mt-4">
-                <label className={labelClass} htmlFor="email">
-                  Email
-                </label>
-                <input
-                  id="email"
-                  type="email"
-                  autoComplete="email"
-                  className={inputClass}
-                  {...register("email")}
-                />
-                {errors.email && (
-                  <p className={errorClass} role="alert">
-                    {errors.email.message}
-                  </p>
-                )}
-              </div>
-            </details>
-
             <p className="text-sm text-stone-600">
-              Photos help — you can{" "}
-              <a
-                href={smsHref(TEXT_NUMBER)}
-                data-analytics-event="text_click"
-                data-analytics-source="form_photos_hint"
-                className="font-medium text-stone-900 underline"
-              >
-                text them to {TEXT_NUMBER}
-              </a>{" "}
-              during or after this request.
+              You can add photos by text after submitting.
             </p>
           </div>
 
           <input type="hidden" {...register("problemType")} />
           <input type="hidden" {...register("urgency")} />
-          <input type="hidden" {...register("waterOrSewagePresent")} />
           <input type="hidden" {...register("landingPage")} />
           <input type="hidden" {...register("pageType")} />
           <input type="hidden" {...register("serviceCategory")} />
