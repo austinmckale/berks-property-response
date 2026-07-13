@@ -3,7 +3,7 @@
  * Works without Redis or Turnstile. Optional Upstash rate limiting when configured.
  */
 
-export const MIN_SUBMIT_MS = 2500;
+export const MIN_SUBMIT_MS = 800;
 export const MAX_NAME_LENGTH = 120;
 export const MAX_CITY_LENGTH = 80;
 export const MAX_DESCRIPTION_LENGTH = 4000;
@@ -21,6 +21,8 @@ export type SpamRejectReason =
   | "turnstile_failed";
 
 export interface SpamCheckInput {
+  /** Opaque honeypot — must stay empty (also accepts legacy companyWebsite) */
+  bprHpField?: string;
   companyWebsite?: string;
   formStartedAt?: string | number;
   name?: string;
@@ -37,7 +39,8 @@ export interface SpamCheckResult {
 
 /** Client/server-shared field-length and timing checks (no secrets). */
 export function checkSpamFields(input: SpamCheckInput): SpamCheckResult {
-  if (input.companyWebsite && String(input.companyWebsite).trim() !== "") {
+  const honeypot = input.bprHpField ?? input.companyWebsite;
+  if (honeypot && String(honeypot).trim() !== "") {
     return { ok: false, reason: "honeypot" };
   }
 

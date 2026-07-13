@@ -19,6 +19,9 @@ export function AnalyticsListener() {
       if (tracked.dataset.analyticsSource) {
         params.source = tracked.dataset.analyticsSource;
       }
+      if (tracked.dataset.analyticsProvider) {
+        params.provider = tracked.dataset.analyticsProvider;
+      }
 
       trackEvent(eventName, params);
     }

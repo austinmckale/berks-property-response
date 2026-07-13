@@ -191,7 +191,7 @@ export function LeadForm({
       activeConditions: activeConditions.join(", ") || data.activeConditions,
       smsOptIn: Boolean(data.smsOptIn),
       formStartedAt,
-      companyWebsite: data.companyWebsite ?? "",
+      bprHpField: data.bprHpField ?? "",
       waterOrSewagePresent:
         data.waterOrSewagePresent === "" || data.waterOrSewagePresent == null
           ? undefined
@@ -208,12 +208,8 @@ export function LeadForm({
       if (!res.ok || !json.success) {
         throw new Error(json.error ?? "Submission failed");
       }
-      setRouteResult(json.routing ?? { leadId: json.leadId });
+      setRouteResult({ leadId: json.leadId });
       setSubmitStatus("success");
-      trackEvent("form_success", {
-        page_type: pageType,
-        service_category: problem.serviceCategory,
-      });
       trackEvent("generate_lead", {
         page_type: pageType,
         service_category: problem.serviceCategory,
@@ -545,15 +541,18 @@ export function LeadForm({
           <input type="hidden" {...register("submittedAt")} />
           <input type="hidden" {...register("waterOrSewagePresent")} />
           <input type="hidden" {...register("formStartedAt")} />
-          {/* Honeypot — leave empty; hidden from assistive tech via CSS + tabindex */}
+          {/* Honeypot — opaque name to avoid autofill; leave empty */}
           <div className="pointer-events-none absolute left-[-10000px] top-auto h-px w-px overflow-hidden opacity-0" aria-hidden="true">
-            <label htmlFor="companyWebsite">Company website</label>
+            <label htmlFor="bprHpField">Leave blank</label>
             <input
-              id="companyWebsite"
+              id="bprHpField"
               type="text"
               tabIndex={-1}
               autoComplete="off"
-              {...register("companyWebsite")}
+              data-lpignore="true"
+              data-1p-ignore="true"
+              data-form-type="other"
+              {...register("bprHpField")}
             />
           </div>
 

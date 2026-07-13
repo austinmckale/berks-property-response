@@ -92,7 +92,8 @@ export const leadFormSchema = z.object({
   referrer: z.string().optional(),
   activeConditions: z.string().optional(),
   submittedAt: z.string().optional(),
-  /** Honeypot — must stay empty */
+  /** Opaque honeypot — must stay empty (legacy companyWebsite still accepted) */
+  bprHpField: z.string().optional(),
   companyWebsite: z.string().optional(),
   /** Client render timestamp (ms) for timing checks */
   formStartedAt: z.union([z.string(), z.number()]).optional(),

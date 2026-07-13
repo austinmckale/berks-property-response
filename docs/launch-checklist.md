@@ -10,8 +10,8 @@ Use this checklist before a public soft launch. Check items only after they are 
 - [ ] HTTPS working
 - [ ] `NEXT_PUBLIC_SITE_URL` set to the custom HTTPS domain (not `*.vercel.app`)
 - [ ] Canonical domain confirmed in sitemap / page source
-- [ ] BPR phone tested (`NEXT_PUBLIC_PHONE`)
-- [ ] BPR SMS / text-photos tested (`NEXT_PUBLIC_TEXT_NUMBER` or same as phone)
+- [ ] BPR phone tested (`NEXT_PUBLIC_PHONE` set explicitly in Vercel — confirmed `(484) 509-0748`)
+- [ ] BPR SMS / text-photos tested (same as phone, or `NEXT_PUBLIC_TEXT_NUMBER` when different)
 - [ ] Voicemail tested
 - [ ] Missed-call behavior tested
 - [ ] Business email tested (if used)
@@ -19,12 +19,12 @@ Use this checklist before a public soft launch. Check items only after they are 
 ## Lead delivery
 
 - [ ] Google Sheets submission tested (`LEAD_WEBHOOK_URL`)
-- [ ] Discord notification tested (optional if Sheets/email capture works)
-- [ ] Admin email tested (optional if Sheets/Discord capture works)
+- [ ] Discord notification tested (optional secondary alert — not a durable ledger alone)
+- [ ] Admin email tested (durable fallback when Sheets is unavailable; requires full Resend admin config)
 - [ ] Customer confirmation email tested when email is provided
 - [ ] Lead ID consistent across destinations
 - [ ] Mobile submission tested
-- [ ] Failure behavior tested (503 / call fallback when destinations fail)
+- [ ] Failure behavior tested (503 / call fallback when durable destinations fail)
 - [ ] Spam rejection tested (honeypot / too-fast)
 
 ## Provider operations

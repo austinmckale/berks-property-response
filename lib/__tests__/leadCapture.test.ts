@@ -59,7 +59,7 @@ describe("captureLead", () => {
     expect(fetchMock.mock.calls[0]?.[0]).toBe("https://sheets.example/webhook");
   });
 
-  it("succeeds when Discord captures even if Google Sheets fails", async () => {
+  it("does not treat Discord-only success as durable capture when Sheets fails", async () => {
     vi.stubEnv("LEAD_WEBHOOK_URL", "https://sheets.example/webhook");
     vi.stubEnv("DISCORD_WEBHOOK_URL", "https://discord.example/webhook");
 
@@ -76,7 +76,7 @@ describe("captureLead", () => {
 
     const result = await captureLead({ form, routing, webhookPayload });
 
-    expect(result.captured).toBe(true);
+    expect(result.captured).toBe(false);
     expect(result.destinations.googleSheets.ok).toBe(false);
     expect(result.destinations.discord.ok).toBe(true);
   });

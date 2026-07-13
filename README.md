@@ -44,10 +44,11 @@ See `.env.example` for the full list.
 **Critical in production** (validated by `lib/env.ts` when `VERCEL_ENV=production` or `FORCE_PRODUCTION_ENV_CHECK=1`):
 
 - `NEXT_PUBLIC_SITE_URL` — HTTPS custom domain (not localhost / `*.vercel.app`)
-- `NEXT_PUBLIC_PHONE` — must not be the known placeholder
-- At least one ops destination: `LEAD_WEBHOOK_URL`, `DISCORD_WEBHOOK_URL`, or Resend admin email trio
+- `NEXT_PUBLIC_PHONE` — must be set explicitly in Vercel (confirmed BPR number: `(484) 509-0748`)
+- `NEXT_PUBLIC_TEXT_NUMBER` — only when the SMS line differs from the call number
+- At least one durable lead destination: `LEAD_WEBHOOK_URL` or full Resend admin email trio (`RESEND_API_KEY` + `LEAD_EMAIL_FROM` + `LEAD_NOTIFICATION_EMAIL`). Discord alone is not enough.
 
-**Optional:** GA4, Discord (when Sheets/email works), customer email, Turnstile, Upstash rate limiting, `NEXT_PUBLIC_CONTACT_EMAIL`.
+**Optional:** GA4, Discord (secondary alerts), customer email, Turnstile, Upstash rate limiting, `NEXT_PUBLIC_CONTACT_EMAIL`.
 
 ## Google Sheets setup
 
@@ -70,11 +71,11 @@ Server Settings → Integrations → Webhooks → New Webhook → paste URL into
 
 ## GA4 setup
 
-Set `NEXT_PUBLIC_GA_MEASUREMENT_ID`. Events include `click_call`, `click_text`, `click_request_help`, `select_problem_category`, `form_started`, `form_submitted`, `form_success`, `form_error`, `generate_lead`. Do not send names, phones, emails, addresses, descriptions, or lead IDs.
+Set `NEXT_PUBLIC_GA_MEASUREMENT_ID`. Events include `click_call`, `click_text`, `click_request_help`, `select_problem_category`, `form_started`, `form_submitted`, `form_error`, `generate_lead`. Do not send names, phones, emails, addresses, descriptions, or lead IDs.
 
 ## Spam protection
 
-Always on: honeypot (`companyWebsite`), form-start timestamp, implausible-speed rejection, field length limits, Zod validation.
+Always on: honeypot (`bprHpField`), form-start timestamp (~800ms minimum), implausible-speed rejection, field length limits, Zod validation.
 
 Optional: Upstash Redis REST rate limiting; Cloudflare Turnstile. Form continues to work when optional services are unset.
 

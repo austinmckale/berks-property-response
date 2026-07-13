@@ -49,7 +49,7 @@ UTM and `gclid` parameters are captured in lead payloads and available for attri
 
 - Search Console: indexing coverage, new query impressions, click-through rate on service pages.
 - GA4: `generate_lead` volume by landing page and source/medium.
-- Replace placeholder `NEXT_PUBLIC_PHONE` before relying on call conversion data.
+- Confirm `NEXT_PUBLIC_PHONE` is set in production before relying on call conversion data.
 - Do **not** create a Google Business Profile for Berks Property Response unless it becomes a direct-service business.
 
 ## Optional later

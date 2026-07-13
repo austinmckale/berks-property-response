@@ -34,6 +34,7 @@ export async function POST(request: Request) {
     const ipHash = hashIpForLog(ip);
 
     const spam = checkSpamFields({
+      bprHpField: body?.bprHpField,
       companyWebsite: body?.companyWebsite,
       formStartedAt: body?.formStartedAt,
       name: body?.name,
@@ -71,7 +72,7 @@ export async function POST(request: Request) {
 
     if (!parsed.success) {
       return NextResponse.json(
-        { error: "Invalid form data", details: parsed.error.flatten() },
+        { error: "Unable to process this request. Please try again or call us." },
         { status: 400 }
       );
     }
@@ -129,13 +130,6 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       success: true,
-      routing: {
-        leadId: routing.leadId,
-        primaryRoute: routing.primaryRoute,
-        qualifiedStatus: routing.qualifiedStatus,
-        suggestedSLA: routing.suggestedSLA,
-        serviceCategory: routing.serviceCategory,
-      },
       leadId: routing.leadId,
       message: "Request received.",
     });

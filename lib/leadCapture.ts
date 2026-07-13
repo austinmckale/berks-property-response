@@ -73,7 +73,7 @@ async function postGoogleSheetsWebhook(
     }
 
     const error = body.error ?? `HTTP ${res.status}`;
-    console.error("[lead] Google Sheets webhook failed:", error, text.slice(0, 300));
+    console.error("[lead] Google Sheets webhook failed:", error);
     return { configured: true, ok: false, error };
   } catch (err) {
     const error = err instanceof Error ? err.message : String(err);
@@ -188,19 +188,21 @@ async function postCustomerEmail(
   }
 }
 
-function anyDestinationCaptured(destinations: LeadCaptureResult["destinations"]): boolean {
+function anyDurableDestinationCaptured(
+  destinations: LeadCaptureResult["destinations"]
+): boolean {
   return (
     (destinations.googleSheets.configured && destinations.googleSheets.ok) ||
-    (destinations.discord.configured && destinations.discord.ok) ||
     (destinations.adminEmail.configured && destinations.adminEmail.ok)
   );
 }
 
 /**
  * Persist a lead to configured destinations.
- * Google Sheets (LEAD_WEBHOOK_URL) is tried first as the official ledger.
- * Discord and admin email run in parallel afterward.
- * Customer email sends only after at least one ops destination succeeds.
+ * Google Sheets (LEAD_WEBHOOK_URL) is the preferred durable ledger.
+ * Admin email is an alternate durable destination.
+ * Discord is a secondary notification — success there alone does not count as captured.
+ * Customer email sends only after durable capture succeeds.
  */
 export async function captureLead(params: {
   form: LeadFormData;
@@ -226,7 +228,7 @@ export async function captureLead(params: {
     customerEmail: { configured: false, ok: false } as DestinationResult,
   };
 
-  const captured = anyDestinationCaptured(destinations);
+  const captured = anyDurableDestinationCaptured(destinations);
 
   destinations.customerEmail = await postCustomerEmail(notificationPayload, captured);
 

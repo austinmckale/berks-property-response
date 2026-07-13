@@ -1,20 +1,20 @@
-import { PLACEHOLDER_PHONE } from "./env";
+import { DEFAULT_DEV_PHONE } from "./env";
 
 export const SITE_NAME = "Berks Property Response";
 export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://berkspropertyresponse.com";
 
 /**
- * Call tracking number shown site-wide.
- * Set NEXT_PUBLIC_PHONE in production. The fallback is a known PLACEHOLDER —
- * production builds fail when this placeholder is still in use (see lib/env.ts).
+ * Call number shown site-wide.
+ * Production must set NEXT_PUBLIC_PHONE explicitly (see lib/env.ts).
+ * Local/dev may fall back to the confirmed BPR business number.
  */
 export const PHONE_NUMBER =
-  process.env.NEXT_PUBLIC_PHONE ?? PLACEHOLDER_PHONE;
+  process.env.NEXT_PUBLIC_PHONE ?? DEFAULT_DEV_PHONE;
 
 /**
- * SMS / "Text photos" number. Defaults to PHONE_NUMBER unless
- * NEXT_PUBLIC_TEXT_NUMBER is set separately.
+ * SMS / "Text photos" number. Defaults to PHONE_NUMBER unless a different
+ * text line is configured via NEXT_PUBLIC_TEXT_NUMBER.
  */
 export const TEXT_NUMBER =
   process.env.NEXT_PUBLIC_TEXT_NUMBER ?? PHONE_NUMBER;

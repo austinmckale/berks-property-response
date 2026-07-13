@@ -2,17 +2,26 @@
  * Production environment validation for soft launch.
  * Secrets are never printed — only which keys are missing/invalid.
  *
- * Critical failures abort production builds.
- * Optional gaps log warnings only.
+ * Durable lead destinations (production): LEAD_WEBHOOK_URL (Sheets) or full Resend admin email.
+ * Discord is a secondary notification channel — not sufficient alone.
  */
 
-/** Known placeholder shown when NEXT_PUBLIC_PHONE is unset — must not ship to prod. */
-export const PLACEHOLDER_PHONE = "(484) 525-0459";
+/**
+ * Confirmed Berks Property Response business number.
+ * Used as the local/dev fallback when NEXT_PUBLIC_PHONE is unset.
+ * Production must set NEXT_PUBLIC_PHONE explicitly (this value is valid when configured).
+ */
+export const DEFAULT_DEV_PHONE = "(484) 509-0748";
 
 export interface EnvIssue {
   level: "error" | "warn";
   code: string;
   message: string;
+}
+
+export interface CollectEnvOptions {
+  /** Preview deploys may use *.vercel.app without treating it as a production error */
+  allowVercelPreviewHost?: boolean;
 }
 
 function trim(value: string | undefined): string {
@@ -23,17 +32,11 @@ function isConfigured(value: string | undefined): boolean {
   return Boolean(trim(value));
 }
 
-function normalizePhone(value: string): string {
-  return value.replace(/\D/g, "");
-}
-
-function isPlaceholderPhone(value: string): boolean {
-  return normalizePhone(value) === normalizePhone(PLACEHOLDER_PHONE);
-}
-
-function hasOpsLeadDestination(env: NodeJS.ProcessEnv = process.env): boolean {
+/** Durable ops ledger — Sheets or complete Resend admin email. Discord alone is not enough. */
+export function hasDurableLeadDestination(
+  env: NodeJS.ProcessEnv = process.env
+): boolean {
   if (isConfigured(env.LEAD_WEBHOOK_URL)) return true;
-  if (isConfigured(env.DISCORD_WEBHOOK_URL)) return true;
   return (
     isConfigured(env.RESEND_API_KEY) &&
     isConfigured(env.LEAD_EMAIL_FROM) &&
@@ -41,7 +44,10 @@ function hasOpsLeadDestination(env: NodeJS.ProcessEnv = process.env): boolean {
   );
 }
 
-function validateSiteUrl(siteUrl: string): EnvIssue[] {
+function validateSiteUrl(
+  siteUrl: string,
+  options: CollectEnvOptions = {}
+): EnvIssue[] {
   const issues: EnvIssue[] = [];
   if (!siteUrl) {
     issues.push({
@@ -80,7 +86,7 @@ function validateSiteUrl(siteUrl: string): EnvIssue[] {
     });
   }
 
-  if (url.hostname.endsWith(".vercel.app")) {
+  if (url.hostname.endsWith(".vercel.app") && !options.allowVercelPreviewHost) {
     issues.push({
       level: "error",
       code: "SITE_URL_VERCEL_PREVIEW",
@@ -92,46 +98,32 @@ function validateSiteUrl(siteUrl: string): EnvIssue[] {
   return issues;
 }
 
-/** Collect production env issues. Safe to call in any environment. */
+/** Collect production env issues. Safe to call in any environment. No network I/O. */
 export function collectProductionEnvIssues(
-  env: NodeJS.ProcessEnv = process.env
+  env: NodeJS.ProcessEnv = process.env,
+  options: CollectEnvOptions = {}
 ): EnvIssue[] {
   const issues: EnvIssue[] = [];
   const siteUrl = trim(env.NEXT_PUBLIC_SITE_URL);
   const phone = trim(env.NEXT_PUBLIC_PHONE);
-  const text = trim(env.NEXT_PUBLIC_TEXT_NUMBER);
 
-  issues.push(...validateSiteUrl(siteUrl));
+  issues.push(...validateSiteUrl(siteUrl, options));
 
   if (!phone) {
     issues.push({
       level: "error",
       code: "PHONE_MISSING",
-      message: "NEXT_PUBLIC_PHONE is required in production.",
-    });
-  } else if (isPlaceholderPhone(phone)) {
-    issues.push({
-      level: "error",
-      code: "PHONE_PLACEHOLDER",
       message:
-        "NEXT_PUBLIC_PHONE is still the known placeholder. Set the real tracking number before production.",
+        "NEXT_PUBLIC_PHONE is required in production. Set it explicitly in Vercel (local/dev may fall back to DEFAULT_DEV_PHONE).",
     });
   }
 
-  if (text && isPlaceholderPhone(text) && (!phone || isPlaceholderPhone(phone))) {
+  if (!hasDurableLeadDestination(env)) {
     issues.push({
       level: "error",
-      code: "TEXT_PLACEHOLDER",
-      message: "NEXT_PUBLIC_TEXT_NUMBER resolves to the placeholder phone.",
-    });
-  }
-
-  if (!hasOpsLeadDestination(env)) {
-    issues.push({
-      level: "error",
-      code: "NO_LEAD_DESTINATION",
+      code: "NO_DURABLE_LEAD_DESTINATION",
       message:
-        "Configure at least one operational lead destination: LEAD_WEBHOOK_URL, DISCORD_WEBHOOK_URL, or Resend admin email (RESEND_API_KEY + LEAD_EMAIL_FROM + LEAD_NOTIFICATION_EMAIL).",
+        "Configure a durable lead destination: LEAD_WEBHOOK_URL (Google Sheets) or complete Resend admin email (RESEND_API_KEY + LEAD_EMAIL_FROM + LEAD_NOTIFICATION_EMAIL). Discord alone is not sufficient.",
     });
   }
 
@@ -143,11 +135,24 @@ export function collectProductionEnvIssues(
     });
   }
 
-  if (!isConfigured(env.DISCORD_WEBHOOK_URL) && isConfigured(env.LEAD_WEBHOOK_URL)) {
+  if (!isConfigured(env.DISCORD_WEBHOOK_URL) && hasDurableLeadDestination(env)) {
     issues.push({
       level: "warn",
       code: "DISCORD_OPTIONAL",
       message: "DISCORD_WEBHOOK_URL is optional when Sheets or admin email is configured.",
+    });
+  }
+
+  if (
+    isConfigured(env.DISCORD_WEBHOOK_URL) &&
+    !hasDurableLeadDestination(env)
+  ) {
+    // Already covered by NO_DURABLE_LEAD_DESTINATION; keep a clarifying warn
+    issues.push({
+      level: "warn",
+      code: "DISCORD_NOT_DURABLE",
+      message:
+        "Discord is configured but is only a notification channel — add Sheets or Resend admin email for durable capture.",
     });
   }
 
@@ -160,7 +165,7 @@ export function collectProductionEnvIssues(
       level: "warn",
       code: "EMAIL_OPTIONAL",
       message:
-        "Resend admin/customer email is optional when Sheets or Discord captures leads.",
+        "Resend admin/customer email is optional when Google Sheets is configured.",
     });
   }
 
@@ -192,22 +197,27 @@ export function collectProductionEnvIssues(
 }
 
 /**
- * Abort production builds when critical env is missing or still placeholder.
- * Call from next.config.ts during `next build`.
- *
- * Hard-fail only when FORCE_PRODUCTION_ENV_CHECK=1 (pre-launch gate).
- * On Vercel production, issues are logged as errors but do not block deploy so
- * preview/share URLs keep working until real phone + domain are configured.
+ * Abort production builds when critical env is missing.
+ * Preview deploys (VERCEL_ENV=preview) never hard-fail for preview hostnames.
+ * Production (VERCEL_ENV=production) or FORCE_PRODUCTION_ENV_CHECK=1 hard-fails.
  */
 export function assertProductionEnv(): void {
   const forced = process.env.FORCE_PRODUCTION_ENV_CHECK === "1";
   const isVercelProduction = process.env.VERCEL_ENV === "production";
+  const isPreview = process.env.VERCEL_ENV === "preview";
 
-  if (
-    !forced &&
-    !isVercelProduction &&
-    process.env.NODE_ENV !== "production"
-  ) {
+  if (isPreview) {
+    const previewIssues = collectProductionEnvIssues(process.env, {
+      allowVercelPreviewHost: true,
+    });
+    for (const issue of previewIssues) {
+      const log = issue.level === "error" ? console.warn : console.warn;
+      log(`[env:preview] ${issue.code}: ${issue.message}`);
+    }
+    return;
+  }
+
+  if (!forced && !isVercelProduction && process.env.NODE_ENV !== "production") {
     return;
   }
 
@@ -223,13 +233,13 @@ export function assertProductionEnv(): void {
     console.error(`[env] ${issue.code}: ${issue.message}`);
   }
 
-  if (forced) {
+  if (forced || isVercelProduction) {
     throw new Error(
       `Production environment validation failed (${errors.length} error(s)). See [env] logs above.`
     );
   }
 
   console.warn(
-    `[env] ${errors.length} critical issue(s) — set real phone/domain/lead destination before public launch. Set FORCE_PRODUCTION_ENV_CHECK=1 to fail the build.`
+    `[env] ${errors.length} critical issue(s) — production deploy will fail until fixed. Set FORCE_PRODUCTION_ENV_CHECK=1 to fail this local build.`
   );
 }

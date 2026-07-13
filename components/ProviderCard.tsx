@@ -71,6 +71,8 @@ export function ProviderCard({ provider, note, intakeOnly = false }: ProviderCar
           href={provider.website}
           target="_blank"
           rel="noopener noreferrer"
+          data-analytics-event="click_provider_website"
+          data-analytics-provider={provider.id}
           className="mt-4 inline-block text-sm font-medium text-stone-800 underline hover:text-stone-600"
         >
           Visit website →
