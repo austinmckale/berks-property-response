@@ -56,15 +56,12 @@ export function TriageCards({
   return (
     <div>
       {heading === "default" && (
-        <>
-          <p className="eyebrow">Start here</p>
-          <h2 className="font-display mt-2 text-2xl font-semibold tracking-tight text-stone-900 md:text-3xl">
-            What&apos;s going on?
-          </h2>
-        </>
+        <h2 className="font-display text-2xl font-semibold tracking-tight text-stone-900 md:text-3xl">
+          What&apos;s going on?
+        </h2>
       )}
       <div
-        className={`grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-3 lg:grid-cols-4 lg:gap-4 ${
+        className={`grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-3 lg:grid-cols-3 lg:gap-4 2xl:grid-cols-5 ${
           heading === "default" ? "mt-6" : ""
         }`}
       >

@@ -546,7 +546,7 @@ export function LeadForm({
             </div>
 
             <div>
-              <p className="text-sm text-stone-600">Prefer to show us the problem?</p>
+              <p className="text-sm text-stone-600">Prefer to show us? Text photos of the issue.</p>
               <a
                 href={smsHref(TEXT_NUMBER, getFormPhotoMessage(selectedProblem))}
                 data-analytics-event="text_click"

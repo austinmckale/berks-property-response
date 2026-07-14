@@ -40,7 +40,7 @@ interface HubLandingPageProps {
   formSubtitle?: string;
   showForm?: boolean;
   /** Show an informational-page request cue when there is no embedded form. */
-  showPageCue?: boolean;
+  showPrimaryCue?: boolean;
   /** Form before large call CTA */
   intakeFirst?: boolean;
   footer?: ReactNode;
@@ -59,10 +59,10 @@ export function HubLandingPage({
   symptoms,
   symptomTitle,
   formTitle = "Send a request",
-  formSubtitle = "Name, phone, city, and a short description of what's happening.",
+  formSubtitle,
   form,
   showForm = true,
-  showPageCue = true,
+  showPrimaryCue = !showForm,
   intakeFirst = false,
   footer,
 }: HubLandingPageProps) {
@@ -122,7 +122,7 @@ export function HubLandingPage({
           </p>
         )}
       </div>
-    ) : variant === "standard" && !showCompactUrgentCall && !showForm && showPageCue ? (
+    ) : variant === "standard" && !showCompactUrgentCall && !showForm && showPrimaryCue ? (
       <div className="mt-5">
         <PageIntakeCue
           href="/request-help"

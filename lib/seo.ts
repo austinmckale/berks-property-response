@@ -49,7 +49,7 @@ export function homeMetadata(): Metadata {
   return buildMetadata({
     title: "Drain, Plumbing & Water Damage Help",
     description:
-      "One local contact for drain backups, plumbing leaks, and water-damage repairs in Berks County. Call, text photos, or send a request for a personally coordinated provider handoff.",
+      "Drain, sewer, plumbing leak, and after-leak repair help in Berks County.",
     path: "/",
   });
 }

@@ -12,8 +12,7 @@ import { HOME_STEPS } from "@/lib/siteConfig";
 
 export const metadata = buildMetadata({
   title: "How It Works",
-  description:
-    "How Berks Property Response reviews requests and coordinates a local provider handoff in Berks County.",
+  description: "How Berks Property Response handles drain, plumbing, and after-leak requests.",
   path: "/how-it-works",
 });
 
@@ -25,7 +24,7 @@ export default function HowItWorksPage() {
     organizationSchema(),
     webPageSchema({
       title: "How It Works",
-      description: "How Berks Property Response coordinates provider handoffs in Berks County.",
+      description: "How Berks Property Response handles drain, plumbing, and after-leak requests.",
       path: "/how-it-works",
     }),
     breadcrumbSchema(crumbs)
@@ -37,7 +36,7 @@ export default function HowItWorksPage() {
       <HubLandingPage
         breadcrumbs={crumbs}
         title="How it works"
-        subtitle="Call, text, or send a request. A local coordinator reviews the details and arranges the appropriate handoff."
+        subtitle="Call, text, or send a request with the property details."
         middle={
           <div className="space-y-5">
             <ol className="space-y-5">
@@ -69,7 +68,7 @@ export default function HowItWorksPage() {
           </div>
         }
         showForm={false}
-        showPageCue={false}
+        showPrimaryCue={false}
       />
     </>
   );

@@ -48,23 +48,19 @@ export const REQUEST_HELP_LINK = { href: "/request-help", label: "Start a reques
 /** @deprecated Use HEADER_NAV_LINKS + MORE_NAV_LINKS */
 export const NAV_LINKS = [...HEADER_NAV_LINKS, ...MORE_NAV_LINKS] as const;
 
-/** How It Works — four-step handoff */
+/** How It Works */
 export const HOME_STEPS = [
   {
     title: "Tell us what happened",
     body: "Call, text, email, or send a short request.",
   },
   {
-    title: "We review the situation",
-    body: "A local coordinator reviews the location, problem type, urgency, and important details.",
+    title: "We identify the right type of local help",
+    body: "Austin uses the location, problem type, urgency, and details to identify the next step.",
   },
   {
-    title: "We coordinate the handoff",
-    body: "We select an appropriate local provider based on the service needed, location, scope, and current coverage.",
-  },
-  {
-    title: "The provider contacts you",
-    body: "The provider discusses availability, diagnosis, pricing, scheduling, and the work directly with you.",
+    title: "The provider follows up about the job",
+    body: "The provider may contact you about availability, diagnosis, pricing, scheduling, and the work.",
   },
 ] as const;
 

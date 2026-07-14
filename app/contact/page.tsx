@@ -39,7 +39,9 @@ export default function ContactPage() {
           <h1 className="text-2xl font-semibold text-stone-900 md:text-3xl">
             Contact Berks Property Response
           </h1>
-          <p className="mt-2 text-stone-600">Call for urgent help or send a short request.</p>
+          <p className="mt-2 text-stone-600">
+            Call for an active water or sewage problem, or send a request below.
+          </p>
 
           <div className="mt-5">
             <CompactUrgentCallStrip message="Active water or sewage right now? Calling is fastest." />

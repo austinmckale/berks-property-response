@@ -1,6 +1,5 @@
 import { SchemaScript } from "@/components/SchemaScript";
 import { HubAlert, HubFooterLink, HubLandingPage } from "@/components/HubLandingPage";
-import { FUTURE_SERVICE_DISCLAIMER } from "@/lib/disclosures";
 import { breadcrumbItems, buildMetadata } from "@/lib/seo";
 import {
   breadcrumbSchema,
@@ -11,7 +10,7 @@ import {
 
 export const metadata = buildMetadata({
   title: "Storm, Fire & Mold Help",
-  description: "Request a review for storm, fire, smoke, or mold damage in Berks County.",
+  description: "Storm, fire, smoke, mold, and serious property-damage help in Berks County.",
   path: "/storm-fire-mold-help",
 });
 
@@ -23,7 +22,7 @@ export default function StormFireMoldHelpPage() {
     organizationSchema(),
     webPageSchema({
       title: "Storm, Fire & Mold Help",
-      description: "Major property issue review in Berks County.",
+      description: "Storm, fire, smoke, mold, and serious property damage in Berks County.",
       path: "/storm-fire-mold-help",
     }),
     breadcrumbSchema(crumbs)
@@ -34,14 +33,13 @@ export default function StormFireMoldHelpPage() {
       <SchemaScript schemas={schemas} />
       <HubLandingPage
         breadcrumbs={crumbs}
-        title="Storm, fire, mold, or major issues"
-        subtitle={FUTURE_SERVICE_DISCLAIMER}
+        title="Storm, fire, mold, or serious damage"
+        subtitle="Tell us what happened and include photos if you can."
         alert={
           <HubAlert>
-            If there is immediate danger — active fire, suspected gas leak, electrical hazard,
-            structural collapse, or a medical emergency — leave the unsafe area when appropriate
-            and contact 911, the fire department, or the applicable utility. For an active drain
-            backup or fixture leak, use{" "}
+            If there is active fire, gas odor, electrical danger, collapse risk, or a medical
+            emergency, leave the unsafe area and call 911 or the applicable utility. For an active
+            drain backup or fixture leak, use{" "}
             <HubFooterLink href="/emergency">emergency</HubFooterLink>,{" "}
             <HubFooterLink href="/plumbing-and-leaks">plumbing</HubFooterLink>, or{" "}
             <HubFooterLink href="/after-leak">water damage</HubFooterLink> help first.
@@ -56,9 +54,7 @@ export default function StormFireMoldHelpPage() {
         }}
         footer={
           <details className="rounded-xl border border-stone-200 bg-stone-50 px-4 py-3">
-            <summary className="cursor-pointer text-sm font-medium text-stone-800">
-              Issues we may review
-            </summary>
+            <summary className="cursor-pointer text-sm font-medium text-stone-800">Issue types</summary>
             <ul className="mt-3 list-inside list-disc space-y-1 text-sm text-stone-700">
               <li>Storm or wind damage</li>
               <li>Fire or smoke damage</li>

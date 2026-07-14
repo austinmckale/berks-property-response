@@ -12,8 +12,7 @@ import { PHONE_NUMBER, SITE_NAME } from "@/lib/siteConfig";
 
 export const metadata = buildMetadata({
   title: "How Berks Property Response Works",
-  description:
-    "How Berks Property Response reviews requests and coordinates introductions to independent local providers in Berks County.",
+  description: "Independent-provider and compensation disclosure for Berks Property Response.",
   path: "/disclosure",
 });
 
@@ -24,7 +23,7 @@ const providerLanes = [
       "Drain cleaning, sewer backups, main lines, hydro jetting, sewer cameras, and commercial drain work.",
   },
   {
-    name: "Ridge Line Plumbing",
+    name: "Evan",
     scope:
       "Fixture leaks, toilets, faucets, shutoff valves, water heaters, and smaller residential plumbing repairs.",
   },
@@ -84,8 +83,8 @@ export default function DisclosurePage() {
 
           <h2 className="text-xl font-semibold text-stone-900">Compensation</h2>
           <p>
-            {SITE_NAME} may receive a marketing, intake, administrative, or referral fee from
-            participating providers.
+            Some participating providers may pay {SITE_NAME} for intake, marketing, or
+            administrative services.
           </p>
 
           <h2 className="text-xl font-semibold text-stone-900">Questions</h2>

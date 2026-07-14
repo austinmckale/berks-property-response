@@ -35,7 +35,7 @@ export default function ServiceAreasPage() {
       <HubLandingPage
         breadcrumbs={crumbs}
         title="Service areas"
-        subtitle="Pick your city — call or send a request for local help."
+        subtitle="Choose a city for local service information."
         middle={
           <div>
             <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
@@ -55,12 +55,12 @@ export default function ServiceAreasPage() {
               data-analytics-source="service_areas"
               className="btn-primary mt-6 w-full"
             >
-              Request local help
+              Not sure which city page to use? Start a request
             </Link>
           </div>
         }
         showForm={false}
-        showPageCue={false}
+        showPrimaryCue={false}
       />
     </>
   );

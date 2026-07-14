@@ -61,7 +61,7 @@ export function ServicePageTemplate({ service }: ServicePageTemplateProps) {
     service.slug.includes("sewer-backup") ||
     service.slug.includes("main-sewer") ||
     service.slug.includes("floor-drain");
-  const isRidgeLinePlumbing =
+  const isFixturePlumbing =
     service.provider === "evan" || service.defaultRoute === "evan";
   const relatedServices = getRelatedServices(service.relatedSlugs);
   const initialProblemType = inferProblemTypeFromContext({
@@ -93,13 +93,12 @@ export function ServicePageTemplate({ service }: ServicePageTemplateProps) {
           ) : null}
           <div id="sticky-cta-marker" className="h-px" aria-hidden />
 
-          {isRidgeLinePlumbing && <PlumbingTriageNotice />}
+          {isFixturePlumbing && <PlumbingTriageNotice />}
 
           <div id="get-help" className="mt-8 scroll-mt-6 border-t border-stone-200 pt-8">
             <h2 className="text-lg font-semibold text-stone-900">
               {isEmergency ? "Or send a request" : "Send a request"}
             </h2>
-            <p className="mt-1 text-sm text-stone-600">Name, phone, city, and what happened.</p>
             <div className="mt-4">
               <Suspense fallback={<div className="h-80 animate-pulse rounded-2xl bg-stone-100" />}>
                 <LeadForm
@@ -133,18 +132,17 @@ export function ServicePageTemplate({ service }: ServicePageTemplateProps) {
             <ServiceAreaCrossLinks />
 
             {service.rhiHandoff && (
-              <div className="mt-6 rounded-lg border border-stone-200 bg-stone-50 p-4 text-sm text-stone-700">
-                <p className="font-medium text-stone-900">Looking for a full remodel?</p>
-                <p className="mt-1">{service.rhiHandoff}</p>
+              <p className="mt-6 text-sm text-stone-700">
+                {service.rhiHandoff}{" "}
                 <a
                   href="https://rhipros.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-2 inline-block font-medium text-stone-900 underline-offset-2 hover:underline"
+                  className="font-medium text-stone-900 underline-offset-2 hover:underline"
                 >
                   Visit RHIpros.com
                 </a>
-              </div>
+              </p>
             )}
           </div>
         </div>

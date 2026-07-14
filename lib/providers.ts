@@ -59,7 +59,7 @@ export const providers: Record<Exclude<ProviderId, "manual_review">, Provider> =
   },
   evan: {
     id: "evan",
-    name: "Ridge Line Plumbing",
+    name: "Evan",
     confirmed: true,
     type: "residential plumbing provider",
     description:
@@ -67,7 +67,6 @@ export const providers: Record<Exclude<ProviderId, "manual_review">, Provider> =
     serviceArea: "Fleetwood, PA and Berks County",
     phone: "610-858-5878",
     email: "ridgeviewplumbing@gmail.com",
-    logoImage: "/images/ridge-line-plumbing-logo.png",
     defaultRoutes: [
       "leak repair",
       "faucet repair",

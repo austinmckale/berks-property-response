@@ -32,8 +32,8 @@ export default function RequestHelpPage() {
       <SchemaScript schemas={schemas} />
       <HubLandingPage
         breadcrumbs={crumbs}
-        title="Get local help"
-        subtitle="Pick what happened, answer one quick triage question, then add your name and phone."
+        title="Send a request"
+        subtitle="Choose the closest problem, then send the details."
         variant="standard"
         showCompactUrgentCall
         emergencyHeadline="Active water or sewage right now? Calling is fastest."

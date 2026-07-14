@@ -1,6 +1,6 @@
 /** Full disclosure — /disclosure and legal pages */
 export const REFERRAL_DISCLOSURE_FULL =
-  "Berks Property Response is a locally operated intake and coordination service for drain, plumbing, water-damage, and related property issues in Berks County. A local coordinator reviews requests and introduces an appropriate independent provider. The selected provider supplies the estimate, performs the work, and contracts with the customer directly. Berks Property Response may receive a marketing, intake, administrative, or referral fee from participating providers.";
+  "Berks Property Response coordinates requests with independent local providers. The selected provider supplies the estimate, performs the work, and contracts with the customer directly. Some participating providers may pay Berks Property Response for intake, marketing, or administrative services.";
 
 /** Short line under forms and conversion hubs */
 export const REFERRAL_DISCLOSURE_INLINE =
@@ -8,7 +8,7 @@ export const REFERRAL_DISCLOSURE_INLINE =
 
 /** Footer disclosure — secondary but readable */
 export const FOOTER_DISCLOSURE =
-  "Berks Property Response coordinates service requests with independent local providers. The selected provider supplies the estimate, performs the work, and contracts with the customer directly. BPR may receive a marketing, intake, administrative, or referral fee from participating providers.";
+  "Berks Property Response coordinates requests with independent local providers. The selected provider supplies the estimate, performs the work, and contracts with the customer directly. Some participating providers may pay Berks Property Response for intake, marketing, or administrative services.";
 
 /** Shown under the submit button on every intake form */
 export const FORM_SUBMIT_FINE_PRINT =
@@ -18,6 +18,3 @@ export const FORM_SUBMIT_FINE_PRINT =
 export const PROVIDER_AVAILABILITY_NOTE =
   "The selected provider supplies the estimate, performs the work, and contracts with the customer directly. Provider availability and service scope may vary.";
 
-/** Future / expanding service categories — not confirmed active services */
-export const FUTURE_SERVICE_DISCLAIMER =
-  "Request a review for a storm, fire, smoke, or mold issue.";

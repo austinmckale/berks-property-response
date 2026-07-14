@@ -71,6 +71,7 @@ describe("homepage triage categories", () => {
   it("maps triage cards to correct provider defaults", () => {
     const expected: Record<string, string> = {
       "drain-emergency": "apex",
+      "drain-clog": "apex",
       "plumbing-leak": "evan",
       "water-damage": "rhi",
       "major-property": "manual_review",
@@ -82,7 +83,9 @@ describe("homepage triage categories", () => {
 
   it("keeps the major-property card customer-facing", () => {
     const majorCard = triageCards.find((card) => card.problem === "major-property");
-    expect(majorCard?.description).toBe("Storm, fire, mold, or serious property damage.");
+    expect(majorCard?.description).toBe(
+      "Smoke, storm damage, suspected mold, roof leaks, or a problem that doesn’t fit above."
+    );
   });
 });
 

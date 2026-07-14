@@ -56,8 +56,9 @@ export const problemTypeOptions: ProblemTypeOption[] = [
   },
   {
     id: "major-property",
-    title: "Storm, fire, mold, or major property issue",
-    description: "Storm, fire, smoke, mold, or major property concern",
+    title: "Storm, fire, mold, or serious damage",
+    description:
+      "Smoke, storm damage, suspected mold, roof leaks, or another serious property concern.",
     urgency: "same-day",
     serviceCategory: "major_property",
     defaultService: "major property issue review",

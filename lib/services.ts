@@ -42,10 +42,10 @@ export const services: ServicePage[] = [
     slug: "emergency-sewer-backup-berks-county-pa",
     title: "Emergency Sewer Backup Help in Berks County, PA",
     metaDescription:
-      "Sewage backing up in Berks County? Tell us what happened. We connect you with local emergency drain and sewer help.",
+      "Sewage backing up in Berks County? Stop using water and call for emergency drain and sewer help.",
     headline: "Sewer backup or sewage in your home or business?",
     subheadline:
-      "If sewage is backing up through drains, stop using water and call now. Tell us what happened and we will connect you with local emergency sewer help in Berks County.",
+      "If sewage is backing up through drains, stop using water and call now.",
     provider: "apex",
     serviceCategory: "drain_sewer",
     defaultRoute: "apex",
@@ -90,10 +90,10 @@ export const services: ServicePage[] = [
     slug: "hydro-jetting-berks-county-pa",
     title: "Hydro Jetting in Berks County, PA",
     metaDescription:
-      "Recurring clogs, grease, roots, or sludge in Berks County? Tell us what happened. We connect you with local hydro jetting help.",
+      "Hydro jetting for recurring clogs, grease, roots, or sludge in Berks County.",
     headline: "Recurring clogs or grease buildup in your lines?",
     subheadline:
-      "When snaking is not enough, hydro jetting can clear roots, grease, and sludge from main and commercial lines. Describe your issue and we will connect you with local help.",
+      "When snaking is not enough, hydro jetting can clear roots, grease, and sludge from main and commercial lines.",
     provider: "apex",
     serviceCategory: "drain_sewer",
     defaultRoute: "apex",
@@ -142,10 +142,10 @@ export const services: ServicePage[] = [
     slug: "drain-cleaning-berks-county-pa",
     title: "Drain Cleaning in Berks County, PA",
     metaDescription:
-      "Slow or clogged drains in Berks County? Tell us which fixtures are affected and we will connect you with local drain cleaning help.",
+      "Drain cleaning for slow or clogged sinks, tubs, showers, and toilets in Berks County.",
     headline: "Slow or clogged drains in Berks County?",
     subheadline:
-      "Tell us which fixtures are affected—sinks, tubs, floor drains, or recurring clogs. We will connect you with the right local help.",
+      "Sinks, tubs, floor drains, or recurring clogs can point to a single-fixture or main-line problem.",
     provider: "apex",
     serviceCategory: "drain_sewer",
     defaultRoute: "apex",
@@ -190,7 +190,7 @@ export const services: ServicePage[] = [
     slug: "main-sewer-line-clog-reading-pa",
     title: "Main Sewer Line Clog in Reading & Berks County, PA",
     metaDescription:
-      "Multiple fixtures backing up in Reading or Berks County? Main sewer line clog symptoms—tell us what happened for local help.",
+      "Main sewer line clog symptoms for multiple fixtures backing up in Reading and Berks County.",
     headline: "Multiple fixtures backing up? Possible main line clog",
     subheadline:
       "Toilet and shower interaction, floor drain backup, and gurgling drains often point to a main sewer line issue. Call or request help to describe what is happening.",
@@ -290,7 +290,7 @@ export const services: ServicePage[] = [
     slug: "sewer-camera-inspection-berks-county-pa",
     title: "Sewer Camera Inspection in Berks County, PA",
     metaDescription:
-      "Need a sewer camera inspection in Berks County? Locate blockages, roots, and line damage. Tell us what happened for local help.",
+      "Sewer camera inspection for blockages, roots, and line damage in Berks County.",
     headline: "Need to see what is inside your sewer line?",
     subheadline:
       "Camera inspection helps locate blockages, roots, bellies, and damage before clearing or repair. Request help to describe your line issue.",
@@ -381,10 +381,10 @@ export const services: ServicePage[] = [
     slug: "small-plumbing-repairs-berks-county-pa",
     title: "Small Plumbing Repairs in Berks County, PA",
     metaDescription:
-      "Small plumbing repairs in Berks County—leaks, faucets, running toilets, and fixture issues. We connect you with Ridge Line Plumbing for smaller residential service calls.",
+      "Small plumbing repairs in Berks County for leaks, faucets, running toilets, and fixture issues.",
     headline: "Small plumbing leak or fixture repair?",
     subheadline:
-      "For isolated residential leaks, faucets, running toilets, and shutoff valves in Berks County, describe the problem and we will connect you with Ridge Line Plumbing.",
+      "For isolated residential leaks, faucets, running toilets, and shutoff valves in Berks County.",
     provider: "evan",
     serviceCategory: "plumbing",
     defaultRoute: "evan",
@@ -394,7 +394,7 @@ export const services: ServicePage[] = [
     noindex: false,
     heroImage: "/images/ridge-line-plumbing-logo.png",
     intro:
-      "This covers smaller residential plumbing service calls—leaks under sinks, dripping faucets, running toilets, shutoff valves, and other fixture-level repairs. Ridge Line Plumbing works alone and handles repair-level jobs, not main line or sewer work.",
+      "This covers smaller residential plumbing service calls—leaks under sinks, dripping faucets, running toilets, shutoff valves, and other fixture-level repairs. It does not cover main-line or sewer work.",
     symptoms: [
       "Leak under kitchen or bathroom sink",
       "Dripping faucet or running toilet (single fixture)",
@@ -408,13 +408,13 @@ export const services: ServicePage[] = [
       "Request help or call to describe the issue",
     ],
     routingNotes: [
-      "Isolated small plumbing repairs route to Ridge Line Plumbing.",
+      "Isolated small plumbing repairs are different from main-line or sewer problems.",
       "Multi-fixture backups, sewer symptoms, or floor drain overflow route to Apex Drain Services.",
       "Water damage or build-back repair after the leak is stopped routes to RHI Pros.",
     ],
     faqs: [
       {
-        question: "Does Ridge Line Plumbing handle drain or sewer backups?",
+        question: "Does this include drain or sewer backups?",
         answer:
           "No. Main line clogs, sewer backups, hydro jetting, and multi-fixture drain issues route to Apex Drain Services instead.",
       },
@@ -435,10 +435,10 @@ export const services: ServicePage[] = [
     slug: "leak-repair-berks-county-pa",
     title: "Leak Repair in Berks County, PA",
     metaDescription:
-      "Leak under a sink or at a fixture in Berks County? Describe the problem for smaller residential plumbing help through Ridge Line Plumbing.",
+      "Leak under a sink or at a fixture in Berks County? This page covers smaller residential plumbing issues.",
     headline: "Leak under a sink or at a fixture?",
     subheadline:
-      "For an isolated drip or puddle at a single fixture—not multiple drains backing up—we connect you with Ridge Line Plumbing for smaller residential leak repair.",
+      "An isolated drip or puddle at one fixture is different from multiple drains backing up.",
     provider: "evan",
     serviceCategory: "plumbing",
     defaultRoute: "evan",
@@ -448,7 +448,7 @@ export const services: ServicePage[] = [
     noindex: false,
     heroImage: "/images/ridge-line-plumbing-logo.png",
     intro:
-      "A leak under a kitchen or bathroom sink, at a supply line, or around a single fixture is often a repair-level job. Ridge Line Plumbing handles smaller residential plumbing service calls in Berks County when the issue is isolated to one location.",
+      "A leak under a kitchen or bathroom sink, at a supply line, or around a single fixture is often a repair-level problem.",
     symptoms: [
       "Active drip or puddle under a sink",
       "Water collecting at a single fixture connection",
@@ -462,7 +462,7 @@ export const services: ServicePage[] = [
       "Request help describing when the leak started",
     ],
     routingNotes: [
-      "Isolated leak repair routes to Ridge Line Plumbing.",
+      "Isolated leak repair differs from a drain or sewer backup.",
       "Multiple drains backing up or sewage routes to Apex Drain Services.",
       "Drywall or flooring damage after the leak routes to RHI Pros.",
     ],
@@ -493,10 +493,10 @@ export const services: ServicePage[] = [
     slug: "faucet-repair-berks-county-pa",
     title: "Faucet Repair in Berks County, PA",
     metaDescription:
-      "Dripping or leaking faucet in Berks County? Single-fixture faucet repair help through Ridge Line Plumbing for smaller residential service calls.",
+      "Dripping or leaking faucet repair for a single fixture in Berks County.",
     headline: "Dripping or leaking faucet?",
     subheadline:
-      "When one faucet drips or leaks at the fixture—not a whole-house pressure or multi-drain issue—we connect you with Ridge Line Plumbing.",
+      "One faucet dripping at the fixture is different from a whole-house pressure or multi-drain issue.",
     provider: "evan",
     serviceCategory: "plumbing",
     defaultRoute: "evan",
@@ -506,7 +506,7 @@ export const services: ServicePage[] = [
     noindex: false,
     heroImage: "/images/ridge-line-plumbing-logo.png",
     intro:
-      "A dripping kitchen or bathroom faucet, loose handle, or leak at the spout base is typically a fixture-level repair. Ridge Line Plumbing handles smaller residential plumbing service calls in Berks County.",
+      "A dripping kitchen or bathroom faucet, loose handle, or leak at the spout base is typically a fixture-level repair.",
     symptoms: [
       "Steady drip from faucet spout when turned off",
       "Leak around the faucet base or handles",
@@ -520,14 +520,14 @@ export const services: ServicePage[] = [
       "Request help with the fixture location",
     ],
     routingNotes: [
-      "Single-fixture faucet repair routes to Ridge Line Plumbing.",
+      "Single-fixture faucet repair differs from a drain or sewer problem.",
       "Low pressure at every fixture or multiple drains affected may need different routing.",
     ],
     faqs: [
       {
         question: "Is a dripping faucet a plumbing emergency?",
         answer:
-          "Usually not, unless water is spraying or flooding. A steady drip at one faucet is typically a fixture-level repair routed to Ridge Line Plumbing.",
+          "Usually not, unless water is spraying or flooding. A steady drip at one faucet is typically a fixture-level repair.",
       },
       {
         question: "What if every faucet in the house has low pressure?",
@@ -545,10 +545,10 @@ export const services: ServicePage[] = [
     slug: "toilet-repair-berks-county-pa",
     title: "Toilet Repair in Berks County, PA",
     metaDescription:
-      "Running toilet or isolated toilet repair in Berks County. Single-fixture toilet help through Ridge Line Plumbing—not main line or sewer backups.",
+      "Running toilet or isolated toilet repair in Berks County. This does not cover main-line or sewer backups.",
     headline: "Running toilet or isolated toilet problem?",
     subheadline:
-      "When one toilet runs, leaks, or needs repair and no other drains are backing up, we connect you with Ridge Line Plumbing.",
+      "One toilet that runs, leaks, or needs repair is different from several drains backing up.",
     provider: "evan",
     serviceCategory: "plumbing",
     defaultRoute: "evan",
@@ -572,7 +572,7 @@ export const services: ServicePage[] = [
       "Request help describing the symptoms",
     ],
     routingNotes: [
-      "Isolated toilet repair routes to Ridge Line Plumbing.",
+      "Isolated toilet repair differs from a drain or sewer backup.",
       "Toilet bubbling with tub or shower backup routes to Apex Drain Services.",
     ],
     faqs: [
@@ -597,10 +597,10 @@ export const services: ServicePage[] = [
     slug: "shutoff-valve-repair-berks-county-pa",
     title: "Shutoff Valve Repair in Berks County, PA",
     metaDescription:
-      "Leaking or stuck shutoff valve in Berks County? Fixture-level valve repair help through Ridge Line Plumbing for smaller residential service calls.",
+      "Leaking or stuck shutoff valve repair for a fixture in Berks County. Call if water is spraying.",
     headline: "Shutoff valve leaking or stuck?",
     subheadline:
-      "For a leaking, corroded, or hard-to-turn shutoff at a single fixture, we connect you with Ridge Line Plumbing.",
+      "A leaking, corroded, or hard-to-turn shutoff at one fixture can need repair.",
     provider: "evan",
     serviceCategory: "plumbing",
     defaultRoute: "evan",
@@ -610,7 +610,7 @@ export const services: ServicePage[] = [
     noindex: false,
     heroImage: "/images/ridge-line-plumbing-logo.png",
     intro:
-      "Shutoff valves under sinks, behind toilets, or at individual fixtures can leak or seize over time. Ridge Line Plumbing handles smaller residential plumbing service calls when the issue is limited to fixture-level valves.",
+      "Shutoff valves under sinks, behind toilets, or at individual fixtures can leak or seize over time.",
     symptoms: [
       "Drip or weep at an angle stop or fixture shutoff",
       "Shutoff will not turn or will not fully stop water",
@@ -624,7 +624,7 @@ export const services: ServicePage[] = [
       "Request help with the valve location",
     ],
     routingNotes: [
-      "Fixture shutoff valve repair routes to Ridge Line Plumbing.",
+      "Fixture shutoff valve repair differs from a main-line or sewer problem.",
       "Whole-house main shutoff or multi-fixture issues may need different routing.",
     ],
     faqs: [

@@ -33,7 +33,7 @@ export default function AfterLeakHubPage() {
       <HubLandingPage
         breadcrumbs={crumbs}
         title="Repair after a leak or backup"
-        subtitle="Tell us what was damaged — we'll connect you with local repair help."
+        subtitle="Tell us what was damaged after the leak or backup."
         alert={
           <HubAlert>
             Still backing up or leaking?{" "}
@@ -48,14 +48,8 @@ export default function AfterLeakHubPage() {
           initialProblemType: "water-damage",
         }}
         footer={
-          <section className="border-t border-stone-200 pt-6">
-            <h2 className="text-lg font-semibold text-stone-900">
-              Already know you need repairs after a leak?
-            </h2>
-            <p className="mt-2 text-sm leading-relaxed text-stone-600">
-              If the leak or backup source has been addressed and you need drywall, flooring,
-              ceiling, paint, or other build-back repairs, you can also visit RHI Pros directly.
-            </p>
+          <p className="border-t border-stone-200 pt-6 text-sm text-stone-600">
+            Need drywall, flooring, ceiling, paint, or other build-back repair?{" "}
             <a
               href="https://www.rhipros.com/?utm_source=berkspropertyresponse&utm_medium=referral&utm_campaign=after_leak"
               target="_blank"
@@ -68,7 +62,7 @@ export default function AfterLeakHubPage() {
             >
               Visit RHI Pros →
             </a>
-          </section>
+          </p>
         }
       />
     </>

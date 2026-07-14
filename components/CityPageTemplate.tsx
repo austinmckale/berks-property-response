@@ -56,7 +56,7 @@ export function CityPageTemplate({ city }: { city: CityPage }) {
 
           <details className="mt-6 rounded-xl border border-stone-200 bg-stone-50 px-4 py-3">
             <summary className="cursor-pointer text-sm font-medium text-stone-800">
-              More about help in {city.name}
+              Local context and useful links
             </summary>
             <p className="mt-3 text-sm leading-relaxed text-stone-700">{city.localContext}</p>
             <h3 className="mt-4 text-sm font-semibold text-stone-900">Common requests</h3>

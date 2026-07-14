@@ -101,7 +101,7 @@ export const cities: CityPage[] = [
     intro:
       "Exeter Township covers suburban neighborhoods and commercial strips east of Reading.",
     localContext:
-      "Split-level homes and township commercial pads in Exeter may see main line symptoms when tree roots or aging laterals are involved. Camera inspection and jetting requests are common from Exeter. After a backup is cleared, ceiling or flooring damage in lower levels may need build-back repair.",
+      "Split-level homes and township commercial pads in Exeter can have main-line symptoms when tree roots or aging laterals are involved. After a backup is cleared, ceiling or flooring damage in lower levels may need build-back repair.",
     serviceLinks: [
       { href: "/sewer-camera-inspection-berks-county-pa", label: "Sewer camera inspection" },
       { href: "/main-sewer-line-clog-reading-pa", label: "Main line clog symptoms" },
@@ -180,7 +180,7 @@ export const cities: CityPage[] = [
     intro:
       "West Reading sits next to Reading with dense residential blocks, small businesses, and mixed-age housing.",
     localContext:
-      "Row homes and multi-unit properties in West Reading often need fast triage between fixture-level plumbing and main line drain issues. Photos of affected fixtures and drains help route the request correctly.",
+      "Row homes and multi-unit properties in West Reading can make it important to distinguish a fixture leak from a main-line drain problem. Photos of affected fixtures and drains help show the issue.",
     serviceLinks: [
       { href: "/main-sewer-line-clog-reading-pa", label: "Main line clog symptoms" },
       { href: "/toilet-repair-berks-county-pa", label: "Toilet repair" },
@@ -200,7 +200,7 @@ export const cities: CityPage[] = [
     intro:
       "Shillington is a borough south of Reading with mostly residential streets and small commercial pockets.",
     localContext:
-      "Split-level and ranch homes in Shillington may show main line warning signs when multiple fixtures interact. Isolated fixture issues at one location often route to Ridge Line Plumbing for smaller residential service calls.",
+      "Split-level and ranch homes in Shillington may show main-line warning signs when multiple fixtures interact. An isolated issue at one fixture is different from several drains backing up together.",
     serviceLinks: [
       { href: "/small-plumbing-repairs-berks-county-pa", label: "Small plumbing repairs" },
       { href: "/emergency-sewer-backup-berks-county-pa", label: "Sewer backup help" },
@@ -220,7 +220,7 @@ export const cities: CityPage[] = [
     intro:
       "Fleetwood and the surrounding area include borough homes and township properties north of Kutztown.",
     localContext:
-      "Fleetwood includes borough homes and nearby township properties, so the property setting can vary from one request to the next. Ridge Line Plumbing serves the Fleetwood area for smaller residential plumbing service calls. Multi-fixture backups and sewer emergencies still route to Apex Drain Services.",
+      "Fleetwood includes borough homes and nearby township properties. A single fixture leak, a slow drain, and several drains backing up need different next steps. Multi-fixture backups and sewer emergencies are different from an isolated fixture leak.",
     serviceLinks: [
       { href: "/small-plumbing-repairs-berks-county-pa", label: "Small plumbing repairs" },
       { href: "/leak-repair-berks-county-pa", label: "Leak repair" },

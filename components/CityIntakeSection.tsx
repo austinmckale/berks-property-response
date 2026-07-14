@@ -9,9 +9,11 @@ import { isProblemTypeId } from "@/lib/intakeLinks";
 import type { ProblemTypeId } from "@/lib/problemTypes";
 
 const citySymptoms = [
-  { label: "Sewer or drain backup", problem: "drain-emergency" as const },
-  { label: "Leak or plumbing issue", problem: "plumbing-leak" as const },
-  { label: "Damage after a leak", problem: "water-damage" as const },
+  { label: "Sewer backup or multiple drains", problem: "drain-emergency" as const },
+  { label: "Slow or clogged drain", problem: "drain-clog" as const },
+  { label: "Leak at one fixture", problem: "plumbing-leak" as const },
+  { label: "Damage after a leak or backup", problem: "water-damage" as const },
+  { label: "Storm, fire, mold, or serious damage", problem: "major-property" as const },
 ];
 
 export function CityIntakeSection({ city }: { city: CityPage }) {
