@@ -17,9 +17,9 @@ export default function HomePage() {
     organizationSchema(),
     websiteSchema(),
     webPageSchema({
-      title: "Berks Property Response",
+      title: "Drain, Plumbing & Water Damage Help",
       description:
-        "One local contact for drain backups, plumbing leaks, and water-damage repairs in Berks County.",
+        "Get local help for drain backups, plumbing leaks, and water damage across Berks County.",
       path: "/",
     })
   );

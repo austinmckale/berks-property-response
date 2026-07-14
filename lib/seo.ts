@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { SITE_NAME, SITE_URL } from "./siteConfig";
 
-export const DEFAULT_OG_IMAGE = "/opengraph-image";
+export const DEFAULT_OG_IMAGE = `${SITE_URL}/og-home-v2`;
 
 export interface PageSEO {
   title: string;
@@ -9,17 +9,21 @@ export interface PageSEO {
   path: string;
   noindex?: boolean;
   ogImage?: string;
+  socialTitle?: string;
 }
 
 export function buildMetadata(seo: PageSEO): Metadata {
   const canonical = `${SITE_URL}${seo.path}`;
-  const ogImage = seo.ogImage ?? DEFAULT_OG_IMAGE;
+  const ogImage = seo.ogImage
+    ? new URL(seo.ogImage, SITE_URL).toString()
+    : DEFAULT_OG_IMAGE;
+  const socialTitle = seo.socialTitle ?? seo.title;
   return {
     title: seo.title,
     description: seo.description,
     alternates: { canonical },
     openGraph: {
-      title: seo.title,
+      title: socialTitle,
       description: seo.description,
       url: canonical,
       siteName: SITE_NAME,
@@ -35,7 +39,7 @@ export function buildMetadata(seo: PageSEO): Metadata {
     },
     twitter: {
       card: "summary_large_image",
-      title: seo.title,
+      title: socialTitle,
       description: seo.description,
       images: [ogImage],
     },
@@ -49,8 +53,9 @@ export function homeMetadata(): Metadata {
   return buildMetadata({
     title: "Drain, Plumbing & Water Damage Help",
     description:
-      "Drain, sewer, plumbing leak, and after-leak repair help in Berks County.",
+      "Get local help for drain backups, plumbing leaks, and water damage across Berks County.",
     path: "/",
+    socialTitle: "Drain, Plumbing & Water Damage Help | Berks Property Response",
   });
 }
 
