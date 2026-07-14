@@ -27,7 +27,7 @@ export const triageCards = [
   },
   {
     title: "Storm, fire, mold, or major property issue",
-    description: "Tell us what happened — we review whether a connection is available.",
+    description: "Storm, fire, mold, or serious property damage.",
     href: "/storm-fire-mold-help",
     problem: "major-property" as ProblemTypeId,
     icon: "major",

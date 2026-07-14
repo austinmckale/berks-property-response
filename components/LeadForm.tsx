@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { usePathname, useSearchParams } from "next/navigation";
+import { Camera } from "lucide-react";
 import {
   leadFormSchema,
   type LeadFormData,
@@ -18,6 +19,7 @@ import {
 } from "@/lib/problemTypes";
 import { isProblemTypeId } from "@/lib/intakeLinks";
 import { getCustomerReference } from "@/lib/leadId";
+import { getFormPhotoMessage } from "@/lib/photoMessages";
 import { PHONE_NUMBER, TEXT_NUMBER } from "@/lib/siteConfig";
 import { phoneHref, smsHref } from "@/lib/tracking";
 import {
@@ -414,10 +416,6 @@ export function LeadForm({
           <p className="mt-1 text-sm text-stone-600">
             {getProblemType(selectedProblem).title}
           </p>
-          <p className="mt-3 text-sm font-medium text-stone-700">
-            All fields below are required.
-          </p>
-
           <fieldset ref={waterGroupRef} className="mt-5">
             <legend className={labelClass}>
               Is water or sewage actively leaking, backing up, or spreading right now?
@@ -552,9 +550,18 @@ export function LeadForm({
               )}
             </div>
 
-            <p className="text-sm text-stone-600">
-              You can add photos by text after submitting.
-            </p>
+            <div>
+              <p className="text-sm text-stone-600">Prefer to show us the problem?</p>
+              <a
+                href={smsHref(TEXT_NUMBER, getFormPhotoMessage(selectedProblem))}
+                data-analytics-event="text_click"
+                data-analytics-source="lead_form_alternative"
+                className="btn-touch mt-2 inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-stone-300 bg-white px-4 text-sm font-semibold text-stone-800 active:bg-stone-50"
+              >
+                <Camera className="h-4 w-4" aria-hidden />
+                Text photos
+              </a>
+            </div>
           </div>
 
           <input type="hidden" {...register("problemType")} />

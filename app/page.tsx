@@ -1,13 +1,10 @@
 import { Suspense } from "react";
-import { FAQ } from "@/components/FAQ";
 import { Hero } from "@/components/Hero";
 import { HomeIntakeSection } from "@/components/HomeIntakeSection";
 import { SchemaScript } from "@/components/SchemaScript";
-import { homePageFaqs } from "@/lib/homeFaqs";
 import { homeMetadata } from "@/lib/seo";
 import {
   combineSchemas,
-  faqSchema,
   organizationSchema,
   webPageSchema,
   websiteSchema,
@@ -24,8 +21,7 @@ export default function HomePage() {
       description:
         "One local contact for drain backups, plumbing leaks, and water-damage repairs in Berks County.",
       path: "/",
-    }),
-    faqSchema(homePageFaqs)
+    })
   );
 
   return (
@@ -41,7 +37,6 @@ export default function HomePage() {
       <Suspense fallback={<div className="section-pad h-96 animate-pulse bg-brand-subtle" />}>
         <HomeIntakeSection />
       </Suspense>
-      <FAQ items={homePageFaqs} title="Quick answers" compact />
     </>
   );
 }

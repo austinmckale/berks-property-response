@@ -64,7 +64,7 @@ export function HomeIntakeSection() {
     >
       <div className="page-container-wide md:max-w-6xl">
         <h2 className="font-display text-center text-2xl font-semibold tracking-tight text-stone-900 md:text-left md:text-3xl">
-          Tell us what&apos;s going on
+          Choose the closest problem
         </h2>
 
         <div className="mt-6">

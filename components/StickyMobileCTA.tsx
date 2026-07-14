@@ -1,12 +1,12 @@
 "use client";
 
-import Link from "next/link";
+import { Camera, Phone } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useMobileNav } from "@/components/MobileNavContext";
-import { getHelpHref } from "@/lib/intakeLinks";
-import { PHONE_NUMBER } from "@/lib/siteConfig";
-import { phoneHref } from "@/lib/tracking";
+import { STICKY_ACTION_LABELS, STICKY_PHOTO_MESSAGE } from "@/lib/photoMessages";
+import { PHONE_NUMBER, TEXT_NUMBER } from "@/lib/siteConfig";
+import { phoneHref, smsHref } from "@/lib/tracking";
 
 const STICKY_ELIGIBLE_PATHS = new Set([
   "/",
@@ -108,8 +108,6 @@ export function StickyMobileCTA() {
 
   if (menuOpen || !pastMarker || formFocused || formInView) return null;
 
-  const helpHref = getHelpHref(pathname);
-
   return (
     <>
       <div
@@ -130,26 +128,28 @@ export function StickyMobileCTA() {
           href={phoneHref(PHONE_NUMBER)}
           data-analytics-event="phone_click"
           data-analytics-source="sticky_mobile"
-          className={`btn-touch-fill rounded-xl ${
+          className={`btn-touch-fill gap-1.5 rounded-xl ${
             isEmergency
               ? "bg-red-600 text-white active:bg-red-700"
               : "border border-red-600 bg-white text-red-700 active:bg-red-50"
           }`}
         >
-          Call now
+          <Phone className="h-4 w-4 shrink-0" aria-hidden />
+          {STICKY_ACTION_LABELS[0]}
         </a>
-        <Link
-          href={helpHref}
-          data-analytics-event="click_request_help"
+        <a
+          href={smsHref(TEXT_NUMBER, STICKY_PHOTO_MESSAGE)}
+          data-analytics-event="text_click"
           data-analytics-source="sticky_mobile"
-          className={`btn-touch-fill rounded-xl ${
+          className={`btn-touch-fill gap-1.5 rounded-xl ${
             isEmergency
               ? "border border-brand bg-white text-brand active:bg-amber-50"
               : "bg-brand text-white active:bg-brand-hover"
           }`}
         >
-          {isEmergency ? "Send request" : "Start request"}
-        </Link>
+          <Camera className="h-4 w-4 shrink-0" aria-hidden />
+          {STICKY_ACTION_LABELS[1]}
+        </a>
       </div>
       </div>
     </>

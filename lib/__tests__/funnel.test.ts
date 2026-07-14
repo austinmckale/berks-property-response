@@ -11,6 +11,13 @@ import {
   mapToGoogleSheetRow,
 } from "@/lib/googleSheetsMapper";
 import { ANALYTICS_EVENT_NAMES } from "@/lib/analytics";
+import {
+  getFormPhotoMessage,
+  STICKY_ACTION_LABELS,
+  STICKY_PHOTO_MESSAGE,
+} from "@/lib/photoMessages";
+import { TEXT_NUMBER } from "@/lib/siteConfig";
+import { smsHref } from "@/lib/tracking";
 
 describe("resolveUrgency", () => {
   it("elevates to emergency when water/sewage is active", () => {
@@ -69,6 +76,11 @@ describe("homepage triage categories", () => {
     for (const card of triageCards) {
       expect(getProblemType(card.problem).defaultRoute).toBe(expected[card.problem]);
     }
+  });
+
+  it("keeps the major-property card customer-facing", () => {
+    const majorCard = triageCards.find((card) => card.problem === "major-property");
+    expect(majorCard?.description).toBe("Storm, fire, mold, or serious property damage.");
   });
 });
 
@@ -202,6 +214,26 @@ describe("analytics event contract", () => {
       "form_error",
       "generate_lead",
     ]);
+  });
+});
+
+describe("text-photo CTA messages", () => {
+  it("defines exactly two direct-contact sticky actions", () => {
+    expect(STICKY_ACTION_LABELS).toEqual(["Call now", "Text photos"]);
+    expect([...STICKY_ACTION_LABELS] as string[]).not.toContain("Start request");
+  });
+
+  it("uses the configured text number and non-sensitive sticky message", () => {
+    const href = smsHref(TEXT_NUMBER, STICKY_PHOTO_MESSAGE);
+    expect(href).toMatch(/^sms:\d+\?body=/);
+    expect(decodeURIComponent(href)).toContain("property issue");
+    expect(decodeURIComponent(href)).not.toContain("Jane");
+  });
+
+  it("uses only the selected problem category in the form SMS message", () => {
+    expect(getFormPhotoMessage("plumbing-leak")).toBe(
+      "Hi Berks Property Response — I need help with Leak or plumbing issue. I’m sending photos now."
+    );
   });
 });
 
