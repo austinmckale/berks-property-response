@@ -41,7 +41,7 @@ Confirm Organization, WebPage, WebSite (home), BreadcrumbList, Service, and FAQP
 | `phone_click` | Call Now / tel links |
 | `text_click` | Send Photos / SMS links |
 | `click_request_help` | Request Help links |
-| `click_partner_website` | RHI Pros referral links |
+| `partner_click` | RHI Pros referral links |
 | `generate_lead` | Successful lead form submission |
 
 UTM and `gclid` parameters are captured in lead payloads and available for attribution in your CRM/webhook.

@@ -39,17 +39,6 @@ body {
   font-family: var(--font-fraunces), Georgia, serif;
 }
 
-/* Room for fixed mobile action bar + iPhone home indicator */
-.pb-mobile-cta {
-  padding-bottom: calc(var(--mobile-bar-height) + env(safe-area-inset-bottom, 0px));
-}
-
-@media (min-width: 768px) {
-  .pb-mobile-cta {
-    padding-bottom: 0;
-  }
-}
-
 input,
 select,
 textarea {
@@ -57,10 +46,7 @@ textarea {
 }
 
 .btn-touch {
-  display: inline-flex;
   min-height: 3rem;
-  align-items: center;
-  justify-content: center;
   padding-inline: 1rem;
   font-weight: 600;
   touch-action: manipulation;

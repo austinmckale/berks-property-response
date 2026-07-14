@@ -68,7 +68,9 @@ export function BrandLogo({
               {SITE_NAME}
             </span>
             <span
-              className={`mt-0.5 block text-[0.625rem] font-semibold uppercase tracking-[0.14em] ${
+              className={`mt-0.5 text-[0.625rem] font-semibold uppercase tracking-[0.14em] ${
+                isFooter ? "block" : "hidden min-[390px]:block"
+              } ${
                 isFooter ? "text-stone-500" : "text-brand"
               }`}
             >

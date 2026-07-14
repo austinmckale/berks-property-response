@@ -42,7 +42,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${dmSans.variable} ${fraunces.variable} h-full antialiased`}>
-      <body className="flex min-h-full flex-col pb-mobile-cta">
+      <body className="flex min-h-full flex-col">
         <GoogleAnalytics />
         <AnalyticsListener />
         <MobileNavProvider>

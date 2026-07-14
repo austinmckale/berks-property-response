@@ -98,9 +98,10 @@ export function ServicePageTemplate({ service }: ServicePageTemplateProps) {
             </div>
           ) : (
             <div className="mt-5 flex flex-col gap-3 md:flex-row md:items-center">
-              <PageIntakeCue label="Send a request" />
+              <PageIntakeCue label="Start a request" />
             </div>
           )}
+          <div id="sticky-cta-marker" className="h-px" aria-hidden />
 
           {isRidgeLinePlumbing && <PlumbingTriageNotice />}
 

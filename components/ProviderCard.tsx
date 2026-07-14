@@ -36,8 +36,9 @@ export function ProviderCard({ provider, note, intakeOnly = false }: ProviderCar
           href={provider.website}
           target="_blank"
           rel="noopener noreferrer"
-          data-analytics-event="click_partner_website"
+          data-analytics-event="partner_click"
           data-analytics-provider="rhi"
+          data-analytics-partner-name="RHI Pros"
           data-analytics-source="local_partners"
           className="mt-3 inline-block text-sm font-medium text-stone-800 underline underline-offset-2 hover:text-stone-600"
         >

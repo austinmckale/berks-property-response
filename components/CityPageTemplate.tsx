@@ -67,8 +67,9 @@ export function CityPageTemplate({ city }: { city: CityPage }) {
               Active backup or uncontrolled water? Call for urgent help.
             </p>
             <EmergencyCallBanner headline="Active backup or leak in your home?" />
-            <PageIntakeCue label="Send a request" />
+            <PageIntakeCue label="Start a request" />
           </div>
+          <div id="sticky-cta-marker" className="h-px" aria-hidden />
 
           <div className="mt-8">
             <FormSymptomPicker title="What's going on?" options={citySymptoms} />

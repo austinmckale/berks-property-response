@@ -25,46 +25,47 @@ export function Hero({
 
   return (
     <section
+      id={isHome ? "sticky-cta-marker" : undefined}
       className={`hero-pattern relative overflow-hidden border-b border-stone-800 px-4 text-white ${
-        compact ? "py-10 md:py-12" : "py-12 md:py-16"
+        isHome ? "py-8 md:py-16" : compact ? "py-10 md:py-12" : "py-12 md:py-16"
       }`}
     >
       <div className="relative mx-auto max-w-2xl text-center">
         {eyebrow ? (
-          <p className="eyebrow-light mb-4">{eyebrow}</p>
+          <p className={`eyebrow-light ${isHome ? "mb-3" : "mb-4"}`}>{eyebrow}</p>
         ) : showTrustLine && !isHome ? (
           <p className="eyebrow-light mb-4">{TRUST_LINE}</p>
         ) : null}
         <h1 className="font-display text-balance text-[1.875rem] font-semibold leading-[1.15] tracking-tight sm:text-4xl md:text-[2.75rem]">
           {headline}
         </h1>
-        <p className="mt-5 text-base leading-relaxed text-stone-300 md:text-lg">
+        <p className={`text-base leading-relaxed text-stone-300 md:text-lg ${isHome ? "mt-3" : "mt-5"}`}>
           {subheadline}
         </p>
 
         {isHome ? (
-          <div className="mt-9">
-            <div className="flex flex-col items-stretch gap-3 sm:mx-auto sm:max-w-md">
-              <a
-                href={phoneHref(PHONE_NUMBER)}
-                data-analytics-event="phone_click"
-                data-analytics-source="hero"
-                className="btn-touch-lg inline-flex w-full items-center justify-center rounded-xl bg-red-600 px-5 py-3.5 text-base font-semibold text-white shadow-sm active:bg-red-700"
-              >
-                Call now
-              </a>
+          <div className="mt-6">
+            <div className="sm:mx-auto sm:max-w-md">
               <Link
                 href="#get-help"
                 data-analytics-event="click_request_help"
                 data-analytics-source="hero"
                 className="btn-primary w-full"
               >
-                Send a quick request
+                Start a request
               </Link>
             </div>
+            <a
+              href={phoneHref(PHONE_NUMBER)}
+              data-analytics-event="phone_click"
+              data-analytics-source="hero"
+              className="mx-auto mt-2.5 inline-flex min-h-11 items-center justify-center px-3 text-sm font-medium text-red-200 underline underline-offset-2 hover:text-red-100"
+            >
+              Water or sewage active right now? Call {PHONE_NUMBER}
+            </a>
             {showTrustLine && (
-              <p className="mt-5 text-sm leading-relaxed text-amber-100/90">
-                {TRUST_LINE}
+              <p className="mt-2 text-sm text-stone-300">
+                No fee to request help · No obligation to hire
               </p>
             )}
           </div>

@@ -60,8 +60,9 @@ export default function AfterLeakHubPage() {
               href="https://www.rhipros.com/?utm_source=berkspropertyresponse&utm_medium=referral&utm_campaign=after_leak"
               target="_blank"
               rel="noopener noreferrer"
-              data-analytics-event="click_partner_website"
+              data-analytics-event="partner_click"
               data-analytics-provider="rhi"
+              data-analytics-partner-name="RHI Pros"
               data-analytics-source="after_leak"
               className="mt-3 inline-block text-sm font-semibold text-stone-900 underline underline-offset-2 hover:text-stone-600"
             >

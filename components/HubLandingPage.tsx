@@ -125,7 +125,7 @@ export function HubLandingPage({
       <div className="mt-5">
         <PageIntakeCue
           href={requestHref}
-          label={showForm ? "Send a quick request" : "Request local help"}
+          label={showForm ? "Start a request" : "Request local help"}
         />
       </div>
     ) : null;
@@ -137,6 +137,7 @@ export function HubLandingPage({
         <div className="page-container">
           <h1 className="text-2xl font-semibold text-stone-900 md:text-3xl">{title}</h1>
           <p className="mt-2 text-stone-600">{subtitle}</p>
+          <div id="sticky-cta-marker" className="h-px" aria-hidden />
 
           {alert && <div className="mt-5">{alert}</div>}
 

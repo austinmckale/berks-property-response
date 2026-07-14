@@ -43,7 +43,7 @@ export default function ServiceAreasPage() {
                 <Link
                   key={city.slug}
                   href={`/service-areas/${city.slug}`}
-                  className="btn-touch rounded-xl border-2 border-stone-200 bg-white px-3 py-4 text-center text-sm font-semibold text-stone-900 active:bg-stone-50 hover:border-stone-400"
+                  className="btn-touch flex items-center justify-center rounded-xl border-2 border-stone-200 bg-white px-3 py-4 text-center text-sm font-semibold text-stone-900 active:bg-stone-50 hover:border-stone-400"
                 >
                   {city.name}
                 </Link>

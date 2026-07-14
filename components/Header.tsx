@@ -34,13 +34,13 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-stone-200 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/90">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-3 py-2.5 sm:px-4 sm:py-3">
-        <BrandLogo variant="header" className="min-w-0 max-w-[11rem] sm:max-w-[14rem]" />
+      <div className="mx-auto flex min-h-16 max-w-6xl items-center justify-between gap-2 px-3 py-2 sm:px-4 sm:py-3">
+        <BrandLogo variant="header" className="min-w-0 max-w-[13rem] sm:max-w-[14rem]" />
 
         <nav className="hidden items-center gap-0.5 lg:flex" aria-label="Main">
           <Link
             href="/emergency"
-            className="btn-touch rounded-lg px-2.5 text-sm font-semibold text-red-700 hover:bg-red-50"
+            className="btn-touch inline-flex items-center justify-center rounded-lg px-2.5 text-sm font-semibold text-red-700 hover:bg-red-50"
           >
             Emergency
           </Link>
@@ -48,7 +48,7 @@ export function Header() {
             <Link
               key={link.href}
               href={link.href}
-              className={`btn-touch rounded-lg px-2 text-sm font-medium hover:bg-stone-100 ${
+              className={`btn-touch inline-flex items-center justify-center rounded-lg px-2 text-sm font-medium hover:bg-stone-100 ${
                 pathname === link.href ? "text-stone-900" : "text-stone-600"
               }`}
             >

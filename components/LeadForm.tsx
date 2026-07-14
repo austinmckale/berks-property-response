@@ -227,7 +227,10 @@ export function LeadForm({
       setSubmitStatus("success");
       trackEvent("generate_lead", {
         page_type: pageType,
+        problem_type: data.problemType,
         service_category: problem.serviceCategory,
+        urgency: urgencyResolved,
+        city: data.city,
       });
     } catch {
       setSubmitStatus("error");
@@ -395,7 +398,7 @@ export function LeadForm({
                   setStep(1);
                 }
               }}
-              className="btn-touch min-h-[2.75rem] text-sm font-medium text-stone-600 active:text-stone-900"
+              className="btn-touch inline-flex items-center justify-center min-h-[2.75rem] text-sm font-medium text-stone-600 active:text-stone-900"
             >
               ← Change category
             </button>

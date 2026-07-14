@@ -37,7 +37,7 @@ interface PageIntakeCueProps {
  */
 export function PageIntakeCue({
   href = "#get-help",
-  label = "Send a quick request",
+  label = "Start a request",
 }: PageIntakeCueProps) {
   return (
     <div className="mt-5 hidden md:block">

@@ -33,9 +33,9 @@ export default function HomePage() {
       <SchemaScript schemas={schemas} />
       <Hero
         variant="home"
-        eyebrow="Berks County property help"
-        headline="Help for drain, plumbing, and water-damage problems."
-        subheadline="Tell us what happened. We’ll review the request and help connect you with the appropriate local provider."
+        eyebrow="Local help in Berks County"
+        headline="Drain, plumbing, or water damage?"
+        subheadline="Tell us what happened. We’ll help connect you with the right local provider."
         showTrustLine
       />
       <Suspense fallback={<div className="section-pad h-96 animate-pulse bg-brand-subtle" />}>

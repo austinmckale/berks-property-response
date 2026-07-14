@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useCallback } from "react";
+import { Suspense, useCallback, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { LeadForm } from "@/components/LeadForm";
 import { TriageCards } from "@/components/TriageCards";
@@ -16,8 +16,14 @@ export function HomeIntakeSection() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const problemParam = searchParams.get("problem");
-  const selectedProblem =
+  const problemFromUrl =
     problemParam && isProblemTypeId(problemParam) ? problemParam : undefined;
+  const [selectedProblem, setSelectedProblem] = useState<ProblemTypeId | undefined>();
+
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => setSelectedProblem(problemFromUrl));
+    return () => cancelAnimationFrame(frame);
+  }, [problemFromUrl]);
 
   const onSelect = useCallback(
     (id: ProblemTypeId) => {
@@ -25,6 +31,7 @@ export function HomeIntakeSection() {
         problem_type: id,
         page_type: "home",
       });
+      setSelectedProblem(id);
       const params = new URLSearchParams(searchParams.toString());
       params.set("problem", id);
       router.replace(`/?${params.toString()}#get-help`, { scroll: false });
@@ -43,6 +50,7 @@ export function HomeIntakeSection() {
   );
 
   const onClear = useCallback(() => {
+    setSelectedProblem(undefined);
     const params = new URLSearchParams(searchParams.toString());
     params.delete("problem");
     const qs = params.toString();
@@ -52,17 +60,12 @@ export function HomeIntakeSection() {
   return (
     <section
       id="get-help"
-      className="section-pad scroll-mt-6 border-y border-stone-200 bg-brand-subtle px-4"
+      className="section-pad scroll-mt-24 border-y border-stone-200 bg-brand-subtle px-4"
     >
       <div className="page-container-wide md:max-w-6xl">
-        <p className="eyebrow text-center md:text-left">Request help</p>
-        <h2 className="font-display mt-2 text-center text-2xl font-semibold tracking-tight text-stone-900 md:text-left md:text-3xl">
+        <h2 className="font-display text-center text-2xl font-semibold tracking-tight text-stone-900 md:text-left md:text-3xl">
           Tell us what&apos;s going on
         </h2>
-        <p className="mx-auto mt-2 max-w-xl text-center text-sm text-stone-600 md:mx-0 md:text-left md:text-base">
-          Pick the closest match, then send a short request — or call if water or sewage is active
-          now.
-        </p>
 
         <div className="mt-6">
           <TriageCards
