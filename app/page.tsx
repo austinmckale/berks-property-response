@@ -31,8 +31,7 @@ export default function HomePage() {
         variant="home"
         eyebrow="Local help in Berks County"
         headline="Drain, plumbing, or water damage?"
-        subheadline="Tell us what happened. We’ll help connect you with the right local provider."
-        showTrustLine
+        subheadline="Tell us what happened."
       />
       <Suspense fallback={<div className="section-pad h-96 animate-pulse bg-brand-subtle" />}>
         <HomeIntakeSection />

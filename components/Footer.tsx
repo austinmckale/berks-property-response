@@ -12,7 +12,7 @@ const serviceLinks = [
 
 const aboutLinks = [
   { href: "/how-it-works", label: "How it works" },
-  { href: "/local-partners", label: "Local provider network" },
+  { href: "/local-partners", label: "Local partners" },
   { href: "/contact", label: "Contact" },
 ] as const;
 
@@ -23,15 +23,11 @@ export function Footer() {
         <div className="grid gap-8 md:grid-cols-3 md:gap-10">
           <div>
             <BrandLogo variant="footer" />
-            <p className="mt-3 text-sm leading-relaxed text-stone-400">
-              Local help coordination for drain, plumbing, and water-damage problems in Berks
-              County.
-            </p>
             <a
               href={phoneHref(PHONE_NUMBER)}
               data-analytics-event="phone_click"
               data-analytics-source="footer"
-              className="mt-4 inline-block text-base font-semibold text-white underline-offset-2 hover:underline"
+              className="mt-3 inline-block text-base font-semibold text-white underline-offset-2 hover:underline"
             >
               Call {PHONE_NUMBER}
             </a>
@@ -39,7 +35,7 @@ export function Footer() {
               href={REQUEST_HELP_LINK.href}
               className="mt-3 block text-sm font-semibold text-stone-200 underline-offset-2 hover:underline"
             >
-              Request help
+              Start a request
             </Link>
           </div>
           <div>

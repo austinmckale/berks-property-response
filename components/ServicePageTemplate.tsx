@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Suspense } from "react";
-import { getRelatedServices, type ServicePage } from "@/lib/services";
+import { getRelatedServices, getServiceFaqsForDisplay, type ServicePage } from "@/lib/services";
 import { breadcrumbItems, buildMetadata } from "@/lib/seo";
 import {
   breadcrumbSchema,
@@ -11,13 +11,12 @@ import {
   webPageSchema,
 } from "@/lib/schema";
 import { Breadcrumbs } from "./Breadcrumbs";
-import { EmergencyCallBanner, PageIntakeCue } from "./ConversionHub";
+import { EmergencyCallBanner } from "./ConversionHub";
 import { FAQ } from "./FAQ";
 import { inferProblemTypeFromContext } from "@/lib/problemTypes";
 import { LeadForm } from "./LeadForm";
 import { PlumbingTriageNotice } from "./PlumbingTriageNotice";
 import { SchemaScript } from "./SchemaScript";
-import { RoutingInfoCards } from "@/components/RoutingStepsSection";
 import { ServiceAreaCrossLinks } from "./ServiceAreaCrossLinks";
 
 interface ServicePageTemplateProps {
@@ -40,6 +39,7 @@ export function generateServiceMetadata(service: ServicePage) {
 
 export function ServicePageTemplate({ service }: ServicePageTemplateProps) {
   const crumbs = breadcrumbItems([{ name: service.headline, path: `/${service.slug}` }]);
+  const visibleFaqs = getServiceFaqsForDisplay(service);
   const schemas = combineSchemas(
     organizationSchema(),
     webPageSchema({
@@ -53,7 +53,7 @@ export function ServicePageTemplate({ service }: ServicePageTemplateProps) {
       description: service.intro,
       path: `/${service.slug}`,
     }),
-    faqSchema(service.faqs)
+    faqSchema(visibleFaqs)
   );
 
   const isEmergency =
@@ -81,12 +81,6 @@ export function ServicePageTemplate({ service }: ServicePageTemplateProps) {
             {service.headline}
           </h1>
           <p className="mt-2 text-stone-600">{service.subheadline}</p>
-          <p className="mt-3 text-sm leading-relaxed text-stone-700">
-            Start here. Tell us what is happening and we will review the request and coordinate the
-            appropriate local handoff.
-            {isEmergency ? " Call if the problem is active now." : ""}
-          </p>
-
           {isEmergency ? (
             <div className="mt-5">
               <EmergencyCallBanner headline="Call for urgent help" />
@@ -96,22 +90,14 @@ export function ServicePageTemplate({ service }: ServicePageTemplateProps) {
                 </a>
               </p>
             </div>
-          ) : (
-            <div className="mt-5 flex flex-col gap-3 md:flex-row md:items-center">
-              <PageIntakeCue label="Start a request" />
-            </div>
-          )}
+          ) : null}
           <div id="sticky-cta-marker" className="h-px" aria-hidden />
 
           {isRidgeLinePlumbing && <PlumbingTriageNotice />}
 
-          <div className="mt-6">
-            <RoutingInfoCards />
-          </div>
-
           <div id="get-help" className="mt-8 scroll-mt-6 border-t border-stone-200 pt-8">
             <h2 className="text-lg font-semibold text-stone-900">
-              {isEmergency ? "Or send a quick request" : "Send a request"}
+              {isEmergency ? "Or send a request" : "Send a request"}
             </h2>
             <p className="mt-1 text-sm text-stone-600">Name, phone, city, and what happened.</p>
             <div className="mt-4">
@@ -186,7 +172,7 @@ export function ServicePageTemplate({ service }: ServicePageTemplateProps) {
         </section>
       )}
 
-      <FAQ items={service.faqs} />
+      <FAQ items={visibleFaqs} />
     </>
   );
 }

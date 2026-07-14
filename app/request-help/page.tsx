@@ -38,7 +38,7 @@ export default function RequestHelpPage() {
         showCompactUrgentCall
         emergencyHeadline="Active water or sewage right now? Calling is fastest."
         formTitle="Your request"
-        formSubtitle="No fee to request help. No obligation to hire."
+        formSubtitle=""
         form={{ pageType: "request-help" }}
       />
     </>

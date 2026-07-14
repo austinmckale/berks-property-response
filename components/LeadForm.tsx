@@ -280,11 +280,8 @@ export function LeadForm({
             ✓
           </span>
           <div>
-            <p className="text-sm font-semibold uppercase tracking-wide text-green-800">
-              Request received
-            </p>
             <h3 className="mt-1 text-xl font-semibold text-green-950 md:text-2xl">
-              We&apos;re reviewing the details.
+              Request sent.
             </h3>
           </div>
         </div>
@@ -297,9 +294,7 @@ export function LeadForm({
           </p>
         )}
         <p className="mt-4 leading-relaxed text-green-900">
-          A Berks Property Response coordinator will review your request and arrange the
-          appropriate local handoff. A provider may then call or text you about availability,
-          pricing, and next steps.
+          A provider may call or text you about availability, pricing, and next steps.
         </p>
         <p className="mt-3 text-sm text-green-800">
           Have photos?{" "}
@@ -351,7 +346,7 @@ export function LeadForm({
             Tell us what&apos;s going on
           </h3>
           <p className="mt-1 text-sm text-stone-600">
-            Tap the closest match — no obligation to hire.
+            Choose a problem.
           </p>
           <div className="mt-4 grid grid-cols-1 gap-3">
             {problemTypeOptions.map((option) => {
@@ -617,9 +612,6 @@ export function LeadForm({
           >
             {submitStatus === "loading" ? "Sending..." : "Send my request"}
           </button>
-          <p className="mt-3 text-center text-sm font-medium text-stone-700">
-            No fee to request help. No obligation to hire.
-          </p>
           <p className="mt-4 text-xs leading-relaxed text-stone-500">{FORM_SUBMIT_FINE_PRINT}</p>
           <p className="mt-2 text-xs text-stone-500">
             <Link href="/disclosure" className="underline hover:text-stone-700">

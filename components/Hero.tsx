@@ -1,13 +1,11 @@
 import Link from "next/link";
 import { PHONE_NUMBER } from "@/lib/siteConfig";
-import { TRUST_LINE } from "@/lib/disclosures";
 import { phoneHref } from "@/lib/tracking";
 
 interface HeroProps {
   headline: string;
   subheadline: string;
   variant?: "home" | "emergency" | "standard";
-  showTrustLine?: boolean;
   compact?: boolean;
   eyebrow?: string;
 }
@@ -16,7 +14,6 @@ export function Hero({
   headline,
   subheadline,
   variant = "standard",
-  showTrustLine = false,
   compact = false,
   eyebrow,
 }: HeroProps) {
@@ -33,8 +30,6 @@ export function Hero({
       <div className="relative mx-auto max-w-2xl text-center">
         {eyebrow ? (
           <p className={`eyebrow-light ${isHome ? "mb-3" : "mb-4"}`}>{eyebrow}</p>
-        ) : showTrustLine && !isHome ? (
-          <p className="eyebrow-light mb-4">{TRUST_LINE}</p>
         ) : null}
         <h1 className="font-display text-balance text-[1.875rem] font-semibold leading-[1.15] tracking-tight sm:text-4xl md:text-[2.75rem]">
           {headline}
@@ -63,11 +58,6 @@ export function Hero({
             >
               Water or sewage active right now? Call {PHONE_NUMBER}
             </a>
-            {showTrustLine && (
-              <p className="mt-2 text-sm text-stone-300">
-                No fee to request help · No obligation to hire
-              </p>
-            )}
           </div>
         ) : isEmergency ? (
           <div className="mt-8">

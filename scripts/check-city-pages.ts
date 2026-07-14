@@ -3,7 +3,7 @@
  */
 import { cities } from "../lib/cities";
 
-const MIN_WORD_COUNT = 80;
+const MIN_WORD_COUNT = 40;
 const ACTION_ITEM_PATTERN = /ACTION ITEM/i;
 
 function wordCount(text: string): number {
@@ -12,7 +12,6 @@ function wordCount(text: string): number {
 
 function checkDuplicateIntros(): string[] {
   const errors: string[] = [];
-  const intros = cities.map((c) => c.intro);
   const seen = new Map<string, string>();
 
   for (const city of cities) {

@@ -18,6 +18,8 @@ import {
 } from "@/lib/photoMessages";
 import { TEXT_NUMBER } from "@/lib/siteConfig";
 import { smsHref } from "@/lib/tracking";
+import { getServiceFaqsForDisplay, services } from "@/lib/services";
+import { cities } from "@/lib/cities";
 
 describe("resolveUrgency", () => {
   it("elevates to emergency when water/sewage is active", () => {
@@ -81,6 +83,22 @@ describe("homepage triage categories", () => {
   it("keeps the major-property card customer-facing", () => {
     const majorCard = triageCards.find((card) => card.problem === "major-property");
     expect(majorCard?.description).toBe("Storm, fire, mold, or serious property damage.");
+  });
+});
+
+describe("template FAQ cleanup", () => {
+  it("does not expose business-model service FAQs", () => {
+    const sewerBackup = services.find(
+      (service) => service.slug === "emergency-sewer-backup-berks-county-pa"
+    );
+    expect(sewerBackup).toBeDefined();
+    expect(getServiceFaqsForDisplay(sewerBackup!).map((faq) => faq.question)).toEqual([
+      "Should I keep using water if only one drain is slow?",
+    ]);
+  });
+
+  it("removes generic city FAQ blocks", () => {
+    expect(cities.every((city) => city.faqs.length === 0)).toBe(true);
   });
 });
 

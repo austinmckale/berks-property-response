@@ -53,13 +53,14 @@ export default function ServiceAreasPage() {
               href="/request-help"
               data-analytics-event="click_request_help"
               data-analytics-source="service_areas"
-              className="btn-primary mt-6 w-full md:hidden"
+              className="btn-primary mt-6 w-full"
             >
               Request local help
             </Link>
           </div>
         }
         showForm={false}
+        showPageCue={false}
       />
     </>
   );

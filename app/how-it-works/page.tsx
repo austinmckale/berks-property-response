@@ -8,7 +8,7 @@ import {
   organizationSchema,
   webPageSchema,
 } from "@/lib/schema";
-import { HOME_STEPS, HOW_IT_WORKS_FOOTNOTE } from "@/lib/siteConfig";
+import { HOME_STEPS } from "@/lib/siteConfig";
 
 export const metadata = buildMetadata({
   title: "How It Works",
@@ -53,7 +53,6 @@ export default function HowItWorksPage() {
                 </li>
               ))}
             </ol>
-            <p className="text-sm text-stone-600">{HOW_IT_WORKS_FOOTNOTE}</p>
             <p className="text-sm text-stone-600">
               <Link href="/disclosure" className="font-medium underline">
                 Full disclosure
@@ -63,13 +62,14 @@ export default function HowItWorksPage() {
               href="/request-help"
               data-analytics-event="click_request_help"
               data-analytics-source="how_it_works"
-              className="btn-primary mt-2 w-full md:hidden"
+              className="btn-primary mt-2 w-full"
             >
               Request local help
             </Link>
           </div>
         }
         showForm={false}
+        showPageCue={false}
       />
     </>
   );

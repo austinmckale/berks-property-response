@@ -43,35 +43,10 @@ export const MORE_NAV_LINKS = [
   { href: "/how-it-works", label: "How it works" },
 ] as const;
 
-export const REQUEST_HELP_LINK = { href: "/request-help", label: "Request help" } as const;
+export const REQUEST_HELP_LINK = { href: "/request-help", label: "Start a request" } as const;
 
 /** @deprecated Use HEADER_NAV_LINKS + MORE_NAV_LINKS */
 export const NAV_LINKS = [...HEADER_NAV_LINKS, ...MORE_NAV_LINKS] as const;
-
-export const FOOTER_SERVICE_LINKS = [
-  { href: "/emergency-sewer-backup-berks-county-pa", label: "Sewer backup help" },
-  { href: "/hydro-jetting-berks-county-pa", label: "Hydro jetting" },
-  { href: "/drain-cleaning-berks-county-pa", label: "Drain cleaning" },
-  { href: "/leak-repair-berks-county-pa", label: "Leak repair" },
-  { href: "/toilet-repair-berks-county-pa", label: "Toilet repair" },
-  {
-    href: "/water-damage-repair-after-leak-berks-county-pa",
-    label: "Water damage repair",
-  },
-  { href: "/storm-fire-mold-help", label: "Storm / fire / mold help" },
-  { href: "/request-help", label: "Start a request" },
-] as const;
-
-export const FOOTER_ABOUT_LINKS = [
-  { href: "/request-help", label: "Request Help" },
-  { href: "/how-it-works", label: "How It Works" },
-  { href: "/service-areas", label: "Service Areas" },
-  { href: "/local-partners", label: "Local Provider Network" },
-  { href: "/disclosure", label: "Disclosure" },
-  { href: "/contact", label: "Contact" },
-  { href: "/privacy-policy", label: "Privacy Policy" },
-  { href: "/terms", label: "Terms" },
-] as const;
 
 /** How It Works — four-step handoff */
 export const HOME_STEPS = [
@@ -93,9 +68,6 @@ export const HOME_STEPS = [
   },
 ] as const;
 
-export const HOW_IT_WORKS_FOOTNOTE =
-  "Submitting a request does not guarantee provider availability and does not obligate you to hire anyone.";
-
 export const SERVICE_CLUSTERS = [
   {
     title: "Drain & Sewer Response",
@@ -115,7 +87,7 @@ export const SERVICE_CLUSTERS = [
   {
     title: "Storm / Fire / Mold / Major Issues",
     href: "/storm-fire-mold-help",
-    description: "Major property issues — we review whether a suitable local provider connection exists.",
+    description: "Storm, fire, smoke, mold, and other major property concerns.",
   },
 ] as const;
 

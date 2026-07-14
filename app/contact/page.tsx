@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { SchemaScript } from "@/components/SchemaScript";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
-import { EmergencyCallBanner } from "@/components/ConversionHub";
+import { CompactUrgentCallStrip } from "@/components/ConversionHub";
 import { LeadForm } from "@/components/LeadForm";
 import { breadcrumbItems, buildMetadata } from "@/lib/seo";
 import {
@@ -39,19 +39,14 @@ export default function ContactPage() {
           <h1 className="text-2xl font-semibold text-stone-900 md:text-3xl">
             Contact Berks Property Response
           </h1>
-          <p className="mt-2 text-stone-600">
-            Call for urgent help or send a short request and we&apos;ll review the next step.
-          </p>
+          <p className="mt-2 text-stone-600">Call for urgent help or send a short request.</p>
 
           <div className="mt-5">
-            <EmergencyCallBanner headline="Need help right now?" />
+            <CompactUrgentCallStrip message="Active water or sewage right now? Calling is fastest." />
           </div>
 
           <div id="get-help" className="mt-6 scroll-mt-6">
             <h2 className="text-lg font-semibold text-stone-900">Send a request</h2>
-            <p className="mt-1 text-sm text-stone-600">
-              Two quick steps. No fee to request help. No obligation to hire.
-            </p>
             <div className="mt-4">
               <Suspense
                 fallback={<div className="h-72 animate-pulse rounded-2xl bg-stone-100" />}

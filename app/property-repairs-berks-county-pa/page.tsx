@@ -75,6 +75,18 @@ export default function PropertyRepairsPage() {
                 </HubFooterLink>
               </li>
             </ul>
+            <a
+              href="https://www.rhipros.com/?utm_source=berkspropertyresponse&utm_medium=referral&utm_campaign=property_repairs"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-analytics-event="partner_click"
+              data-analytics-provider="rhi"
+              data-analytics-partner-name="RHI Pros"
+              data-analytics-source="property_repairs"
+              className="mt-4 inline-block text-sm font-semibold text-stone-900 underline underline-offset-2 hover:text-stone-600"
+            >
+              Visit RHI Pros →
+            </a>
           </details>
         }
       />

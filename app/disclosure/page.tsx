@@ -85,8 +85,7 @@ export default function DisclosurePage() {
           <h2 className="text-xl font-semibold text-stone-900">Compensation</h2>
           <p>
             {SITE_NAME} may receive a marketing, intake, administrative, or referral fee from
-            participating providers. There is no fee to homeowners for calling, texting, or
-            submitting a request, and there is no obligation to hire.
+            participating providers.
           </p>
 
           <h2 className="text-xl font-semibold text-stone-900">Questions</h2>

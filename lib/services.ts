@@ -29,6 +29,14 @@ export interface ServicePage {
   updatedAt?: string;
 }
 
+const BUSINESS_MODEL_FAQ_PATTERN =
+  /who (handles|performs)|does berks property response perform|how (is this )?routed|what happens after/i;
+
+/** Keep service pages focused on practical safety and service decisions. */
+export function getServiceFaqsForDisplay(service: ServicePage): ServiceFAQ[] {
+  return service.faqs.filter((faq) => !BUSINESS_MODEL_FAQ_PATTERN.test(faq.question)).slice(0, 2);
+}
+
 export const services: ServicePage[] = [
   {
     slug: "emergency-sewer-backup-berks-county-pa",
@@ -66,11 +74,6 @@ export const services: ServicePage[] = [
       "If drywall, flooring, or ceilings were damaged, we may also route build-back repair to RHI Pros.",
     ],
     faqs: [
-      {
-        question: "Who handles the drain work?",
-        answer:
-          "Berks Property Response reviews the request and coordinates the handoff. The local drain specialist you choose supplies the estimate, performs the work, and contracts with you directly.",
-      },
       {
         question: "Should I keep using water if only one drain is slow?",
         answer:
@@ -128,11 +131,6 @@ export const services: ServicePage[] = [
         answer:
           "Pressure and nozzle choice depend on pipe material and condition. A camera inspection is often recommended first so the line is assessed before jetting.",
       },
-      {
-        question: "When should I request hydro jetting instead of drain cleaning?",
-        answer:
-          "If the same line keeps clogging after snaking, or grease and roots are suspected, jetting may be the next step. Describe how often the clog returns when you request help.",
-      },
     ],
     relatedSlugs: [
       "sewer-camera-inspection-berks-county-pa",
@@ -182,11 +180,6 @@ export const services: ServicePage[] = [
         answer:
           "Avoid harsh chemicals if you plan to have the line cleared professionally. They can damage pipes and make safe clearing harder.",
       },
-      {
-        question: "Can I submit photos of a slow drain?",
-        answer:
-          "Yes. Photos of standing water, floor drains, or affected fixtures help us understand urgency before connecting you with local help.",
-      },
     ],
     relatedSlugs: [
       "main-sewer-line-clog-reading-pa",
@@ -234,11 +227,6 @@ export const services: ServicePage[] = [
         question: "Should I stop using water if multiple fixtures are affected?",
         answer:
           "Yes. If toilets, tubs, or floor drains are backing up together, stop using water and call or request help right away.",
-      },
-      {
-        question: "Does this page cover Reading only?",
-        answer:
-          "No. Main line clog symptoms are the same across Berks County. This page highlights Reading because it is the county seat, but we route help throughout the area.",
       },
     ],
     relatedSlugs: [
@@ -292,11 +280,6 @@ export const services: ServicePage[] = [
         answer:
           "A slow floor drain can still signal a partial main line blockage. Note whether other fixtures are affected and send photos if water is standing.",
       },
-      {
-        question: "Who handles finish repair after a basement backup?",
-        answer:
-          "Emergency drain clearing comes first. After the source is controlled, drywall, flooring, or trim repair may route to RHI Pros for build-back work.",
-      },
     ],
     relatedSlugs: [
       "emergency-sewer-backup-berks-county-pa",
@@ -344,11 +327,6 @@ export const services: ServicePage[] = [
         answer:
           "No. It is also useful for recurring clogs, pre-purchase line checks, and evaluating older Berks County sewer laterals.",
       },
-      {
-        question: "Who performs the inspection?",
-        answer:
-          "Berks Property Response reviews the request and coordinates an introduction to an appropriate local drain specialist for the inspection.",
-      },
     ],
     relatedSlugs: ["hydro-jetting-berks-county-pa", "drain-cleaning-berks-county-pa"],
   },
@@ -392,11 +370,6 @@ export const services: ServicePage[] = [
         question: "Can property managers submit requests?",
         answer:
           "Yes. Include the property address, tenant contact if available, and which drains are recurring.",
-      },
-      {
-        question: "Is commercial work routed differently from residential drains?",
-        answer:
-          "Commercial drain and grease line requests route to Apex Drain Services. Isolated fixture leaks at one sink may route to Ridge Line Plumbing instead.",
       },
     ],
     relatedSlugs: [
@@ -561,11 +534,6 @@ export const services: ServicePage[] = [
         answer:
           "Whole-house pressure issues may not be a single-faucet repair. Describe all symptoms when you request help so routing matches the problem.",
       },
-      {
-        question: "Can I send a video of the drip?",
-        answer:
-          "Yes. A short video helps confirm whether the leak is at the spout, base, or handle before a provider arrives.",
-      },
     ],
     relatedSlugs: [
       "leak-repair-berks-county-pa",
@@ -612,11 +580,6 @@ export const services: ServicePage[] = [
         question: "What if the toilet gurgles when I run the shower?",
         answer:
           "That often signals a main line or sewer issue. Use emergency drain help instead—those routes go to Apex Drain Services.",
-      },
-      {
-        question: "Is a running toilet wasting a lot of water?",
-        answer:
-          "Yes. A running toilet can waste hundreds of gallons per day. If only one toilet is affected with no other drain symptoms, fixture repair may route to Ridge Line Plumbing.",
       },
       {
         question: "Should I keep flushing to test a running toilet?",
@@ -675,11 +638,6 @@ export const services: ServicePage[] = [
         answer:
           "Active spraying or flooding needs immediate attention. A slow weep at one fixture shutoff is usually repair-level work at that location.",
       },
-      {
-        question: "Does this cover the main house shutoff?",
-        answer:
-          "This page focuses on fixture shutoffs under sinks or behind toilets. Whole-house main valve issues may need different routing.",
-      },
     ],
     relatedSlugs: [
       "leak-repair-berks-county-pa",
@@ -726,17 +684,12 @@ export const services: ServicePage[] = [
       {
         question: "Should I call for water damage before the leak is fixed?",
         answer:
-          "Stop active leaks and backups first. Once the source is controlled, repair of damaged materials can be handled by an independent local provider we connect you with.",
+          "Stop active leaks and backups first. Once the source is controlled, damaged materials can be assessed for repair.",
       },
       {
         question: "What information helps with water damage routing?",
         answer:
           "Room location, materials affected (drywall, carpet, hardwood), photos, and whether sewage was involved help providers estimate next steps.",
-      },
-      {
-        question: "Does Berks Property Response perform the repair work?",
-        answer:
-          "No. We coordinate an introduction to local build-back help such as RHI Pros. The provider you choose supplies the estimate and performs the repair.",
       },
     ],
     relatedSlugs: [
@@ -790,11 +743,6 @@ export const services: ServicePage[] = [
         answer:
           "Do not guess at removal scope. Photograph affected walls and describe how much area was wet or cut out for plumber access.",
       },
-      {
-        question: "Who performs the drywall repair?",
-        answer:
-          "Build-back repair routes to RHI Pros through Berks Property Response. We review the request and coordinate the local handoff.",
-      },
     ],
     relatedSlugs: [
       "water-damage-repair-after-leak-berks-county-pa",
@@ -840,11 +788,6 @@ export const services: ServicePage[] = [
         question: "Can buckled hardwood be repaired without full replacement?",
         answer:
           "It depends on how long materials stayed wet and how far water spread. Photos and flooring type help providers recommend repair vs replacement in affected areas.",
-      },
-      {
-        question: "Should I pull up wet carpet myself?",
-        answer:
-          "Focus on stopping the water source first. Document wet areas with photos and note whether pad or subfloor may be affected.",
       },
       {
         question: "Does flooring repair include sewage backup damage?",
@@ -902,11 +845,6 @@ export const services: ServicePage[] = [
         answer:
           "Avoid punching through until the area is assessed. Photograph stains, sag, and any active drips instead.",
       },
-      {
-        question: "What if the leak was in a bathroom above?",
-        answer:
-          "Upstairs bathroom and kitchen leaks are common ceiling damage sources. Describe which room is above the stained ceiling when you request help.",
-      },
     ],
     relatedSlugs: [
       "water-damage-repair-after-leak-berks-county-pa",
@@ -960,11 +898,6 @@ export const services: ServicePage[] = [
         question: "Does sewage backup change repair scope?",
         answer:
           "Yes. Note whether sewage was present and which finished surfaces were affected. That helps providers plan remediation and rebuild scope.",
-      },
-      {
-        question: "Who handles finished basement drywall and flooring?",
-        answer:
-          "Build-back repair after the event routes to RHI Pros. Berks Property Response connects you with independent local help.",
       },
     ],
     relatedSlugs: [

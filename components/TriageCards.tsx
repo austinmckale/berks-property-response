@@ -61,9 +61,6 @@ export function TriageCards({
           <h2 className="font-display mt-2 text-2xl font-semibold tracking-tight text-stone-900 md:text-3xl">
             What&apos;s going on?
           </h2>
-          <p className="mt-2 max-w-xl text-sm text-stone-600 md:text-base">
-            Pick the closest match — we&apos;ll open the request form next.
-          </p>
         </>
       )}
       <div

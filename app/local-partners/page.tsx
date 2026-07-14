@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
-import { PageIntakeCue } from "@/components/ConversionHub";
 import { ProviderCard } from "@/components/ProviderCard";
 import { SchemaScript } from "@/components/SchemaScript";
 import { PROVIDER_AVAILABILITY_NOTE } from "@/lib/disclosures";
@@ -14,9 +13,9 @@ import {
 } from "@/lib/schema";
 
 export const metadata = buildMetadata({
-  title: "Local Provider Network",
+  title: "Local Partners",
   description:
-    "Berks Property Response coordinates requests with local companies that serve different types of property problems in Berks County.",
+    "Local companies for drain, plumbing, and property-repair needs in Berks County.",
   path: "/local-partners",
 });
 
@@ -27,12 +26,12 @@ const providerNotes: Record<string, string> = {
 };
 
 export default function LocalPartnersPage() {
-  const crumbs = breadcrumbItems([{ name: "Local provider network", path: "/local-partners" }]);
+  const crumbs = breadcrumbItems([{ name: "Local partners", path: "/local-partners" }]);
   const schemas = combineSchemas(
     organizationSchema(),
     webPageSchema({
-      title: "Local Provider Network",
-      description: "Local provider lanes coordinated by Berks Property Response.",
+      title: "Local Partners",
+      description: "Drain, plumbing, and property-repair companies in Berks County.",
       path: "/local-partners",
     }),
     breadcrumbSchema(crumbs)
@@ -45,15 +44,14 @@ export default function LocalPartnersPage() {
       <section className="section-pad px-4">
         <div className="page-container">
           <h1 className="text-2xl font-semibold text-stone-900 md:text-3xl">
-            Local provider network
+            Local partners
           </h1>
 
-          <PageIntakeCue href="/request-help" label="Send a request" />
           <Link
             href="/request-help"
             data-analytics-event="click_request_help"
             data-analytics-source="local_partners"
-            className="btn-primary mt-5 w-full md:hidden"
+            className="btn-primary mt-5 w-full"
           >
             Send a request
           </Link>

@@ -35,7 +35,7 @@ export default function EmergencyHubPage() {
         title="Emergency drain or sewer help"
         subtitle="Berks County — call if it's active now, or send a request below."
         variant="emergency"
-        formTitle="Send a quick request"
+        formTitle="Send a request"
         form={{
           pageType: "emergency",
           serviceCategory: "drain_sewer",
