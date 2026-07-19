@@ -45,6 +45,9 @@ export function AnalyticsListener() {
       if (tracked instanceof HTMLElement && tracked.dataset.analyticsProvider) {
         params.provider = tracked.dataset.analyticsProvider;
       }
+      if (tracked instanceof HTMLElement && tracked.dataset.analyticsCtaVariant) {
+        params.cta_variant = tracked.dataset.analyticsCtaVariant;
+      }
       if (eventName === "phone_click" || eventName === "text_click") {
         params.link_location =
           link instanceof HTMLAnchorElement ? linkLocation(link) : "unknown";

@@ -1,35 +1,18 @@
 "use client";
 
-import { Camera, Phone } from "lucide-react";
+import { Camera, MessageSquare, Phone } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useMobileNav } from "@/components/MobileNavContext";
-import { STICKY_PHOTO_MESSAGE } from "@/lib/photoMessages";
-import { getStickyCtaConfig } from "@/lib/stickyCta";
+import { getStickySmsMessage } from "@/lib/smsMessages";
+import {
+  getStickyCtaConfig,
+  isStickyCtaEligible,
+  shouldHideStickyBar,
+} from "@/lib/stickyCta";
 import { PHONE_NUMBER, TEXT_NUMBER } from "@/lib/siteConfig";
 import { phoneHref, smsHref } from "@/lib/tracking";
-
-const STICKY_ELIGIBLE_PATHS = new Set([
-  "/",
-  "/emergency",
-  "/drains",
-  "/plumbing-and-leaks",
-  "/after-leak",
-  "/storm-fire-mold-help",
-  "/property-repairs-berks-county-pa",
-]);
-
-function isStickyEligible(pathname: string): boolean {
-  if (pathname === "/request-help") return false;
-  return (
-    STICKY_ELIGIBLE_PATHS.has(pathname) ||
-    pathname.startsWith("/service-areas/") ||
-    pathname.startsWith("/guides/") ||
-    pathname.endsWith("-berks-county-pa") ||
-    pathname.endsWith("-reading-pa")
-  );
-}
 
 export function StickyMobileCTA() {
   const pathname = usePathname();
@@ -39,7 +22,8 @@ export function StickyMobileCTA() {
   const [formState, setFormState] = useState({ pathname: "", inView: false });
 
   const config = getStickyCtaConfig(pathname);
-  const isEligible = isStickyEligible(pathname);
+  const smsMessage = getStickySmsMessage(pathname);
+  const isEligible = isStickyCtaEligible(pathname);
   const isEmergency = config.variant === "emergency";
 
   useEffect(() => {
@@ -113,7 +97,17 @@ export function StickyMobileCTA() {
   const pastMarker = markerState.pathname === pathname && markerState.pastMarker;
   const formFocused = focusState.pathname === pathname && focusState.focused;
 
-  if (menuOpen || !isEligible || !pastMarker || formFocused || formInView) return null;
+  if (
+    shouldHideStickyBar({
+      menuOpen,
+      isEligible,
+      pastMarker,
+      formFocused,
+      formInView,
+    })
+  ) {
+    return null;
+  }
 
   const primaryClass = isEmergency
     ? "bg-red-600 text-white active:bg-red-700"
@@ -123,6 +117,10 @@ export function StickyMobileCTA() {
     ? "border border-brand bg-white text-brand active:bg-amber-50"
     : "border border-red-600 bg-white text-red-700 active:bg-red-50";
 
+  const analyticsAttrs = {
+    "data-analytics-cta-variant": config.variant,
+  };
+
   function renderPrimaryAction() {
     if (config.primaryAction === "call") {
       return (
@@ -130,6 +128,7 @@ export function StickyMobileCTA() {
           href={phoneHref(PHONE_NUMBER)}
           data-analytics-event="phone_click"
           data-analytics-source="sticky_mobile"
+          {...analyticsAttrs}
           className={`btn-touch-fill gap-1.5 rounded-xl ${primaryClass} focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-stone-900`}
         >
           <Phone className="h-4 w-4 shrink-0" aria-hidden />
@@ -140,12 +139,13 @@ export function StickyMobileCTA() {
     if (config.primaryAction === "sms") {
       return (
         <a
-          href={smsHref(TEXT_NUMBER, STICKY_PHOTO_MESSAGE)}
+          href={smsHref(TEXT_NUMBER, smsMessage)}
           data-analytics-event="text_click"
           data-analytics-source="sticky_mobile"
+          {...analyticsAttrs}
           className={`btn-touch-fill gap-1.5 rounded-xl ${primaryClass} focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-stone-900`}
         >
-          <Camera className="h-4 w-4 shrink-0" aria-hidden />
+          <MessageSquare className="h-4 w-4 shrink-0" aria-hidden />
           {config.primaryLabel}
         </a>
       );
@@ -156,6 +156,7 @@ export function StickyMobileCTA() {
         href={href}
         data-analytics-event="click_request_help"
         data-analytics-source="sticky_mobile"
+        {...analyticsAttrs}
         className={`btn-touch-fill gap-1.5 rounded-xl ${primaryClass} focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-stone-900`}
       >
         {config.primaryLabel}
@@ -170,6 +171,7 @@ export function StickyMobileCTA() {
           href={phoneHref(PHONE_NUMBER)}
           data-analytics-event="phone_click"
           data-analytics-source="sticky_mobile_secondary"
+          {...analyticsAttrs}
           className={`btn-touch-fill gap-1.5 rounded-xl ${secondaryClass} focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-stone-900`}
         >
           <Phone className="h-4 w-4 shrink-0" aria-hidden />
@@ -179,9 +181,10 @@ export function StickyMobileCTA() {
     }
     return (
       <a
-        href={smsHref(TEXT_NUMBER, STICKY_PHOTO_MESSAGE)}
+        href={smsHref(TEXT_NUMBER, smsMessage)}
         data-analytics-event="text_click"
         data-analytics-source="sticky_mobile_secondary"
+        {...analyticsAttrs}
         className={`btn-touch-fill gap-1.5 rounded-xl ${secondaryClass} focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-stone-900`}
       >
         <Camera className="h-4 w-4 shrink-0" aria-hidden />
@@ -201,11 +204,7 @@ export function StickyMobileCTA() {
         role="navigation"
         aria-label="Quick actions"
       >
-        <div
-          className={`grid gap-2 p-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] ${
-            isEmergency ? "grid-cols-[.58fr_.42fr]" : "grid-cols-[.58fr_.42fr]"
-          }`}
-        >
+        <div className="grid grid-cols-[.58fr_.42fr] gap-2 p-2 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
           {renderPrimaryAction()}
           {renderSecondaryAction()}
         </div>

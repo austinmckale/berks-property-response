@@ -13,9 +13,8 @@ import {
 import { ANALYTICS_EVENT_NAMES } from "@/lib/analytics";
 import {
   getFormPhotoMessage,
-  STICKY_ACTION_LABELS,
-  STICKY_PHOTO_MESSAGE,
 } from "@/lib/photoMessages";
+import { getStickySmsMessage } from "@/lib/smsMessages";
 import { TEXT_NUMBER } from "@/lib/siteConfig";
 import { smsHref } from "@/lib/tracking";
 import { getServiceFaqsForDisplay, services } from "@/lib/services";
@@ -239,13 +238,8 @@ describe("analytics event contract", () => {
 });
 
 describe("text-photo CTA messages", () => {
-  it("defines exactly two direct-contact sticky actions", () => {
-    expect(STICKY_ACTION_LABELS).toEqual(["Call now", "Text photos"]);
-    expect([...STICKY_ACTION_LABELS] as string[]).not.toContain("Start request");
-  });
-
-  it("uses the configured text number and non-sensitive sticky message", () => {
-    const href = smsHref(TEXT_NUMBER, STICKY_PHOTO_MESSAGE);
+  it("uses contextual sticky SMS copy without PII", () => {
+    const href = smsHref(TEXT_NUMBER, getStickySmsMessage("/"));
     expect(href).toMatch(/^sms:\d+\?body=/);
     expect(decodeURIComponent(href)).toContain("property issue");
     expect(decodeURIComponent(href)).not.toContain("Jane");
