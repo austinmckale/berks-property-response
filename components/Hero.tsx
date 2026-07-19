@@ -76,7 +76,12 @@ export function Hero({
             </a>
             <p className="mt-4 text-sm text-stone-400">
               Not able to call?{" "}
-              <Link href="#get-help" className="text-white underline underline-offset-2">
+              <Link
+                href="#get-help"
+                data-analytics-event="click_request_help"
+                data-analytics-source="hero_emergency"
+                className="text-white underline underline-offset-2"
+              >
                 Send a request
               </Link>
             </p>

@@ -1,4 +1,5 @@
 import type { ProviderId } from "./providers";
+import type { PropertyType } from "./formSchema";
 
 export interface ServiceFAQ {
   question: string;
@@ -12,6 +13,8 @@ export interface ServicePage {
   headline: string;
   subheadline: string;
   provider: ProviderId;
+  contentOrder?: "emergency" | "standard";
+  defaultPropertyType?: PropertyType;
   serviceCategory: string;
   defaultRoute: ProviderId;
   payoutCategory: string;
@@ -47,6 +50,7 @@ export const services: ServicePage[] = [
     subheadline:
       "If sewage is backing up through drains, stop using water and call now.",
     provider: "apex",
+    contentOrder: "emergency",
     serviceCategory: "drain_sewer",
     defaultRoute: "apex",
     payoutCategory: "Apex emergency sewer lead",
@@ -195,6 +199,7 @@ export const services: ServicePage[] = [
     subheadline:
       "Toilet and shower interaction, floor drain backup, and gurgling drains often point to a main sewer line issue. Call or request help to describe what is happening.",
     provider: "apex",
+    contentOrder: "emergency",
     serviceCategory: "drain_sewer",
     defaultRoute: "apex",
     payoutCategory: "Apex emergency sewer lead",
@@ -244,6 +249,7 @@ export const services: ServicePage[] = [
     subheadline:
       "Water or sewage at a basement floor drain often signals a main line or sewer issue. Stop using water and call if backup is active.",
     provider: "apex",
+    contentOrder: "emergency",
     serviceCategory: "drain_sewer",
     defaultRoute: "apex",
     payoutCategory: "Apex emergency sewer lead",
@@ -339,6 +345,7 @@ export const services: ServicePage[] = [
     subheadline:
       "Restaurants, property managers, and small businesses in Berks County can request help for recurring floor drain clogs, grease lines, and commercial drain maintenance.",
     provider: "apex",
+    defaultPropertyType: "commercial",
     serviceCategory: "drain_sewer",
     defaultRoute: "apex",
     payoutCategory: "Apex commercial drain lead",
@@ -388,11 +395,11 @@ export const services: ServicePage[] = [
     provider: "evan",
     serviceCategory: "plumbing",
     defaultRoute: "evan",
-    payoutCategory: "Ridge Line Plumbing lead",
+    payoutCategory: "Local plumbing provider lead",
     draftStatus: "published",
     needsConfirmation: false,
     noindex: false,
-    heroImage: "/images/ridge-line-plumbing-logo.png",
+    heroImage: "/images/placeholder-plumbing.svg",
     intro:
       "This covers smaller residential plumbing service calls—leaks under sinks, dripping faucets, running toilets, shutoff valves, and other fixture-level repairs. It does not cover main-line or sewer work.",
     symptoms: [
@@ -442,11 +449,11 @@ export const services: ServicePage[] = [
     provider: "evan",
     serviceCategory: "plumbing",
     defaultRoute: "evan",
-    payoutCategory: "Ridge Line Plumbing lead",
+    payoutCategory: "Local plumbing provider lead",
     draftStatus: "published",
     needsConfirmation: false,
     noindex: false,
-    heroImage: "/images/ridge-line-plumbing-logo.png",
+    heroImage: "/images/placeholder-plumbing.svg",
     intro:
       "A leak under a kitchen or bathroom sink, at a supply line, or around a single fixture is often a repair-level problem.",
     symptoms: [
@@ -500,11 +507,11 @@ export const services: ServicePage[] = [
     provider: "evan",
     serviceCategory: "plumbing",
     defaultRoute: "evan",
-    payoutCategory: "Ridge Line Plumbing lead",
+    payoutCategory: "Local plumbing provider lead",
     draftStatus: "published",
     needsConfirmation: false,
     noindex: false,
-    heroImage: "/images/ridge-line-plumbing-logo.png",
+    heroImage: "/images/placeholder-plumbing.svg",
     intro:
       "A dripping kitchen or bathroom faucet, loose handle, or leak at the spout base is typically a fixture-level repair.",
     symptoms: [
@@ -552,11 +559,11 @@ export const services: ServicePage[] = [
     provider: "evan",
     serviceCategory: "plumbing",
     defaultRoute: "evan",
-    payoutCategory: "Ridge Line Plumbing lead",
+    payoutCategory: "Local plumbing provider lead",
     draftStatus: "published",
     needsConfirmation: false,
     noindex: false,
-    heroImage: "/images/ridge-line-plumbing-logo.png",
+    heroImage: "/images/placeholder-plumbing.svg",
     intro:
       "A running toilet, flapper issue, or leak at a single toilet is often a fixture-level repair. If the toilet bubbles when the shower runs or waste backs up into a tub, that is a main line issue and routes to Apex instead.",
     symptoms: [
@@ -604,11 +611,11 @@ export const services: ServicePage[] = [
     provider: "evan",
     serviceCategory: "plumbing",
     defaultRoute: "evan",
-    payoutCategory: "Ridge Line Plumbing lead",
+    payoutCategory: "Local plumbing provider lead",
     draftStatus: "published",
     needsConfirmation: false,
     noindex: false,
-    heroImage: "/images/ridge-line-plumbing-logo.png",
+    heroImage: "/images/placeholder-plumbing.svg",
     intro:
       "Shutoff valves under sinks, behind toilets, or at individual fixtures can leak or seize over time.",
     symptoms: [

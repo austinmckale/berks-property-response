@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { leadFormSchema } from "@/lib/formSchema";
+import { leadFormSchema, normalizePropertyType } from "@/lib/formSchema";
 import { captureLead } from "@/lib/leadCapture";
 import { mapToGoogleSheetRow } from "@/lib/googleSheetsMapper";
 import { getProblemType } from "@/lib/problemTypes";
@@ -90,7 +90,8 @@ export async function POST(request: Request) {
         parsed.data.serviceRequested || problem.defaultService,
       serviceCategory: parsed.data.serviceCategory ?? problem.serviceCategory,
       defaultRoute: parsed.data.defaultRoute || problem.defaultRoute,
-      propertyType: parsed.data.propertyType ?? "residential",
+      propertyType:
+        normalizePropertyType(parsed.data.propertyType) ?? "residential",
       smsOptIn: parsed.data.smsOptIn === true,
       waterOrSewagePresent: parsed.data.waterOrSewagePresent,
     };
@@ -116,6 +117,8 @@ export async function POST(request: Request) {
         configured: capture.destinations.customerEmail.configured,
         ok: capture.destinations.customerEmail.ok,
       },
+      propertyType: form.propertyType,
+      serviceCategory: routing.serviceCategory,
       captured: capture.captured,
     });
 

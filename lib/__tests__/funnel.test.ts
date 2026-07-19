@@ -287,6 +287,95 @@ describe("active water elevates routing urgency signals", () => {
   });
 });
 
+describe("lead payload property types and routing", () => {
+  const baseForm = {
+    problemType: "drain-clog" as const,
+    name: "Test User",
+    phone: "6105551234",
+    city: "Reading",
+    problemDescription: "Slow kitchen drain",
+    waterOrSewagePresent: "no" as const,
+    landingPage: "/drains",
+    pageType: "drains",
+    serviceCategory: "drain_sewer",
+    defaultRoute: "apex",
+    utmSource: "google",
+    utmMedium: "cpc",
+    utmCampaign: "drains",
+  };
+
+  it("preserves commercial property type in Google Sheets mapping", () => {
+    const routing = routeLead({
+      ...baseForm,
+      propertyType: "commercial",
+      serviceRequested: "commercial drain cleaning",
+      problemDescription: "Restaurant floor drain clogged during service",
+    });
+    const row = mapToGoogleSheetRow(
+      { ...baseForm, propertyType: "commercial" },
+      routing
+    );
+    expect(row.property_type).toBe("commercial");
+    expect(routing.primaryRoute).toBe("apex");
+    expect(routing.payoutCategory).toBe("Apex commercial drain lead");
+  });
+
+  it("preserves managed_property in Google Sheets mapping", () => {
+    const routing = routeLead({
+      ...baseForm,
+      propertyType: "managed_property",
+      problemDescription: "Tenant reported slow tub drain at rental property",
+    });
+    const row = mapToGoogleSheetRow(
+      { ...baseForm, propertyType: "managed_property" },
+      routing
+    );
+    expect(row.property_type).toBe("managed_property");
+  });
+
+  it("routes emergency sewer backup to Apex with emergency payout", () => {
+    const routing = routeLead({
+      serviceRequested: "emergency sewer backup",
+      problemDescription: "Sewage backing up through basement floor drain",
+      city: "Reading",
+      urgency: "emergency",
+      waterOrSewagePresent: "yes",
+      propertyType: "residential",
+      landingPage: "/emergency-sewer-backup-berks-county-pa",
+    });
+    expect(routing.primaryRoute).toBe("apex");
+    expect(routing.serviceCategory).toBe("drain_sewer");
+    expect(routing.payoutCategory).toBe("Apex emergency sewer lead");
+  });
+
+  it("routes fixture leak to local plumbing provider payout", () => {
+    const routing = routeLead({
+      serviceRequested: "leak repair",
+      problemDescription: "Drip under kitchen sink, single fixture only",
+      city: "Fleetwood",
+      propertyType: "residential",
+      defaultRoute: "evan",
+      landingPage: "/leak-repair-berks-county-pa",
+    });
+    expect(routing.primaryRoute).toBe("evan");
+    expect(routing.serviceCategory).toBe("plumbing");
+    expect(routing.payoutCategory).toBe("Local plumbing provider lead");
+  });
+
+  it("routes build-back repair to RHI", () => {
+    const routing = routeLead({
+      serviceRequested: "drywall repair after leak",
+      problemDescription: "Ceiling stain and drywall damage after upstairs pipe leak",
+      city: "Wyomissing",
+      propertyType: "residential",
+      landingPage: "/drywall-repair-after-plumbing-leak-berks-county-pa",
+    });
+    expect(routing.primaryRoute).toBe("rhi");
+    expect(routing.serviceCategory).toBe("water_damage");
+    expect(routing.payoutCategory).toBe("RHI water damage repair lead");
+  });
+});
+
 describe("spam protection still intact", () => {
   it("rejects honeypot and too-fast", () => {
     expect(

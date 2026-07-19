@@ -11,6 +11,7 @@ import {
   type FormSymptomOption,
 } from "@/components/FormSymptomPicker";
 import { LeadForm } from "@/components/LeadForm";
+import type { PropertyType } from "@/lib/formSchema";
 import type { ProblemTypeId } from "@/lib/problemTypes";
 
 export interface HubFormConfig {
@@ -20,6 +21,8 @@ export interface HubFormConfig {
   defaultService?: string;
   initialProblemType?: ProblemTypeId;
   defaultCity?: string;
+  defaultPropertyType?: PropertyType;
+  showPropertyType?: boolean;
 }
 
 interface HubLandingPageProps {
@@ -91,6 +94,8 @@ export function HubLandingPage({
               defaultService={form.defaultService}
               initialProblemType={form.initialProblemType}
               defaultCity={form.defaultCity}
+              defaultPropertyType={form.defaultPropertyType}
+              showPropertyType={form.showPropertyType}
             />
           </Suspense>
         </div>

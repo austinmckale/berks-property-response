@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { cities } from "@/lib/cities";
+import { getPublishedGuides } from "@/lib/guides";
 import { services } from "@/lib/services";
 import {
   SITEMAP_FALLBACK_DATE,
@@ -31,5 +32,29 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  return [...staticEntries, ...serviceEntries, ...cityEntries];
+  const publishedGuides = getPublishedGuides().filter((g) => g.index);
+  const guideEntries = publishedGuides.map((g) => ({
+    url: `${SITE_URL}/guides/${g.slug}`,
+    lastModified: new Date(g.updatedDate),
+    changeFrequency: "monthly" as const,
+    priority: 0.65,
+  }));
+
+  const guidesIndex =
+    publishedGuides.length > 0
+      ? [
+          {
+            url: `${SITE_URL}/guides`,
+            lastModified: new Date(
+              publishedGuides.reduce((latest, g) =>
+                g.updatedDate > latest ? g.updatedDate : latest,
+              publishedGuides[0]!.updatedDate)
+            ),
+            changeFrequency: "weekly" as const,
+            priority: 0.7,
+          },
+        ]
+      : [];
+
+  return [...staticEntries, ...serviceEntries, ...cityEntries, ...guidesIndex, ...guideEntries];
 }

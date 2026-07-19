@@ -12,7 +12,7 @@ export interface LeadNotificationPayload {
 
 function providerLabel(route: RouteResult["primaryRoute"]): string {
   if (route === "manual_review") return "Manual review";
-  return getProvider(route)?.name ?? route;
+  return getProvider(route)?.publicDisplayName ?? route;
 }
 
 function urgencyLabel(urgency?: string): string {
@@ -32,6 +32,7 @@ export function buildLeadSummary({ form, routing }: LeadNotificationPayload) {
     `Phone: ${form.phone}`,
     form.email ? `Email: ${form.email}` : null,
     `Location: ${form.city}, PA ${form.zip || ""}`.trim(),
+    `Property type: ${form.propertyType ?? "residential"}`,
     `Urgency: ${urgencyLabel(form.urgency)}`,
     `Problem: ${form.problemDescription}`,
     `Route: ${providerLabel(routing.primaryRoute)}`,
@@ -65,6 +66,11 @@ export async function sendDiscordLeadNotification(
           { name: "Phone", value: form.phone, inline: true },
           { name: "City", value: `${form.city}, PA ${form.zip || ""}`.trim(), inline: true },
           {
+            name: "Property type",
+            value: form.propertyType ?? "residential",
+            inline: true,
+          },
+          {
             name: "Issue type",
             value: getProblemType(form.problemType).title,
             inline: true,
@@ -77,6 +83,11 @@ export async function sendDiscordLeadNotification(
           {
             name: "Suggested route",
             value: providerLabel(routing.primaryRoute),
+            inline: true,
+          },
+          {
+            name: "Payout category",
+            value: routing.payoutCategory,
             inline: true,
           },
           {
@@ -115,10 +126,12 @@ function buildAdminEmailHtml(payload: LeadNotificationPayload): string {
     ["Phone", form.phone],
     ["Email", form.email || "—"],
     ["City / ZIP", `${form.city}, PA ${form.zip || ""}`.trim()],
+    ["Property type", form.propertyType || "residential"],
     ["Problem type", getProblemType(form.problemType).title],
     ["Urgency", urgencyLabel(form.urgency)],
     ["Description", form.problemDescription],
     ["Suggested route", providerLabel(routing.primaryRoute)],
+    ["Payout category", routing.payoutCategory],
     ["Landing page", form.landingPage || "—"],
     ["UTM source", form.utmSource || "—"],
     ["UTM medium", form.utmMedium || "—"],

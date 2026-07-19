@@ -11,7 +11,7 @@ A local Berks Property Response coordinator reviews calls, texts, emails, and fo
 | Lane | Provider | Typical scope |
 |------|----------|---------------|
 | Drain / sewer | **Apex Drain Services** | Backups, main lines, hydro jetting, cameras, commercial drains |
-| Plumbing | **Ridge Line Plumbing** (`evan` route id) | Fixture leaks, toilets, faucets, valves, water heaters, small residential plumbing |
+| Plumbing | **Local Plumbing Provider** (`evan` route id) | Fixture leaks, toilets, faucets, valves, water heaters, small residential plumbing |
 | Build-back | **RHI Pros** | Drywall, flooring, ceilings, paint, demo after water events |
 | Manual review | Internal | Ambiguous, storm/fire/mold, unsupported, or out-of-scope |
 
@@ -120,3 +120,18 @@ lib/                    # Routing, SEO, lead capture, env validation
 scripts/                # Content QA + Apps Script
 docs/                   # Launch checklist and SEO notes
 ```
+
+## Publishing the first local guide
+
+Guides live in `lib/guides.ts` as typed metadata with full article sections. Draft entries must **not** be added to the `guides` array until the article is complete and reviewed.
+
+**First planned guide:** *One Clogged Drain vs. a Main Sewer-Line Clog*
+
+To publish when ready:
+
+1. Add a complete `GuideMetadata` object to `guides` in `lib/guides.ts` with `status: "published"` and `index: true`.
+2. Set `relatedServices` and `relatedCities` to existing slugs.
+3. Run `npm run check:seo` — `/guides` and `/guides/[slug]` are included in the sitemap only when at least one published guide exists.
+4. Optionally link the guide from `HomepageSections` (automatic when published) and internal link groups.
+
+Do not create placeholder guide pages or empty `/guides` index content before the first article is finished.

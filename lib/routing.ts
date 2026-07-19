@@ -179,7 +179,7 @@ function getPayoutCategory(
       return "Apex commercial drain lead";
     return "Apex standard drain lead";
   }
-  if (primaryRoute === "evan") return "Ridge Line Plumbing lead";
+  if (primaryRoute === "evan") return "Local plumbing provider lead";
   if (primaryRoute === "rhi") {
     if (text.includes("contractor") || text.includes("property repair"))
       return "RHI contractor repair lead";
@@ -278,7 +278,7 @@ export function routeLead(input: LeadInput): RouteResult {
       serviceCategory = "plumbing";
     } else {
       primaryRoute = "manual_review";
-      notesInternal.push("CONFIRMATION REQUIRED: Ridge Line Plumbing service scope not fully confirmed");
+      notesInternal.push("CONFIRMATION REQUIRED: local plumbing provider service scope not fully confirmed");
       serviceCategory = "plumbing";
     }
   } else if (input.defaultRoute) {
@@ -289,7 +289,7 @@ export function routeLead(input: LeadInput): RouteResult {
     } else if (route === "evan" && apexMatches.length > 0) {
       primaryRoute = "apex";
       serviceCategory = "drain_sewer";
-      notesInternal.push("Apex override: drain/sewer symptoms detected on Ridge Line Plumbing service page");
+      notesInternal.push("Apex override: drain/sewer symptoms detected on plumbing service page");
     } else {
       primaryRoute = route;
     }

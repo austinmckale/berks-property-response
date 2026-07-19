@@ -38,7 +38,7 @@ function getAllVerifiedClaims(): Record<string, boolean> {
   const merged: Record<string, boolean> = {};
   for (const p of Object.values(providers)) {
     for (const [key, val] of Object.entries(p.verifiedClaims)) {
-      merged[key] = merged[key] || val;
+      merged[key] = merged[key] || val === "verified";
     }
   }
   return merged;

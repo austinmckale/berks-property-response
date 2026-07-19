@@ -80,7 +80,7 @@ function main() {
 
   const evanService = services.find((s) => s.slug === "small-plumbing-repairs-berks-county-pa");
   if (evanService && (evanService.noindex || evanService.draftStatus !== "published")) {
-    errors.push("Ridge Line Plumbing small-plumbing page must be published and indexed");
+    errors.push("Local plumbing provider small-plumbing page must be published and indexed");
   }
 
   const draftRhiSlugs = [

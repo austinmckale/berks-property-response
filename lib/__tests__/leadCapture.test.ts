@@ -20,7 +20,7 @@ const routing: RouteResult = {
   qualifiedStatus: "needs_review",
   suggestedSLA: "Same business day",
   serviceCategory: "plumbing",
-  payoutCategory: "Ridge Line Plumbing lead",
+  payoutCategory: "Local plumbing provider lead",
   notesInternal: [],
 };
 

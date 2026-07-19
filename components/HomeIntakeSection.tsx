@@ -82,6 +82,7 @@ export function HomeIntakeSection() {
                 key={selectedProblem}
                 pageType="home"
                 initialProblemType={selectedProblem}
+                showPropertyType
                 showCategoryChange
                 onChangeCategory={onClear}
               />

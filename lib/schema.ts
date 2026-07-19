@@ -1,9 +1,17 @@
 import { SITE_NAME, SITE_URL } from "./siteConfig";
 
+const ORGANIZATION_ID = `${SITE_URL}/#organization`;
+const WEBSITE_ID = `${SITE_URL}/#website`;
+
+function absoluteUrl(pathOrUrl: string): string {
+  return new URL(pathOrUrl, SITE_URL).toString();
+}
+
 export function organizationSchema() {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
+    "@id": ORGANIZATION_ID,
     name: SITE_NAME,
     url: SITE_URL,
     description:
@@ -19,10 +27,11 @@ export function webPageSchema(params: {
   return {
     "@context": "https://schema.org",
     "@type": "WebPage",
+    "@id": `${SITE_URL}${params.path}#webpage`,
     name: params.title,
     description: params.description,
     url: `${SITE_URL}${params.path}`,
-    isPartOf: { "@type": "WebSite", name: SITE_NAME, url: SITE_URL },
+    isPartOf: { "@id": WEBSITE_ID },
   };
 }
 
@@ -42,24 +51,37 @@ export function breadcrumbSchema(
 }
 
 export function serviceSchema(params: {
-  name: string;
-  description: string;
-  path: string;
+  serviceName: string;
+  serviceDescription: string;
+  serviceUrl: string;
   areaServed?: string;
+  providerName: string;
+  providerUrl?: string;
+  providerTelephone?: string;
+  coordinatorOrganization?: boolean;
 }) {
+  const provider: Record<string, string> = {
+    "@type": "Organization",
+    name: params.providerName,
+  };
+  if (params.providerUrl) provider.url = absoluteUrl(params.providerUrl);
+  if (params.providerTelephone) provider.telephone = params.providerTelephone;
+
   return {
     "@context": "https://schema.org",
     "@type": "Service",
-    name: params.name,
-    description: params.description,
-    url: `${SITE_URL}${params.path}`,
-    provider: {
-      "@type": "Organization",
-      name: SITE_NAME,
-      description:
-        "Intake and coordination service connecting customers with appropriate local providers for property problems in Berks County.",
+    "@id": `${absoluteUrl(params.serviceUrl)}#service`,
+    name: params.serviceName,
+    description: params.serviceDescription,
+    url: absoluteUrl(params.serviceUrl),
+    provider,
+    areaServed: {
+      "@type": "AdministrativeArea",
+      name: params.areaServed ?? "Berks County, PA",
     },
-    areaServed: params.areaServed ?? "Berks County, PA",
+    ...(params.coordinatorOrganization
+      ? { broker: { "@id": ORGANIZATION_ID } }
+      : {}),
   };
 }
 
@@ -80,11 +102,42 @@ export function websiteSchema() {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
+    "@id": WEBSITE_ID,
     name: SITE_NAME,
     url: SITE_URL,
     description:
       "Local help connecting Berks County homeowners with plumbing, drain, water damage, and property repair specialists.",
-    publisher: organizationSchema(),
+    publisher: { "@id": ORGANIZATION_ID },
+  };
+}
+
+export function articleSchema(params: {
+  headline: string;
+  description: string;
+  path: string;
+  author: string;
+  reviewer?: string;
+  publishedDate: string;
+  updatedDate: string;
+  heroImage?: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "@id": `${SITE_URL}${params.path}#article`,
+    headline: params.headline,
+    description: params.description,
+    mainEntityOfPage: { "@id": `${SITE_URL}${params.path}#webpage` },
+    author: { "@type": "Person", name: params.author },
+    ...(params.reviewer
+      ? { reviewedBy: { "@type": "Person", name: params.reviewer } }
+      : {}),
+    datePublished: params.publishedDate,
+    dateModified: params.updatedDate,
+    ...(params.heroImage
+      ? { image: absoluteUrl(params.heroImage) }
+      : {}),
+    publisher: { "@id": ORGANIZATION_ID },
   };
 }
 

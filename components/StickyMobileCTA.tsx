@@ -1,10 +1,12 @@
 "use client";
 
 import { Camera, Phone } from "lucide-react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useMobileNav } from "@/components/MobileNavContext";
-import { STICKY_ACTION_LABELS, STICKY_PHOTO_MESSAGE } from "@/lib/photoMessages";
+import { STICKY_PHOTO_MESSAGE } from "@/lib/photoMessages";
+import { getStickyCtaConfig } from "@/lib/stickyCta";
 import { PHONE_NUMBER, TEXT_NUMBER } from "@/lib/siteConfig";
 import { phoneHref, smsHref } from "@/lib/tracking";
 
@@ -19,9 +21,11 @@ const STICKY_ELIGIBLE_PATHS = new Set([
 ]);
 
 function isStickyEligible(pathname: string): boolean {
+  if (pathname === "/request-help") return false;
   return (
     STICKY_ELIGIBLE_PATHS.has(pathname) ||
     pathname.startsWith("/service-areas/") ||
+    pathname.startsWith("/guides/") ||
     pathname.endsWith("-berks-county-pa") ||
     pathname.endsWith("-reading-pa")
   );
@@ -34,11 +38,12 @@ export function StickyMobileCTA() {
   const [focusState, setFocusState] = useState({ pathname: "", focused: false });
   const [formState, setFormState] = useState({ pathname: "", inView: false });
 
+  const config = getStickyCtaConfig(pathname);
   const isEligible = isStickyEligible(pathname);
-  const isEmergency = pathname === "/emergency" || pathname.includes("emergency-");
+  const isEmergency = config.variant === "emergency";
 
   useEffect(() => {
-    if (!isEligible || pathname === "/request-help" || menuOpen) {
+    if (!isEligible || menuOpen) {
       return;
     }
 
@@ -56,13 +61,13 @@ export function StickyMobileCTA() {
   }, [isEligible, menuOpen, pathname]);
 
   useEffect(() => {
-    if (!isEligible || pathname === "/request-help") return;
+    if (!isEligible) return;
 
     const updateForFocus = () => {
       const active = document.activeElement;
       setFocusState({
         pathname,
-        focused: active instanceof Element && Boolean(active.closest("#get-help form")),
+        focused: active instanceof Element && Boolean(active.closest("#get-help form, #intake-fields form")),
       });
     };
     const handleFocusOut = () => setTimeout(updateForFocus, 0);
@@ -76,7 +81,7 @@ export function StickyMobileCTA() {
   }, [isEligible, pathname]);
 
   useEffect(() => {
-    if (!isEligible || pathname === "/request-help") {
+    if (!isEligible) {
       return;
     }
 
@@ -86,7 +91,9 @@ export function StickyMobileCTA() {
       { threshold: 0.1 }
     );
     const observeForm = () => {
-      const form = document.querySelector<HTMLFormElement>("#get-help form");
+      const form =
+        document.querySelector<HTMLFormElement>("#get-help form") ??
+        document.querySelector<HTMLFormElement>("#intake-fields form");
       if (form && form !== observedForm) {
         observedForm = form;
         formObserver.observe(form);
@@ -106,7 +113,82 @@ export function StickyMobileCTA() {
   const pastMarker = markerState.pathname === pathname && markerState.pastMarker;
   const formFocused = focusState.pathname === pathname && focusState.focused;
 
-  if (menuOpen || !pastMarker || formFocused || formInView) return null;
+  if (menuOpen || !isEligible || !pastMarker || formFocused || formInView) return null;
+
+  const primaryClass = isEmergency
+    ? "bg-red-600 text-white active:bg-red-700"
+    : "bg-brand text-white active:bg-brand-hover";
+
+  const secondaryClass = isEmergency
+    ? "border border-brand bg-white text-brand active:bg-amber-50"
+    : "border border-red-600 bg-white text-red-700 active:bg-red-50";
+
+  function renderPrimaryAction() {
+    if (config.primaryAction === "call") {
+      return (
+        <a
+          href={phoneHref(PHONE_NUMBER)}
+          data-analytics-event="phone_click"
+          data-analytics-source="sticky_mobile"
+          className={`btn-touch-fill gap-1.5 rounded-xl ${primaryClass} focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-stone-900`}
+        >
+          <Phone className="h-4 w-4 shrink-0" aria-hidden />
+          {config.primaryLabel}
+        </a>
+      );
+    }
+    if (config.primaryAction === "sms") {
+      return (
+        <a
+          href={smsHref(TEXT_NUMBER, STICKY_PHOTO_MESSAGE)}
+          data-analytics-event="text_click"
+          data-analytics-source="sticky_mobile"
+          className={`btn-touch-fill gap-1.5 rounded-xl ${primaryClass} focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-stone-900`}
+        >
+          <Camera className="h-4 w-4 shrink-0" aria-hidden />
+          {config.primaryLabel}
+        </a>
+      );
+    }
+    const href = config.variant === "guide" ? "/request-help" : "#get-help";
+    return (
+      <Link
+        href={href}
+        data-analytics-event="click_request_help"
+        data-analytics-source="sticky_mobile"
+        className={`btn-touch-fill gap-1.5 rounded-xl ${primaryClass} focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-stone-900`}
+      >
+        {config.primaryLabel}
+      </Link>
+    );
+  }
+
+  function renderSecondaryAction() {
+    if (config.secondaryAction === "call") {
+      return (
+        <a
+          href={phoneHref(PHONE_NUMBER)}
+          data-analytics-event="phone_click"
+          data-analytics-source="sticky_mobile_secondary"
+          className={`btn-touch-fill gap-1.5 rounded-xl ${secondaryClass} focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-stone-900`}
+        >
+          <Phone className="h-4 w-4 shrink-0" aria-hidden />
+          {config.secondaryLabel}
+        </a>
+      );
+    }
+    return (
+      <a
+        href={smsHref(TEXT_NUMBER, STICKY_PHOTO_MESSAGE)}
+        data-analytics-event="text_click"
+        data-analytics-source="sticky_mobile_secondary"
+        className={`btn-touch-fill gap-1.5 rounded-xl ${secondaryClass} focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-stone-900`}
+      >
+        <Camera className="h-4 w-4 shrink-0" aria-hidden />
+        {config.secondaryLabel}
+      </a>
+    );
+  }
 
   return (
     <>
@@ -119,38 +201,14 @@ export function StickyMobileCTA() {
         role="navigation"
         aria-label="Quick actions"
       >
-      <div
-        className={`grid gap-2 p-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] ${
-          isEmergency ? "grid-cols-[.58fr_.42fr]" : "grid-cols-[.42fr_.58fr]"
-        }`}
-      >
-        <a
-          href={phoneHref(PHONE_NUMBER)}
-          data-analytics-event="phone_click"
-          data-analytics-source="sticky_mobile"
-          className={`btn-touch-fill gap-1.5 rounded-xl ${
-            isEmergency
-              ? "bg-red-600 text-white active:bg-red-700"
-              : "border border-red-600 bg-white text-red-700 active:bg-red-50"
+        <div
+          className={`grid gap-2 p-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] ${
+            isEmergency ? "grid-cols-[.58fr_.42fr]" : "grid-cols-[.58fr_.42fr]"
           }`}
         >
-          <Phone className="h-4 w-4 shrink-0" aria-hidden />
-          {STICKY_ACTION_LABELS[0]}
-        </a>
-        <a
-          href={smsHref(TEXT_NUMBER, STICKY_PHOTO_MESSAGE)}
-          data-analytics-event="text_click"
-          data-analytics-source="sticky_mobile"
-          className={`btn-touch-fill gap-1.5 rounded-xl ${
-            isEmergency
-              ? "border border-brand bg-white text-brand active:bg-amber-50"
-              : "bg-brand text-white active:bg-brand-hover"
-          }`}
-        >
-          <Camera className="h-4 w-4 shrink-0" aria-hidden />
-          {STICKY_ACTION_LABELS[1]}
-        </a>
-      </div>
+          {renderPrimaryAction()}
+          {renderSecondaryAction()}
+        </div>
       </div>
     </>
   );

@@ -2,9 +2,8 @@ import Link from "next/link";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ProviderCard } from "@/components/ProviderCard";
 import { SchemaScript } from "@/components/SchemaScript";
-import { PROVIDER_AVAILABILITY_NOTE } from "@/lib/disclosures";
-import { providers } from "@/lib/providers";
 import { breadcrumbItems, buildMetadata } from "@/lib/seo";
+import { providers } from "@/lib/providers";
 import {
   breadcrumbSchema,
   combineSchemas,
@@ -15,15 +14,9 @@ import {
 export const metadata = buildMetadata({
   title: "Local Partners",
   description:
-    "Local companies for drain, plumbing, and property-repair needs in Berks County.",
+    "Independent local providers for drain, plumbing, and property-repair requests coordinated through Berks Property Response in Berks County, PA.",
   path: "/local-partners",
 });
-
-const providerNotes: Record<string, string> = {
-  apex: "Drain cleaning, sewer backups, main lines, hydro jetting, sewer cameras, and commercial drain work.",
-  evan: "Fixture leaks, toilets, faucets, shutoff valves, water heaters, and smaller residential plumbing repairs.",
-  rhi: "Drywall, flooring, ceilings, painting, demolition, and repair after plumbing or water events.",
-};
 
 export default function LocalPartnersPage() {
   const crumbs = breadcrumbItems([{ name: "Local partners", path: "/local-partners" }]);
@@ -31,7 +24,8 @@ export default function LocalPartnersPage() {
     organizationSchema(),
     webPageSchema({
       title: "Local Partners",
-      description: "Drain, plumbing, and property-repair companies in Berks County.",
+      description:
+        "Independent local providers coordinated through Berks Property Response in Berks County.",
       path: "/local-partners",
     }),
     breadcrumbSchema(crumbs)
@@ -42,27 +36,47 @@ export default function LocalPartnersPage() {
       <SchemaScript schemas={schemas} />
       <Breadcrumbs items={crumbs} />
       <section className="section-pad px-4">
-        <div className="page-container">
+        <div className="page-container-wide md:max-w-4xl">
           <h1 className="text-2xl font-semibold text-stone-900 md:text-3xl">
-            Local partners
+            Local provider network
           </h1>
+          <p className="mt-3 leading-relaxed text-stone-600">
+            Berks Property Response coordinates requests across specialized local providers in
+            Berks County. Each provider handles a defined type of work, confirms availability and
+            scope, and performs the job independently.
+          </p>
+          <p className="mt-3 text-sm leading-relaxed text-stone-600">
+            Use the service pages below to learn which lane fits your problem, or{" "}
+            <Link
+              href="/request-help"
+              className="font-semibold text-stone-900 underline underline-offset-2"
+            >
+              send a request
+            </Link>{" "}
+            with photos and location details.
+          </p>
 
-          <Link
-            href="/request-help"
-            data-analytics-event="click_request_help"
-            data-analytics-source="local_partners"
-            className="btn-primary mt-5 w-full"
-          >
-            Send a request
-          </Link>
-
-          <div className="mt-8 space-y-4">
-            <ProviderCard provider={providers.apex} note={providerNotes.apex} intakeOnly />
-            <ProviderCard provider={providers.evan} note={providerNotes.evan} intakeOnly />
-            <ProviderCard provider={providers.rhi} note={providerNotes.rhi} intakeOnly />
+          <div className="mt-8 space-y-6">
+            <ProviderCard
+              provider={providers.apex}
+              showServiceLinks
+              intakeOnly
+            />
+            <ProviderCard
+              provider={providers.evan}
+              showServiceLinks
+              intakeOnly
+            />
+            <ProviderCard provider={providers.rhi} showServiceLinks intakeOnly />
           </div>
 
-          <p className="mt-6 text-sm text-stone-600">{PROVIDER_AVAILABILITY_NOTE}</p>
+          <p className="mt-8 text-sm leading-relaxed text-stone-500">
+            Provider availability and service scope may vary. See{" "}
+            <Link href="/disclosure" className="underline underline-offset-2 hover:text-stone-700">
+              disclosure
+            </Link>{" "}
+            for how coordination works.
+          </p>
         </div>
       </section>
     </>

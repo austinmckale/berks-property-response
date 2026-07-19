@@ -45,7 +45,7 @@ describe("routeLead", () => {
       city: "Reading",
     });
     expect(result.primaryRoute).toBe("evan");
-    expect(result.payoutCategory).toBe("Ridge Line Plumbing lead");
+    expect(result.payoutCategory).toBe("Local plumbing provider lead");
   });
 
   it("5. Running toilet routes to Evan when no other drains are affected", () => {

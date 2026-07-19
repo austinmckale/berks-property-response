@@ -11,8 +11,9 @@ import {
 export const metadata = buildMetadata({
   title: "Request Help",
   description:
-    "Get local help in Berks County for plumbing, drains, water damage, and repairs.",
+    "Send a property help request for drain, plumbing, or water-damage issues in Berks County.",
   path: "/request-help",
+  noindex: true,
 });
 
 export default function RequestHelpPage() {
@@ -21,7 +22,7 @@ export default function RequestHelpPage() {
     organizationSchema(),
     webPageSchema({
       title: "Request Help",
-      description: "Get local help in Berks County.",
+      description: "Send a property help request in Berks County.",
       path: "/request-help",
     }),
     breadcrumbSchema(crumbs)
@@ -39,7 +40,7 @@ export default function RequestHelpPage() {
         emergencyHeadline="Active water or sewage right now? Calling is fastest."
         formTitle="Your request"
         formSubtitle=""
-        form={{ pageType: "request-help" }}
+        form={{ pageType: "request-help", showPropertyType: true }}
       />
     </>
   );

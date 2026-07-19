@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import {
   CloudLightning,
   Droplets,
@@ -9,6 +10,14 @@ import {
 } from "lucide-react";
 import { triageCards } from "@/lib/problems";
 import type { ProblemTypeId } from "@/lib/problemTypes";
+
+const hubLinks: Partial<Record<ProblemTypeId, { href: string; label: string }>> = {
+  "drain-emergency": { href: "/emergency", label: "Emergency drain help" },
+  "drain-clog": { href: "/drains", label: "Drain and sewer services" },
+  "plumbing-leak": { href: "/plumbing-and-leaks", label: "Plumbing and leak help" },
+  "water-damage": { href: "/after-leak", label: "Repair after a leak" },
+  "major-property": { href: "/storm-fire-mold-help", label: "Other serious property damage" },
+};
 
 const iconMap: Record<
   string,
@@ -95,15 +104,24 @@ export function TriageCards({
 
           if (onSelect) {
             return (
-              <button
-                key={card.title}
-                type="button"
-                aria-pressed={isSelected}
-                onClick={() => onSelect(card.problem)}
-                className={className}
-              >
-                {content}
-              </button>
+              <div key={card.title} className="flex flex-col gap-1.5">
+                <button
+                  type="button"
+                  aria-pressed={isSelected}
+                  onClick={() => onSelect(card.problem)}
+                  className={className}
+                >
+                  {content}
+                </button>
+                {hubLinks[card.problem] && (
+                  <Link
+                    href={hubLinks[card.problem]!.href}
+                    className="inline-flex min-h-11 items-center px-1 text-sm font-medium text-stone-700 underline underline-offset-2 hover:text-stone-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-stone-900"
+                  >
+                    {hubLinks[card.problem]!.label} →
+                  </Link>
+                )}
+              </div>
             );
           }
 

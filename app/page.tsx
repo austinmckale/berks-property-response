@@ -1,14 +1,17 @@
 import { Suspense } from "react";
 import { Hero } from "@/components/Hero";
 import { HomeIntakeSection } from "@/components/HomeIntakeSection";
+import { HomepageSections } from "@/components/HomepageSections";
 import { SchemaScript } from "@/components/SchemaScript";
 import { homeMetadata } from "@/lib/seo";
 import {
   combineSchemas,
+  faqSchema,
   organizationSchema,
   webPageSchema,
   websiteSchema,
 } from "@/lib/schema";
+import { homepageFaqs } from "@/lib/homepageContent";
 
 export const metadata = homeMetadata();
 
@@ -17,11 +20,12 @@ export default function HomePage() {
     organizationSchema(),
     websiteSchema(),
     webPageSchema({
-      title: "Drain, Plumbing & Water Damage Help",
+      title: "Drain, Plumbing & Water Damage Help in Berks County, PA",
       description:
-        "Get local help for drain backups, plumbing leaks, and water damage across Berks County.",
+        "Local help routing drain backups, fixture leaks, and water-damage repair across Berks County.",
       path: "/",
-    })
+    }),
+    faqSchema([...homepageFaqs])
   );
 
   return (
@@ -36,6 +40,7 @@ export default function HomePage() {
       <Suspense fallback={<div className="section-pad h-96 animate-pulse bg-brand-subtle" />}>
         <HomeIntakeSection />
       </Suspense>
+      <HomepageSections />
     </>
   );
 }

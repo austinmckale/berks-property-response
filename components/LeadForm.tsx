@@ -8,7 +8,9 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { Camera } from "lucide-react";
 import {
   leadFormSchema,
+  propertyTypeOptions,
   type LeadFormData,
+  type PropertyType,
 } from "@/lib/formSchema";
 import { FORM_SUBMIT_FINE_PRINT } from "@/lib/disclosures";
 import { trackEvent } from "@/lib/analytics";
@@ -35,6 +37,8 @@ interface LeadFormProps {
   defaultService?: string;
   initialProblemType?: ProblemTypeId;
   defaultCity?: string;
+  defaultPropertyType?: PropertyType;
+  showPropertyType?: boolean;
   showCategoryChange?: boolean;
   onChangeCategory?: () => void;
 }
@@ -55,6 +59,8 @@ export function LeadForm({
   defaultService = "",
   initialProblemType,
   defaultCity = "",
+  defaultPropertyType = "residential",
+  showPropertyType = false,
   showCategoryChange = false,
   onChangeCategory,
 }: LeadFormProps) {
@@ -91,12 +97,14 @@ export function LeadForm({
         ? getProblemType(initialProblemType).urgency
         : undefined,
       city: defaultCity || undefined,
+      propertyType: defaultPropertyType,
       smsOptIn: false,
     },
   });
 
   const selectedProblem = watch("problemType");
   const waterAnswer = watch("waterOrSewagePresent");
+  const propertyType = watch("propertyType");
   const waterField = register("waterOrSewagePresent");
   const showFormStep = Boolean(selectedProblem) && (step === 2 || Boolean(initialProblemType));
 
@@ -200,7 +208,7 @@ export function LeadForm({
     const payload: LeadFormData = {
       ...data,
       urgency: urgencyResolved,
-      propertyType: "residential",
+      propertyType: data.propertyType ?? defaultPropertyType,
       serviceRequested: defaultService || problem.defaultService,
       serviceCategory: problem.serviceCategory,
       defaultRoute: defaultRoute || problem.defaultRoute,
@@ -233,6 +241,7 @@ export function LeadForm({
         service_category: problem.serviceCategory,
         urgency: urgencyResolved,
         city: data.city,
+        property_type: payload.propertyType ?? defaultPropertyType,
       });
     } catch {
       setSubmitStatus("error");
@@ -355,6 +364,7 @@ export function LeadForm({
                 <button
                   key={option.id}
                   type="button"
+                  aria-pressed={selected}
                   onClick={() => selectProblem(option.id)}
                   className={`card-touch min-h-[4.5rem] rounded-xl border p-4 text-left transition ${
                     selected
@@ -469,6 +479,35 @@ export function LeadForm({
             </div>
           )}
 
+          {showPropertyType && (
+            <fieldset className="mt-5">
+              <legend className={labelClass}>What type of property is this?</legend>
+              <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-3">
+                {propertyTypeOptions.map((option) => {
+                  const selected = propertyType === option.value;
+                  return (
+                    <label
+                      key={option.value}
+                      className={`relative flex min-h-12 cursor-pointer items-center justify-center rounded-xl border px-3 py-3 text-center text-sm font-semibold transition focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-stone-900 ${
+                        selected
+                          ? "border-stone-900 bg-stone-900 text-white"
+                          : "border-stone-300 bg-white text-stone-800 active:bg-stone-50"
+                      }`}
+                    >
+                      <input
+                        type="radio"
+                        value={option.value}
+                        className="sr-only"
+                        {...register("propertyType")}
+                      />
+                      {option.label}
+                    </label>
+                  );
+                })}
+              </div>
+            </fieldset>
+          )}
+
           <div className="mt-5 space-y-4">
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <div>
@@ -574,6 +613,7 @@ export function LeadForm({
           <input type="hidden" {...register("activeConditions")} />
           <input type="hidden" {...register("submittedAt")} />
           <input type="hidden" {...register("formStartedAt")} />
+          {!showPropertyType && <input type="hidden" {...register("propertyType")} />}
           <div className="pointer-events-none absolute left-[-10000px] top-auto h-px w-px overflow-hidden opacity-0" aria-hidden="true">
             <label htmlFor="bprHpField">Leave blank</label>
             <input
@@ -592,6 +632,7 @@ export function LeadForm({
             <div
               className="mt-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800"
               role="alert"
+              aria-live="assertive"
             >
               {formError ?? (
                 <>

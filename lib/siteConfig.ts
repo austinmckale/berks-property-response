@@ -83,7 +83,7 @@ export const SERVICE_CLUSTERS = [
   {
     title: "Storm / Fire / Mold / Major Issues",
     href: "/storm-fire-mold-help",
-    description: "Storm, fire, smoke, mold, and other major property concerns.",
+    description: "Storm, fire, smoke, mold, and other major property concerns reviewed for provider availability.",
   },
 ] as const;
 

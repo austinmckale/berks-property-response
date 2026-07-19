@@ -37,7 +37,7 @@ function main() {
 
   for (const p of Object.values(providers)) {
     if (p.actionItems?.length && p.confirmed === true) {
-      errors.push(`Provider ${p.name} is confirmed but has action items`);
+      errors.push(`Provider ${p.publicDisplayName} is confirmed but has action items`);
     }
   }
 

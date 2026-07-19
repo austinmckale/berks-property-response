@@ -30,7 +30,7 @@ export function CityIntakeSection({ city }: { city: CityPage }) {
 
   return (
     <>
-      <div className="mt-8">
+      <div id="city-intake" className="mt-8 scroll-mt-24">
         <FormSymptomPicker title="Choose the closest problem" options={citySymptoms} />
       </div>
       {selectedProblem && (
@@ -44,6 +44,7 @@ export function CityIntakeSection({ city }: { city: CityPage }) {
                 defaultService={`Help in ${city.name}, PA`}
                 defaultCity={city.name}
                 initialProblemType={selectedProblem}
+                showPropertyType
               />
             </Suspense>
           </div>

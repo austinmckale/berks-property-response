@@ -3,7 +3,6 @@ export const STATIC_SITEMAP_PATHS = [
   "",
   "/how-it-works",
   "/local-partners",
-  "/request-help",
   "/contact",
   "/disclosure",
   "/privacy-policy",
@@ -13,9 +12,11 @@ export const STATIC_SITEMAP_PATHS = [
   "/emergency",
   "/after-leak",
   "/plumbing-and-leaks",
-  "/storm-fire-mold-help",
   "/property-repairs-berks-county-pa",
 ] as const;
+
+/** Utility or thin pages kept out of the sitemap (noindex, follow). */
+export const NOINDEX_STATIC_PATHS = ["/request-help", "/storm-fire-mold-help"] as const;
 
 /** Fallback last-modified when content has no explicit updatedAt. */
 export const SITEMAP_FALLBACK_DATE = new Date("2025-06-01");

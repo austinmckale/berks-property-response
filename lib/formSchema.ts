@@ -16,10 +16,35 @@ const problemTypeIds = problemTypeOptions.map((p) => p.id) as [
 export const propertyTypes = [
   "residential",
   "commercial",
-  "rental",
-  "multi-unit",
-  "property-manager",
+  "managed_property",
 ] as const;
+
+export type PropertyType = (typeof propertyTypes)[number];
+
+/** Backward-compatible normalization for legacy client values. */
+export function normalizePropertyType(
+  value: string | undefined
+): PropertyType | undefined {
+  if (!value) return undefined;
+  if (value === "rental" || value === "multi-unit" || value === "property-manager") {
+    return "managed_property";
+  }
+  if (propertyTypes.includes(value as PropertyType)) {
+    return value as PropertyType;
+  }
+  return undefined;
+}
+
+export const propertyTypeOptions: {
+  value: PropertyType;
+  label: string;
+}[] = [
+  { value: "residential", label: "Home" },
+  { value: "commercial", label: "Business" },
+  { value: "managed_property", label: "Rental or managed property" },
+];
+
+export const propertyTypeSchema = z.enum(propertyTypes).optional();
 
 export const urgencyLevels = [
   "emergency",
@@ -71,7 +96,7 @@ export const leadFormSchema = z.object({
     .email("Valid email is required")
     .optional()
     .or(z.literal("")),
-  propertyType: z.enum(propertyTypes).optional(),
+  propertyType: propertyTypeSchema,
   serviceRequested: z.string().optional(),
   streetAddress: z.string().optional(),
   fixturesAffected: z.string().optional(),
@@ -109,7 +134,7 @@ export const routeLeadSchema = z.object({
   city: z.string().optional(),
   zip: z.string().optional(),
   streetAddress: z.string().optional(),
-  propertyType: z.string().optional(),
+  propertyType: propertyTypeSchema,
   serviceRequested: z.string().optional(),
   urgency: z.string().optional(),
   fixturesAffected: z.string().optional(),

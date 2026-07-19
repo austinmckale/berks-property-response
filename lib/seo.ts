@@ -44,18 +44,19 @@ export function buildMetadata(seo: PageSEO): Metadata {
       images: [ogImage],
     },
     robots: seo.noindex
-      ? { index: false, follow: false }
+      ? { index: false, follow: true }
       : { index: true, follow: true },
   };
 }
 
 export function homeMetadata(): Metadata {
   return buildMetadata({
-    title: "Drain, Plumbing & Water Damage Help",
+    title: "Drain, Plumbing & Water Damage Help in Berks County, PA",
     description:
-      "Get local help for drain backups, plumbing leaks, and water damage across Berks County.",
+      "Local help routing drain backups, fixture leaks, and water-damage repair across Berks County. Choose the closest problem and send details for coordination with the appropriate provider.",
     path: "/",
-    socialTitle: "Drain, Plumbing & Water Damage Help | Berks Property Response",
+    socialTitle:
+      "Drain, Plumbing & Water Damage Help in Berks County, PA | Berks Property Response",
   });
 }
 

@@ -8,6 +8,7 @@ import {
   organizationSchema,
   webPageSchema,
 } from "@/lib/schema";
+import { providers } from "@/lib/providers";
 import { PHONE_NUMBER, SITE_NAME } from "@/lib/siteConfig";
 
 export const metadata = buildMetadata({
@@ -16,21 +17,25 @@ export const metadata = buildMetadata({
   path: "/disclosure",
 });
 
+function providerLaneLabel(provider: (typeof providers)[keyof typeof providers]): string {
+  if (provider.contactPerson) {
+    return `${provider.publicDisplayName} (contact: ${provider.contactPerson})`;
+  }
+  return provider.publicDisplayName;
+}
+
 const providerLanes = [
   {
-    name: "Apex Drain Services",
-    scope:
-      "Drain cleaning, sewer backups, main lines, hydro jetting, sewer cameras, and commercial drain work.",
+    name: providerLaneLabel(providers.apex),
+    scope: providers.apex.serviceCategories.join("; "),
   },
   {
-    name: "Evan",
-    scope:
-      "Fixture leaks, toilets, faucets, shutoff valves, water heaters, and smaller residential plumbing repairs.",
+    name: providerLaneLabel(providers.evan),
+    scope: providers.evan.serviceCategories.join("; "),
   },
   {
-    name: "RHI Pros",
-    scope:
-      "Drywall, flooring, ceilings, painting, demolition, and repair after plumbing or water events.",
+    name: providerLaneLabel(providers.rhi),
+    scope: providers.rhi.serviceCategories.join("; "),
   },
 ];
 
