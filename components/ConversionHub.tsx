@@ -1,15 +1,19 @@
 import Link from "next/link";
+import { Camera, Phone } from "lucide-react";
 import { REFERRAL_DISCLOSURE_INLINE } from "@/lib/disclosures";
+import { getStickySmsMessage } from "@/lib/smsMessages";
 import { PHONE_NUMBER, TEXT_NUMBER } from "@/lib/siteConfig";
 import { phoneHref, smsHref } from "@/lib/tracking";
 
 interface EmergencyCallBannerProps {
   headline?: string;
+  smsBody?: string;
 }
 
-/** One tap to call — no extra buttons (mobile uses sticky bar for other actions). */
+/** Call-first emergency block with a text-photo alternative. */
 export function EmergencyCallBanner({
   headline = "Sewage or water backing up right now?",
+  smsBody = getStickySmsMessage("/emergency"),
 }: EmergencyCallBannerProps) {
   return (
     <div className="rounded-2xl bg-red-600 px-5 py-5 text-center text-white shadow-sm">
@@ -18,11 +22,20 @@ export function EmergencyCallBanner({
         href={phoneHref(PHONE_NUMBER)}
         data-analytics-event="phone_click"
         data-analytics-source="emergency_banner"
-        className="mt-3 block text-3xl font-bold tracking-tight underline-offset-4 hover:underline md:text-4xl"
+        className="mt-3 flex min-h-14 items-center justify-center gap-2 rounded-xl bg-white px-4 text-red-700 hover:bg-red-50"
       >
-        {PHONE_NUMBER}
+        <Phone className="h-5 w-5 shrink-0" aria-hidden />
+        <span className="text-xl font-bold md:text-2xl">Call now</span>
       </a>
-      <p className="mt-2 text-sm text-red-100">Tap to call</p>
+      <a
+        href={smsHref(TEXT_NUMBER, smsBody)}
+        data-analytics-event="text_click"
+        data-analytics-source="emergency_banner"
+        className="mt-2 flex min-h-12 items-center justify-center gap-2 rounded-xl border border-red-300 px-4 text-sm font-semibold text-white hover:bg-red-700"
+      >
+        <Camera className="h-4 w-4 shrink-0" aria-hidden />
+        Text photos instead
+      </a>
     </div>
   );
 }

@@ -1,5 +1,6 @@
+import Link from "next/link";
 import { SchemaScript } from "@/components/SchemaScript";
-import { HubAlert, HubFooterLink, HubLandingPage } from "@/components/HubLandingPage";
+import { HubAlert, HubLandingPage } from "@/components/HubLandingPage";
 import { breadcrumbItems, buildMetadata } from "@/lib/seo";
 import {
   breadcrumbSchema,
@@ -38,14 +39,33 @@ export default function OtherSeriousPropertyDamagePage() {
         breadcrumbs={crumbs}
         title="Other serious property damage"
         subtitle="Tell us what happened and include photos if you can. This request is reviewed to determine whether a suitable local provider is available."
+        quickActionsPath="/storm-fire-mold-help"
         alert={
           <HubAlert>
-            If there is active fire, gas odor, electrical danger, collapse risk, or a medical
-            emergency, leave the unsafe area and call 911 or the applicable utility. For an active
-            drain backup or fixture leak, use{" "}
-            <HubFooterLink href="/emergency">emergency drain help</HubFooterLink>,{" "}
-            <HubFooterLink href="/plumbing-and-leaks">plumbing help</HubFooterLink>, or{" "}
-            <HubFooterLink href="/after-leak">repair after a leak</HubFooterLink> first.
+            <p>
+              Active fire, gas odor, electrical danger, collapse risk, or a medical emergency?
+              Leave the unsafe area and call 911 or the applicable utility.
+            </p>
+            <nav aria-label="Choose different help" className="mt-3 grid gap-2">
+              <Link
+                href="/emergency"
+                className="flex min-h-11 items-center rounded-lg border border-stone-300 bg-white px-3 font-semibold text-stone-900"
+              >
+                Active drain or sewer backup
+              </Link>
+              <Link
+                href="/plumbing-and-leaks"
+                className="flex min-h-11 items-center rounded-lg border border-stone-300 bg-white px-3 font-semibold text-stone-900"
+              >
+                Active fixture or plumbing leak
+              </Link>
+              <Link
+                href="/after-leak"
+                className="flex min-h-11 items-center rounded-lg border border-stone-300 bg-white px-3 font-semibold text-stone-900"
+              >
+                Damage after the leak stopped
+              </Link>
+            </nav>
           </HubAlert>
         }
         form={{
@@ -58,7 +78,7 @@ export default function OtherSeriousPropertyDamagePage() {
         }}
         footer={
           <details className="rounded-xl border border-stone-200 bg-stone-50 px-4 py-3">
-            <summary className="cursor-pointer text-sm font-medium text-stone-800">
+            <summary className="flex min-h-11 cursor-pointer items-center text-sm font-medium text-stone-800">
               Issue types that may be reviewed
             </summary>
             <ul className="mt-3 list-inside list-disc space-y-1 text-sm text-stone-700">

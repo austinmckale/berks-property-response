@@ -148,7 +148,7 @@ export const providers: Record<Exclude<ProviderId, "manual_review">, Provider> =
     businessName: "RHI Pros",
     publicDisplayName: "RHI Pros",
     confirmed: true,
-    type: "contractor/restoration/build-back provider",
+    type: "property repair and build-back provider",
     description:
       "Handles drywall, ceiling, flooring, painting, demolition, and build-back after plumbing, drain, or water events.",
     website:

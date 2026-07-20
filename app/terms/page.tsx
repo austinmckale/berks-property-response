@@ -52,7 +52,10 @@ export default function TermsPage() {
             Providers are separate businesses. Any contract for work is between you and the
             provider you choose. The provider is responsible for estimates, pricing, scheduling,
             permits, licensing, insurance, warranties, workmanship, and payment terms. See our{" "}
-            <Link href="/disclosure" className="font-medium underline">
+            <Link
+              href="/disclosure"
+              className="inline-flex min-h-11 items-center font-medium underline"
+            >
               disclosure
             </Link>{" "}
             for how coordination and provider relationships work.

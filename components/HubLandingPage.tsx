@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Suspense, type ReactNode } from "react";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { DirectContactActions } from "@/components/DirectContactActions";
 import {
   CompactUrgentCallStrip,
   EmergencyCallBanner,
@@ -13,6 +14,7 @@ import {
 import { LeadForm } from "@/components/LeadForm";
 import type { PropertyType } from "@/lib/formSchema";
 import type { ProblemTypeId } from "@/lib/problemTypes";
+import { getStickySmsMessage } from "@/lib/smsMessages";
 
 export interface HubFormConfig {
   pageType: string;
@@ -47,6 +49,8 @@ interface HubLandingPageProps {
   /** Form before large call CTA */
   intakeFirst?: boolean;
   footer?: ReactNode;
+  /** Path used to build the top Text / Call actions on standard pages. */
+  quickActionsPath?: string;
 }
 
 /** Shared layout for hub landing pages */
@@ -68,6 +72,7 @@ export function HubLandingPage({
   showPrimaryCue = !showForm,
   intakeFirst = false,
   footer,
+  quickActionsPath,
 }: HubLandingPageProps) {
   const formBlock =
     showForm && form ? (
@@ -121,7 +126,10 @@ export function HubLandingPage({
         {!intakeFirst && (
           <p className="mt-3 text-sm text-stone-600">
             Prefer not to call?{" "}
-            <a href="#get-help" className="font-medium text-stone-900 underline">
+            <a
+              href="#get-help"
+              className="inline-flex min-h-11 items-center font-medium text-stone-900 underline"
+            >
               Send a request below
             </a>
           </p>
@@ -144,6 +152,14 @@ export function HubLandingPage({
           <h1 className="text-2xl font-semibold text-stone-900 md:text-3xl">{title}</h1>
           <p className="mt-2 text-stone-600">{subtitle}</p>
           <div id="sticky-cta-marker" className="h-px" aria-hidden />
+
+          {variant === "standard" && quickActionsPath ? (
+            <DirectContactActions
+              smsBody={getStickySmsMessage(quickActionsPath)}
+              analyticsSource="hub_top"
+              className="mt-5"
+            />
+          ) : null}
 
           {alert && <div className="mt-5">{alert}</div>}
 
@@ -197,7 +213,10 @@ export function HubFooterLink({
   children: ReactNode;
 }) {
   return (
-    <Link href={href} className="font-semibold text-stone-900 underline">
+    <Link
+      href={href}
+      className="inline-flex min-h-11 items-center font-semibold text-stone-900 underline"
+    >
       {children}
     </Link>
   );

@@ -38,7 +38,7 @@ export function Header() {
       <div className="mx-auto flex min-h-14 max-w-6xl items-center justify-between gap-1.5 px-2 py-2 sm:min-h-16 sm:gap-2 sm:px-4 sm:py-3">
         <BrandLogo variant="header" className="min-w-0 max-w-[9.5rem] sm:max-w-[14rem]" />
 
-        <nav className="hidden items-center gap-0.5 lg:flex" aria-label="Main">
+        <nav className="hidden items-center gap-0.5 2xl:flex" aria-label="Main">
           <Link
             href="/emergency"
             className="btn-touch inline-flex items-center justify-center rounded-lg px-2.5 text-sm font-semibold text-red-700 hover:bg-red-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-700"
@@ -61,7 +61,7 @@ export function Header() {
         <div className="relative z-10 flex shrink-0 items-center gap-1 sm:gap-2">
           <Link
             href={REQUEST_HELP_LINK.href}
-            className="btn-touch hidden rounded-lg bg-brand px-3 text-sm font-semibold text-white hover:bg-brand-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand md:inline-flex"
+            className="btn-touch hidden rounded-lg bg-brand px-3 text-sm font-semibold text-white hover:bg-brand-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand 2xl:inline-flex"
           >
             {REQUEST_HELP_LINK.label}
           </Link>
@@ -71,15 +71,15 @@ export function Header() {
             data-analytics-event="phone_click"
             data-analytics-source="header"
             aria-label={`Call ${PHONE_NUMBER}`}
-            className="btn-touch-icon rounded-lg bg-red-600 text-white hover:bg-red-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-700 md:inline-flex md:min-h-12 md:min-w-0 md:px-4 md:text-sm md:font-semibold"
+            className="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-lg bg-red-600 p-0 text-white hover:bg-red-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-700 2xl:min-h-12 2xl:min-w-0 2xl:px-4 2xl:text-sm 2xl:font-semibold"
           >
-            <Phone className="h-5 w-5 shrink-0 md:hidden" aria-hidden />
-            <span className="hidden md:inline">Call</span>
+            <Phone className="h-5 w-5 shrink-0 2xl:hidden" aria-hidden />
+            <span className="hidden 2xl:inline">Call</span>
           </a>
 
           <button
             type="button"
-            className="btn-touch-icon rounded-lg border border-stone-200 bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-stone-900"
+            className="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-lg border border-stone-200 bg-white p-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-stone-900 2xl:hidden"
             aria-expanded={menuOpen}
             aria-controls="site-nav"
             aria-label={menuOpen ? "Close menu" : "Open menu"}

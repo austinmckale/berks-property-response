@@ -54,28 +54,61 @@ export function ProviderCard({
       {note && (
         <p className="mt-3 text-sm leading-relaxed text-stone-700">{note}</p>
       )}
-      <ul className="mt-3 space-y-1 text-sm text-stone-700">
-        {provider.serviceCategories.map((item) => (
-          <li key={item}>· {item}</li>
-        ))}
-      </ul>
-      <p className="mt-3 text-sm text-stone-600">
-        <span className="font-medium text-stone-800">Does not handle:</span>{" "}
-        {provider.doesNotHandle}
-      </p>
-      {showServiceLinks && provider.serviceLinks.length > 0 && (
-        <ul className="mt-4 space-y-2 border-t border-stone-100 pt-4">
-          {provider.serviceLinks.map((link) => (
-            <li key={link.href}>
-              <Link
-                href={link.href}
-                className="inline-flex min-h-11 items-center text-sm font-semibold text-stone-900 underline underline-offset-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-stone-900"
-              >
-                {link.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
+      {intakeOnly ? (
+        <details className="mt-4 rounded-lg border border-stone-200 bg-stone-50 px-3 py-2">
+          <summary className="flex min-h-11 cursor-pointer items-center text-sm font-semibold text-stone-900">
+            Services and limits
+          </summary>
+          <ul className="mt-2 space-y-1 text-sm text-stone-700">
+            {provider.serviceCategories.map((item) => (
+              <li key={item}>· {item}</li>
+            ))}
+          </ul>
+          <p className="mt-3 text-sm text-stone-600">
+            <span className="font-medium text-stone-800">Does not handle:</span>{" "}
+            {provider.doesNotHandle}
+          </p>
+          {showServiceLinks && provider.serviceLinks.length > 0 && (
+            <ul className="mt-3 space-y-1 border-t border-stone-200 pt-2">
+              {provider.serviceLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="inline-flex min-h-11 items-center text-sm font-semibold text-stone-900 underline underline-offset-2"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
+        </details>
+      ) : (
+        <>
+          <ul className="mt-3 space-y-1 text-sm text-stone-700">
+            {provider.serviceCategories.map((item) => (
+              <li key={item}>· {item}</li>
+            ))}
+          </ul>
+          <p className="mt-3 text-sm text-stone-600">
+            <span className="font-medium text-stone-800">Does not handle:</span>{" "}
+            {provider.doesNotHandle}
+          </p>
+          {showServiceLinks && provider.serviceLinks.length > 0 && (
+            <ul className="mt-4 space-y-2 border-t border-stone-100 pt-4">
+              {provider.serviceLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="inline-flex min-h-11 items-center text-sm font-semibold text-stone-900 underline underline-offset-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-stone-900"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
+        </>
       )}
       {provider.id === "rhi" && provider.website && (
         <a
@@ -92,16 +125,14 @@ export function ProviderCard({
         </a>
       )}
       {intakeOnly ? (
-        <p className="mt-4 rounded-lg bg-stone-50 px-3 py-2.5 text-sm text-stone-600">
-          Requests for this type of work are routed through{" "}
-          <Link
-            href="/request-help"
-            className="font-semibold text-stone-900 underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-stone-900"
-          >
-            Berks Property Response
-          </Link>
-          .
-        </p>
+        <Link
+          href="/request-help"
+          data-analytics-event="click_request_help"
+          data-analytics-source={`provider_${provider.id}`}
+          className="mt-4 flex min-h-11 items-center justify-center rounded-lg bg-stone-900 px-4 text-sm font-semibold text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-stone-900"
+        >
+          Request this type of help
+        </Link>
       ) : (
         <>
           <p className="mt-3 text-sm text-stone-600">{provider.description}</p>

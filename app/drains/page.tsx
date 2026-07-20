@@ -76,6 +76,7 @@ export default function DrainsHubPage() {
         breadcrumbs={crumbs}
         title="Drains & jetting"
         subtitle="Help for slow drains, recurring clogs, sewer-line symptoms, and commercial drain problems across Berks County."
+        quickActionsPath="/drains"
         middle={
           <HubCategoryOverview
             explanation="Drain and sewer work focuses on how water and waste leave the property. One slow fixture may need routine drain cleaning; several fixtures backing up together can indicate a main sewer-line problem. Camera inspection and hydro jetting may help with recurring or hard-to-locate blockages."

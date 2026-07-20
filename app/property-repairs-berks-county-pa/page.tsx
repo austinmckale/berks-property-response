@@ -36,6 +36,7 @@ export default function PropertyRepairsPage() {
         breadcrumbs={crumbs}
         title="Repair after a plumbing or water event"
         subtitle="Once the leak or backup is stopped, tell us what was damaged."
+        quickActionsPath="/property-repairs-berks-county-pa"
         alert={
           <HubAlert>
             Still backing up?{" "}
@@ -50,7 +51,7 @@ export default function PropertyRepairsPage() {
         }}
         footer={
           <details className="rounded-xl border border-stone-200 bg-stone-50 px-4 py-3">
-            <summary className="cursor-pointer text-sm font-medium text-stone-800">
+            <summary className="flex min-h-11 cursor-pointer items-center text-sm font-medium text-stone-800">
               Common repair types
             </summary>
             <ul className="mt-3 space-y-2 text-sm">
@@ -83,7 +84,7 @@ export default function PropertyRepairsPage() {
               data-analytics-provider="rhi"
               data-analytics-partner-name="RHI Pros"
               data-analytics-source="property_repairs"
-              className="mt-4 inline-block text-sm font-semibold text-stone-900 underline underline-offset-2 hover:text-stone-600"
+              className="mt-4 inline-flex min-h-11 items-center text-sm font-semibold text-stone-900 underline underline-offset-2 hover:text-stone-600"
             >
               Visit RHI Pros →
             </a>

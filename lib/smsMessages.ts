@@ -12,6 +12,8 @@ const PLUMBING_PATH_PATTERN =
 const AFTER_LEAK_REPAIR_PATH_PATTERN =
   /^\/after-leak$|^\/property-repairs-berks-county-pa$|water-damage-repair|basement-repair|ceiling-repair|drywall-repair|flooring-repair/;
 
+const SERIOUS_DAMAGE_PATH_PATTERN = /^\/storm-fire-mold-help$/;
+
 const DEFAULT_SMS_MESSAGE =
   "Hi, I'm contacting Berks Property Response from the website. I need help with a property issue in Berks County. Here's what's happening: ";
 
@@ -27,6 +29,9 @@ const AFTER_LEAK_REPAIR_SMS_MESSAGE =
 const EMERGENCY_SMS_MESSAGE =
   "Hi, I have active water or sewage at a property in Berks County. The property location and what's happening are: ";
 
+const SERIOUS_DAMAGE_SMS_MESSAGE =
+  "Hi, I need help reviewing serious property damage in Berks County. The property location and what happened are: ";
+
 /** Contextual SMS body for sticky mobile text actions. Trailing space lets the visitor type immediately. */
 export function getStickySmsMessage(pathname: string): string {
   if (pathname.startsWith("/service-areas/")) {
@@ -40,6 +45,10 @@ export function getStickySmsMessage(pathname: string): string {
 
   if (EMERGENCY_PATH_PATTERN.test(pathname)) {
     return EMERGENCY_SMS_MESSAGE;
+  }
+
+  if (SERIOUS_DAMAGE_PATH_PATTERN.test(pathname)) {
+    return SERIOUS_DAMAGE_SMS_MESSAGE;
   }
 
   if (AFTER_LEAK_REPAIR_PATH_PATTERN.test(pathname)) {

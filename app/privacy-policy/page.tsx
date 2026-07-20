@@ -74,7 +74,10 @@ export default function PrivacyPolicyPage() {
           <h2 className="text-xl font-semibold text-stone-900">Contact</h2>
           <p>
             Privacy questions:{" "}
-            <Link href="/contact" className="font-medium underline">
+            <Link
+              href="/contact"
+              className="inline-flex min-h-11 items-center font-medium underline"
+            >
               contact us
             </Link>
             {CONTACT_EMAIL ? (

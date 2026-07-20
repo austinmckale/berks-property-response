@@ -37,6 +37,7 @@ export default function HowItWorksPage() {
         breadcrumbs={crumbs}
         title="How it works"
         subtitle="Call, text, or send a request with the property details."
+        quickActionsPath="/how-it-works"
         middle={
           <div className="space-y-5">
             <ol className="space-y-5">
@@ -53,7 +54,10 @@ export default function HowItWorksPage() {
               ))}
             </ol>
             <p className="text-sm text-stone-600">
-              <Link href="/disclosure" className="font-medium underline">
+              <Link
+                href="/disclosure"
+                className="inline-flex min-h-11 items-center font-medium underline"
+              >
                 Full disclosure
               </Link>
             </p>

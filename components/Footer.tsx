@@ -28,7 +28,7 @@ export function Footer() {
               href={smsHref(TEXT_NUMBER, "Hi Berks Property Response — I need help with a property issue.")}
               data-analytics-event="text_click"
               data-analytics-source="footer"
-              className="mt-2 block text-sm text-stone-300 underline-offset-2 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              className="mt-2 inline-flex min-h-11 items-center text-sm text-stone-300 underline-offset-2 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
             >
               Text {TEXT_NUMBER}
             </a>
@@ -106,28 +106,31 @@ export function Footer() {
       <div className="border-t border-stone-800 px-4 py-6">
         <p className="mx-auto max-w-6xl text-xs leading-relaxed text-stone-500">
           Berks Property Response coordinates requests with independent local providers. Providers
-          set pricing and perform the work.{" "}
+          set pricing and perform the work.
+        </p>
+        <nav
+          aria-label="Legal"
+          className="mx-auto mt-2 flex max-w-6xl flex-wrap gap-x-5 text-xs text-stone-500"
+        >
           <Link
             href="/disclosure"
-            className="underline hover:text-stone-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            className="inline-flex min-h-11 items-center px-2 underline hover:text-stone-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           >
             Disclosure
           </Link>
-          <span aria-hidden="true"> · </span>
           <Link
             href="/privacy-policy"
-            className="underline hover:text-stone-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            className="inline-flex min-h-11 items-center px-2 underline hover:text-stone-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           >
             Privacy
           </Link>
-          <span aria-hidden="true"> · </span>
           <Link
             href="/terms"
-            className="underline hover:text-stone-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            className="inline-flex min-h-11 items-center px-2 underline hover:text-stone-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           >
             Terms
           </Link>
-        </p>
+        </nav>
         <p className="mx-auto mt-4 max-w-6xl text-xs text-stone-600">
           © {new Date().getFullYear()} Berks Property Response
         </p>
