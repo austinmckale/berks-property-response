@@ -12,6 +12,7 @@ import {
 } from "@/lib/googleSheetsMapper";
 import { ANALYTICS_EVENT_NAMES } from "@/lib/analytics";
 import {
+  getCompletedFormPhotoMessage,
   getFormPhotoMessage,
 } from "@/lib/photoMessages";
 import { getStickySmsMessage } from "@/lib/smsMessages";
@@ -83,7 +84,7 @@ describe("homepage triage categories", () => {
   it("keeps the major-property card customer-facing", () => {
     const majorCard = triageCards.find((card) => card.problem === "major-property");
     expect(majorCard?.description).toBe(
-      "Smoke, storm damage, suspected mold, roof leaks, or a problem that doesn’t fit above."
+      "Storm, fire, suspected mold, roof leak, or something else."
     );
   });
 });
@@ -249,6 +250,17 @@ describe("text-photo CTA messages", () => {
     expect(getFormPhotoMessage("plumbing-leak")).toBe(
       "Hi Berks Property Response — I need help with Leak or plumbing issue. I’m sending photos now."
     );
+  });
+
+  it("includes completed request details in the text-photo alternative", () => {
+    expect(
+      getCompletedFormPhotoMessage({
+        problemType: "plumbing-leak",
+        name: "Jane Smith",
+        city: "Reading",
+        problemDescription: "Water is coming from the pipe under the sink.",
+      })
+    ).toContain("Name: Jane Smith\nCity: Reading\nWhat is happening: Water is coming from the pipe under the sink.");
   });
 });
 

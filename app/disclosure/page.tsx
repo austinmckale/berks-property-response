@@ -95,7 +95,10 @@ export default function DisclosurePage() {
           <h2 className="text-xl font-semibold text-stone-900">Questions</h2>
           <p>
             Call {PHONE_NUMBER} or use the{" "}
-            <a href="/contact" className="font-medium underline">
+            <a
+              href="/contact"
+              className="inline-flex min-h-11 items-center font-medium underline"
+            >
               contact page
             </a>
             .

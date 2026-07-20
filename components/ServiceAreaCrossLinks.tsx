@@ -28,7 +28,7 @@ export function ServiceAreaCrossLinks() {
           <li key={city.slug}>
             <Link
               href={`/service-areas/${city.slug}`}
-              className="inline-block rounded-full border border-stone-300 bg-white px-3 py-1 text-sm text-stone-800 hover:border-stone-400"
+              className="inline-flex min-h-11 items-center rounded-full border border-stone-300 bg-white px-3 py-1 text-sm text-stone-800 hover:border-stone-400"
             >
               {city.name}, PA
             </Link>
@@ -37,7 +37,7 @@ export function ServiceAreaCrossLinks() {
         <li>
           <Link
             href="/service-areas"
-            className="inline-block rounded-full border border-stone-900 bg-stone-900 px-3 py-1 text-sm text-white hover:bg-stone-800"
+            className="inline-flex min-h-11 items-center rounded-full border border-stone-900 bg-stone-900 px-3 py-1 text-sm text-white hover:bg-stone-800"
           >
             All areas
           </Link>

@@ -56,6 +56,7 @@ export default function PlumbingAndLeaksPage() {
         breadcrumbs={crumbs}
         title="Plumbing & leaks"
         subtitle="Help for isolated fixture leaks, faucets, toilets, shutoff valves, water heaters, and smaller residential plumbing repairs."
+        quickActionsPath="/plumbing-and-leaks"
         alert={<PlumbingTriageNotice />}
         middle={
           <HubCategoryOverview

@@ -53,6 +53,7 @@ export default function AfterLeakHubPage() {
         breadcrumbs={crumbs}
         title="Repair after a leak or backup"
         subtitle="Build-back help for drywall, ceilings, flooring, paint, demolition, and other property repair after the water source is controlled."
+        quickActionsPath="/after-leak"
         alert={
           <HubAlert>
             Still backing up or leaking?{" "}

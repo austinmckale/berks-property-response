@@ -47,7 +47,7 @@ export function Hero({
                 data-analytics-source="hero"
                 className="btn-primary w-full"
               >
-                Start a request
+                Choose a problem
               </Link>
             </div>
             <a

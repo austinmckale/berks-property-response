@@ -116,7 +116,7 @@ export const cities: CityPage[] = [
     name: "Sinking Spring",
     state: "PA",
     zipCodes: ["19608"],
-    headline: "Property repair help in Sinking Spring",
+    headline: "Drain, plumbing, and property repair help in Sinking Spring",
     intro:
       "Sinking Spring blends suburban housing with light industrial and retail sites.",
     localContext:
@@ -137,7 +137,7 @@ export const cities: CityPage[] = [
     zipCodes: ["19518"],
     headline: "Drain and repair help in Douglassville",
     intro:
-      "Douglassville and the Amity area include riverside homes, rural parcels, and small businesses along Route 422. Longer sewer runs and septic-to-municipal transitions can make camera inspection especially useful here.",
+      "Douglassville and the Amity area include riverside homes, rural parcels, and small businesses along Route 422.",
     localContext:
       "Requests from Douglassville often mention basement floor drains and seasonal backup patterns. Emergency sewer symptoms get priority; damage repair needs can be documented for follow-up after the line is cleared. Riverside and Amity Township properties may have longer lateral runs where camera inspection helps before jetting or clearing is scheduled.",
     serviceLinks: [

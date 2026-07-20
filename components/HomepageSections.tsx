@@ -13,31 +13,28 @@ export function HomepageSections() {
 
   return (
     <div className="border-t border-stone-200 bg-white">
-      <section className="section-pad px-4" aria-labelledby="home-lanes-heading">
+      <section className="px-4 py-8 md:py-10" aria-labelledby="home-lanes-heading">
         <div className="page-container-wide md:max-w-6xl">
           <h2
             id="home-lanes-heading"
             className="font-display text-2xl font-semibold tracking-tight text-stone-900"
           >
-            How local help is organized
+            Get the right kind of help
           </h2>
-          <p className="mt-3 max-w-3xl leading-relaxed text-stone-600">
-            Different symptoms need different local providers. Berks Property Response helps you
-            choose the closest service lane, collect useful details, and coordinate the request
-            with the appropriate independent provider in Berks County.
+          <p className="mt-2 max-w-3xl text-stone-600">
+            Describe the problem once and we&apos;ll connect it with the appropriate local provider.
           </p>
-          <ul className="mt-6 grid gap-4 md:grid-cols-3">
+          <ul className="mt-5 grid gap-2 md:grid-cols-3">
             {serviceLanes.map((lane) => (
               <li key={lane.href}>
                 <Link
                   href={lane.href}
-                  className="flex min-h-full flex-col rounded-xl border border-stone-200 bg-stone-50 p-5 transition hover:border-stone-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-stone-900"
+                  className="flex min-h-12 flex-col justify-center rounded-xl border border-stone-200 bg-stone-50 px-4 py-3 transition hover:border-stone-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-stone-900"
                 >
                   <span className="font-semibold text-stone-900">{lane.title}</span>
-                  <span className="mt-2 text-sm leading-relaxed text-stone-600">
+                  <span className="mt-1 hidden text-sm leading-relaxed text-stone-600 sm:block">
                     {lane.description}
                   </span>
-                  <span className="mt-4 text-sm font-semibold text-brand">Browse this lane →</span>
                 </Link>
               </li>
             ))}
@@ -46,7 +43,7 @@ export function HomepageSections() {
       </section>
 
       <section
-        className="section-pad border-t border-stone-200 bg-brand-subtle px-4"
+        className="border-t border-stone-200 bg-brand-subtle px-4 py-8 md:py-10"
         aria-labelledby="home-problems-heading"
       >
         <div className="page-container-wide md:max-w-6xl">
@@ -56,18 +53,15 @@ export function HomepageSections() {
           >
             Browse by problem
           </h2>
-          <p className="mt-2 text-stone-600">
-            Common Berks County property problems with dedicated help pages.
-          </p>
-          <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <ul className="mt-4 grid grid-cols-2 gap-2 lg:grid-cols-4">
             {homepageProblemLinks.map((item) => (
               <li key={item.id}>
                 <Link
                   href={item.href}
-                  className="block min-h-full rounded-xl border border-stone-200 bg-white p-4 transition hover:border-stone-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-stone-900"
+                  className="flex min-h-12 flex-col items-start justify-center rounded-xl border border-stone-200 bg-white px-3 py-2 transition hover:border-stone-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-stone-900"
                 >
                   <span className="font-semibold text-stone-900">{item.title}</span>
-                  <span className="mt-1 block text-sm leading-relaxed text-stone-600">
+                  <span className="mt-1 hidden text-sm leading-relaxed text-stone-600 sm:block">
                     {item.description}
                   </span>
                 </Link>
@@ -77,23 +71,22 @@ export function HomepageSections() {
         </div>
       </section>
 
-      <section className="section-pad px-4" aria-labelledby="home-providers-heading">
+      <section className="px-4 py-8 md:py-10" aria-labelledby="home-providers-heading">
         <div className="page-container-wide md:max-w-6xl">
           <h2
             id="home-providers-heading"
             className="font-display text-2xl font-semibold tracking-tight text-stone-900"
           >
-            Local provider network
+            Who handles the work?
           </h2>
-          <p className="mt-3 max-w-3xl leading-relaxed text-stone-600">
-            Requests are coordinated with specialized local providers. Each provider confirms
-            availability, scope, and pricing for the work.
+          <p className="mt-2 max-w-3xl text-stone-600">
+            The provider confirms availability, the work needed, and pricing.
           </p>
-          <ul className="mt-6 grid gap-4 md:grid-cols-3">
+          <ul className="mt-5 grid gap-2 md:grid-cols-3">
             {homepageProviderLanes.map((provider) => (
               <li
                 key={provider.id}
-                className="rounded-xl border border-stone-200 bg-white p-5"
+                className="rounded-xl border border-stone-200 bg-white px-4 py-3"
               >
                 <h3 className="font-semibold text-stone-900">{provider.publicDisplayName}</h3>
                 {provider.contactPerson && (
@@ -102,11 +95,6 @@ export function HomepageSections() {
                   </p>
                 )}
                 <p className="mt-2 text-sm text-stone-600">{provider.type}</p>
-                <ul className="mt-3 space-y-1 text-sm text-stone-700">
-                  {provider.serviceCategories.slice(0, 3).map((item) => (
-                    <li key={item}>· {item}</li>
-                  ))}
-                </ul>
               </li>
             ))}
           </ul>
@@ -120,7 +108,7 @@ export function HomepageSections() {
       </section>
 
       <section
-        className="section-pad border-t border-stone-200 bg-stone-50 px-4"
+        className="border-t border-stone-200 bg-stone-50 px-4 py-8 md:py-10"
         aria-labelledby="home-areas-heading"
       >
         <div className="page-container-wide md:max-w-6xl">
@@ -130,9 +118,6 @@ export function HomepageSections() {
           >
             Areas served
           </h2>
-          <p className="mt-2 text-stone-600">
-            Help is organized across Berks County, Pennsylvania.
-          </p>
           <ul className="mt-4 flex flex-wrap gap-2">
             {homepagePriorityCities.map((city) => (
               <li key={city.slug}>
@@ -186,7 +171,7 @@ export function HomepageSections() {
       )}
 
       <section
-        className="section-pad border-t border-stone-200 px-4"
+        className="border-t border-stone-200 px-4 py-8 md:py-10"
         aria-labelledby="home-faq-heading"
       >
         <div className="page-container-wide md:max-w-6xl">
@@ -196,14 +181,16 @@ export function HomepageSections() {
           >
             Common questions
           </h2>
-          <dl className="mt-4 divide-y divide-stone-200 border-y border-stone-200">
+          <div className="mt-4 divide-y divide-stone-200 border-y border-stone-200">
             {homepageFaqs.map((faq) => (
-              <div key={faq.question} className="py-4">
-                <dt className="font-semibold text-stone-900">{faq.question}</dt>
-                <dd className="mt-2 text-sm leading-relaxed text-stone-600">{faq.answer}</dd>
-              </div>
+              <details key={faq.question} className="py-3">
+                <summary className="flex min-h-11 cursor-pointer items-center pr-8 font-semibold text-stone-900">
+                  {faq.question}
+                </summary>
+                <p className="mt-2 text-sm leading-relaxed text-stone-600">{faq.answer}</p>
+              </details>
             ))}
-          </dl>
+          </div>
         </div>
       </section>
     </div>

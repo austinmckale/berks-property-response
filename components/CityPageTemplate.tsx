@@ -10,9 +10,11 @@ import {
   webPageSchema,
 } from "@/lib/schema";
 import { Breadcrumbs } from "./Breadcrumbs";
+import { DirectContactActions } from "./DirectContactActions";
 import { FAQ } from "./FAQ";
 import { SchemaScript } from "./SchemaScript";
 import { CityIntakeSection } from "./CityIntakeSection";
+import { getStickySmsMessage } from "@/lib/smsMessages";
 
 export function generateCityMetadata(city: CityPage) {
   return buildMetadata({
@@ -50,12 +52,18 @@ export function CityPageTemplate({ city }: { city: CityPage }) {
           <p className="mt-2 text-stone-600">{city.intro}</p>
           <div id="sticky-cta-marker" className="h-px" aria-hidden />
 
+          <DirectContactActions
+            smsBody={getStickySmsMessage(`/service-areas/${city.slug}`)}
+            analyticsSource="city_top"
+            className="mt-5"
+          />
+
           <Suspense fallback={<div className="mt-8 h-56 animate-pulse rounded-2xl bg-stone-100" />}>
             <CityIntakeSection city={city} />
           </Suspense>
 
           <details className="mt-6 rounded-xl border border-stone-200 bg-stone-50 px-4 py-3">
-            <summary className="cursor-pointer text-sm font-medium text-stone-800">
+            <summary className="flex min-h-11 cursor-pointer items-center text-sm font-medium text-stone-800">
               Local context and useful links
             </summary>
             <p className="mt-3 text-sm leading-relaxed text-stone-700">{city.localContext}</p>
@@ -65,7 +73,7 @@ export function CityPageTemplate({ city }: { city: CityPage }) {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-stone-800 underline-offset-2 hover:underline"
+                    className="inline-flex min-h-11 items-center text-sm text-stone-800 underline-offset-2 hover:underline"
                   >
                     {link.label}
                   </Link>

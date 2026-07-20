@@ -41,20 +41,17 @@ export default function LocalPartnersPage() {
             Local provider network
           </h1>
           <p className="mt-3 leading-relaxed text-stone-600">
-            Berks Property Response coordinates requests across specialized local providers in
-            Berks County. Each provider handles a defined type of work, confirms availability and
-            scope, and performs the job independently.
+            Choose the provider lane that matches the problem. The provider confirms availability,
+            scope, and pricing.
           </p>
-          <p className="mt-3 text-sm leading-relaxed text-stone-600">
-            Use the service pages below to learn which lane fits your problem, or{" "}
-            <Link
-              href="/request-help"
-              className="font-semibold text-stone-900 underline underline-offset-2"
-            >
-              send a request
-            </Link>{" "}
-            with photos and location details.
-          </p>
+          <Link
+            href="/request-help"
+            data-analytics-event="click_request_help"
+            data-analytics-source="local_partners_top"
+            className="btn-primary mt-5 w-full sm:w-auto"
+          >
+            Start a request
+          </Link>
 
           <div className="mt-8 space-y-6">
             <ProviderCard
@@ -71,11 +68,13 @@ export default function LocalPartnersPage() {
           </div>
 
           <p className="mt-8 text-sm leading-relaxed text-stone-500">
-            Provider availability and service scope may vary. See{" "}
-            <Link href="/disclosure" className="underline underline-offset-2 hover:text-stone-700">
-              disclosure
-            </Link>{" "}
-            for how coordination works.
+            Provider availability and service scope may vary.
+            <Link
+              href="/disclosure"
+              className="ml-1 inline-flex min-h-11 items-center underline underline-offset-2 hover:text-stone-700"
+            >
+              How coordination works
+            </Link>
           </p>
         </div>
       </section>

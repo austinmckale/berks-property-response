@@ -21,7 +21,7 @@ import {
 } from "@/lib/problemTypes";
 import { isProblemTypeId } from "@/lib/intakeLinks";
 import { getCustomerReference } from "@/lib/leadId";
-import { getFormPhotoMessage } from "@/lib/photoMessages";
+import { getCompletedFormPhotoMessage } from "@/lib/photoMessages";
 import { PHONE_NUMBER, TEXT_NUMBER } from "@/lib/siteConfig";
 import { phoneHref, smsHref } from "@/lib/tracking";
 import {
@@ -42,15 +42,6 @@ interface LeadFormProps {
   showCategoryChange?: boolean;
   onChangeCategory?: () => void;
 }
-
-const WATER_OPTIONS: {
-  value: WaterSewageAnswer;
-  label: string;
-}[] = [
-  { value: "yes", label: "Yes — active right now" },
-  { value: "no", label: "No" },
-  { value: "unknown", label: "Not sure" },
-];
 
 export function LeadForm({
   pageType = "general",
@@ -79,7 +70,6 @@ export function LeadForm({
     urgency?: string;
   } | null>(null);
   const formTopRef = useRef<HTMLDivElement>(null);
-  const waterGroupRef = useRef<HTMLFieldSetElement>(null);
 
   const {
     register,
@@ -98,14 +88,13 @@ export function LeadForm({
         : undefined,
       city: defaultCity || undefined,
       propertyType: defaultPropertyType,
+      waterOrSewagePresent: "no",
       smsOptIn: false,
     },
   });
 
   const selectedProblem = watch("problemType");
   const waterAnswer = watch("waterOrSewagePresent");
-  const propertyType = watch("propertyType");
-  const waterField = register("waterOrSewagePresent");
   const showFormStep = Boolean(selectedProblem) && (step === 2 || Boolean(initialProblemType));
 
   useEffect(() => {
@@ -196,6 +185,20 @@ export function LeadForm({
     trackEvent("form_started", { page_type: pageType });
   }
 
+  function openTextPhotos() {
+    const values = getValues();
+    trackEvent("text_click", { page_type: pageType, source: "lead_form_alternative" });
+    window.location.href = smsHref(
+      TEXT_NUMBER,
+      getCompletedFormPhotoMessage({
+        problemType: selectedProblem,
+        name: values.name,
+        city: values.city,
+        problemDescription: values.problemDescription,
+      })
+    );
+  }
+
   async function onSubmit(data: LeadFormData) {
     setFormError(null);
     setSubmitStatus("loading");
@@ -253,7 +256,6 @@ export function LeadForm({
     setFormError("Please check the required fields and try again.");
     const order: (keyof LeadFormData)[] = [
       "problemType",
-      "waterOrSewagePresent",
       "name",
       "phone",
       "city",
@@ -261,12 +263,6 @@ export function LeadForm({
     ];
     const first = order.find((key) => fieldErrors[key]);
     if (first) {
-      if (first === "waterOrSewagePresent") {
-        waterGroupRef.current
-          ?.querySelector<HTMLInputElement>('input[type="radio"]')
-          ?.focus();
-        return;
-      }
       try {
         setFocus(first);
       } catch {
@@ -421,46 +417,15 @@ export function LeadForm({
           <p className="mt-1 text-sm text-stone-600">
             {getProblemType(selectedProblem).title}
           </p>
-          <fieldset ref={waterGroupRef} className="mt-5">
-            <legend className={labelClass}>
-              Is water or sewage actively leaking, backing up, or spreading right now?
-            </legend>
-            <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-3">
-              {WATER_OPTIONS.map((option) => {
-                const selected = waterAnswer === option.value;
-                return (
-                  <label
-                    key={option.value}
-                    className={`relative flex min-h-12 cursor-pointer items-center justify-center rounded-xl border px-3 py-3.5 text-center text-sm font-semibold transition focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-stone-900 ${
-                      selected
-                        ? option.value === "yes"
-                          ? "border-red-700 bg-red-600 text-white"
-                          : "border-stone-900 bg-stone-900 text-white"
-                        : "border-stone-300 bg-white text-stone-800 active:bg-stone-50"
-                    }`}
-                  >
-                    <input
-                      type="radio"
-                      value={option.value}
-                      className="sr-only"
-                      required={option.value === "yes"}
-                      {...waterField}
-                      onChange={(event) => {
-                        waterField.onChange(event);
-                        setWaterAnswer(option.value);
-                      }}
-                    />
-                    {option.label}
-                  </label>
-                );
-              })}
-            </div>
-            {errors.waterOrSewagePresent && (
-              <p className={errorClass} role="alert">
-                {errors.waterOrSewagePresent.message}
-              </p>
-            )}
-          </fieldset>
+          <label className="mt-5 flex min-h-11 cursor-pointer items-center gap-3 text-sm font-semibold text-stone-800">
+            <input
+              type="checkbox"
+              checked={waterAnswer === "yes"}
+              onChange={(event) => setWaterAnswer(event.target.checked ? "yes" : "no")}
+              className="h-5 w-5 shrink-0 rounded border-stone-400 text-red-600 focus:ring-2 focus:ring-red-200"
+            />
+            Water or sewage is actively leaking or backing up now
+          </label>
 
           {waterAnswer === "yes" && (
             <div className="mt-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3">
@@ -477,35 +442,6 @@ export function LeadForm({
                 Call now — {PHONE_NUMBER}
               </a>
             </div>
-          )}
-
-          {showPropertyType && (
-            <fieldset className="mt-5">
-              <legend className={labelClass}>What type of property is this?</legend>
-              <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-3">
-                {propertyTypeOptions.map((option) => {
-                  const selected = propertyType === option.value;
-                  return (
-                    <label
-                      key={option.value}
-                      className={`relative flex min-h-12 cursor-pointer items-center justify-center rounded-xl border px-3 py-3 text-center text-sm font-semibold transition focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-stone-900 ${
-                        selected
-                          ? "border-stone-900 bg-stone-900 text-white"
-                          : "border-stone-300 bg-white text-stone-800 active:bg-stone-50"
-                      }`}
-                    >
-                      <input
-                        type="radio"
-                        value={option.value}
-                        className="sr-only"
-                        {...register("propertyType")}
-                      />
-                      {option.label}
-                    </label>
-                  );
-                })}
-              </div>
-            </fieldset>
           )}
 
           <div className="mt-5 space-y-4">
@@ -566,6 +502,25 @@ export function LeadForm({
               )}
             </div>
 
+            {showPropertyType && (
+              <div>
+                <label className={labelClass} htmlFor="propertyType">
+                  Property type
+                </label>
+                <select
+                  id="propertyType"
+                  className={inputClass}
+                  {...register("propertyType")}
+                >
+                  {propertyTypeOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+
             <div>
               <label className={labelClass} htmlFor="problemDescription">
                 What&apos;s happening?
@@ -584,18 +539,6 @@ export function LeadForm({
               )}
             </div>
 
-            <div>
-              <p className="text-sm text-stone-600">Prefer to show us? Text photos of the issue.</p>
-              <a
-                href={smsHref(TEXT_NUMBER, getFormPhotoMessage(selectedProblem))}
-                data-analytics-event="text_click"
-                data-analytics-source="lead_form_alternative"
-                className="btn-touch mt-2 inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-stone-300 bg-white px-4 text-sm font-semibold text-stone-800 active:bg-stone-50"
-              >
-                <Camera className="h-4 w-4" aria-hidden />
-                Text photos
-              </a>
-            </div>
           </div>
 
           <input type="hidden" {...register("problemType")} />
@@ -653,16 +596,35 @@ export function LeadForm({
           >
             {submitStatus === "loading" ? "Sending..." : "Send my request"}
           </button>
+          <div className="mt-3 text-center">
+            <span className="text-sm text-stone-500">or</span>
+            <button
+              type="button"
+              onClick={openTextPhotos}
+              className="btn-touch mt-2 inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-stone-300 bg-white px-4 text-sm font-semibold text-stone-800 active:bg-stone-50"
+            >
+              <Camera className="h-4 w-4" aria-hidden />
+              Text photos instead
+            </button>
+            <p className="mt-2 text-xs text-stone-500">
+              Your details will be included in the drafted text. Attach photos if helpful.
+            </p>
+          </div>
           <p className="mt-4 text-xs leading-relaxed text-stone-500">{FORM_SUBMIT_FINE_PRINT}</p>
-          <p className="mt-2 text-xs text-stone-500">
-            <Link href="/disclosure" className="underline hover:text-stone-700">
+          <nav aria-label="Form policies" className="mt-2 flex gap-4 text-xs text-stone-500">
+            <Link
+              href="/disclosure"
+              className="inline-flex min-h-11 items-center underline hover:text-stone-700"
+            >
               Disclosure
             </Link>
-            <span className="mx-1.5 text-stone-300">·</span>
-            <Link href="/privacy-policy" className="underline hover:text-stone-700">
+            <Link
+              href="/privacy-policy"
+              className="inline-flex min-h-11 items-center underline hover:text-stone-700"
+            >
               Privacy Policy
             </Link>
-          </p>
+          </nav>
         </form>
       )}
     </div>

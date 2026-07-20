@@ -11,6 +11,7 @@ import {
   webPageSchema,
 } from "@/lib/schema";
 import { Breadcrumbs } from "./Breadcrumbs";
+import { DirectContactActions } from "./DirectContactActions";
 import { EmergencyCallBanner } from "./ConversionHub";
 import { FAQ } from "./FAQ";
 import { inferProblemTypeFromContext } from "@/lib/problemTypes";
@@ -20,6 +21,7 @@ import { ProviderTrustStrip } from "./ProviderTrustStrip";
 import { RelatedServices } from "./RelatedServices";
 import { SchemaScript } from "./SchemaScript";
 import { ServiceAreaCrossLinks } from "./ServiceAreaCrossLinks";
+import { getStickySmsMessage } from "@/lib/smsMessages";
 
 interface ServicePageTemplateProps {
   service: ServicePage;
@@ -106,14 +108,17 @@ export function ServicePageTemplate({ service }: ServicePageTemplateProps) {
           {isEmergency ? (
             <div className="mt-5">
               <EmergencyCallBanner headline="Call for urgent help" />
-              <p className="mt-3 text-sm text-stone-600">
-                <a href="#get-help" className="font-medium text-stone-900 underline">
-                  Send a request
-                </a>
-              </p>
             </div>
           ) : null}
           <div id="sticky-cta-marker" className="h-px" aria-hidden />
+
+          {!isEmergency ? (
+            <DirectContactActions
+              smsBody={getStickySmsMessage(`/${service.slug}`)}
+              analyticsSource="service_top"
+              className="mt-5"
+            />
+          ) : null}
 
           {isFixturePlumbing && <PlumbingTriageNotice />}
 
@@ -122,7 +127,7 @@ export function ServicePageTemplate({ service }: ServicePageTemplateProps) {
               <section className="mt-7">
                 <h2 className="text-lg font-semibold text-stone-900">What to do now</h2>
                 <ol className="mt-3 space-y-2 text-sm leading-relaxed text-stone-700">
-                  {service.whatToDo.map((item, index) => (
+                  {service.whatToDo.slice(0, 3).map((item, index) => (
                     <li key={item} className="flex gap-3">
                       <span className="font-semibold text-red-700">{index + 1}.</span>
                       <span>{item}</span>
@@ -138,10 +143,7 @@ export function ServicePageTemplate({ service }: ServicePageTemplateProps) {
           ) : (
             <>
               <section className="mt-7">
-                <p className="leading-relaxed text-stone-700">{service.intro}</p>
-                <h2 className="mt-7 text-lg font-semibold text-stone-900">
-                  Common signs and decision points
-                </h2>
+                <h2 className="text-lg font-semibold text-stone-900">Is this your problem?</h2>
                 <ul className="mt-3 grid gap-2 sm:grid-cols-2">
                   {service.symptoms.map((item) => (
                     <li
@@ -153,20 +155,18 @@ export function ServicePageTemplate({ service }: ServicePageTemplateProps) {
                   ))}
                 </ul>
               </section>
-              <div className="mt-6">
-                <ProviderTrustStrip providerId={service.provider} />
-              </div>
               <div id="get-help" className="mt-8 scroll-mt-24 border-t border-stone-200 pt-8">
-                <h2 className="text-lg font-semibold text-stone-900">Send a request</h2>
-                <p className="mt-1 text-sm text-stone-600">
-                  Describe the symptoms and the provider can confirm whether this is the right service.
-                </p>
+                <h2 className="text-lg font-semibold text-stone-900">Tell us what&apos;s happening</h2>
                 <div className="mt-4">{form}</div>
               </div>
             </>
           )}
 
-          <section className="mt-10 border-t border-stone-200 pt-8">
+          <details className="mt-10 rounded-xl border border-stone-200 bg-stone-50 px-4 py-3">
+            <summary className="flex min-h-11 cursor-pointer items-center text-sm font-semibold text-stone-900">
+              {isEmergency ? "More about this problem" : "More about this service"}
+            </summary>
+            <section className="border-t border-stone-200 pt-6">
             {isEmergency && (
               <>
                 <p className="leading-relaxed text-stone-700">{service.intro}</p>
@@ -189,7 +189,12 @@ export function ServicePageTemplate({ service }: ServicePageTemplateProps) {
 
             {!isEmergency && (
               <>
-                <h2 className="text-lg font-semibold text-stone-900">
+                <h2 className="text-lg font-semibold text-stone-900">About this service</h2>
+                <p className="mt-3 leading-relaxed text-stone-700">{service.intro}</p>
+                <div className="mt-6">
+                  <ProviderTrustStrip providerId={service.provider} />
+                </div>
+                <h2 className="mt-7 text-lg font-semibold text-stone-900">
                   Information to gather
                 </h2>
                 <ol className="mt-3 list-inside list-decimal space-y-2 text-sm leading-relaxed text-stone-700">
@@ -199,8 +204,6 @@ export function ServicePageTemplate({ service }: ServicePageTemplateProps) {
                 </ol>
               </>
             )}
-
-            <ServiceAreaCrossLinks />
 
             {service.rhiHandoff && provider?.website && (
               <p className="mt-6 text-sm leading-relaxed text-stone-700">
@@ -219,7 +222,10 @@ export function ServicePageTemplate({ service }: ServicePageTemplateProps) {
                 </a>
               </p>
             )}
-          </section>
+            </section>
+          </details>
+
+          <ServiceAreaCrossLinks />
         </div>
       </article>
 

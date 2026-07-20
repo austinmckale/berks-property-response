@@ -87,7 +87,11 @@ export function BrandLogo({
   }
 
   return (
-    <Link href="/" className={`min-w-0 shrink ${className}`} aria-label={SITE_NAME}>
+    <Link
+      href="/"
+      className={`inline-flex min-h-11 min-w-0 shrink items-center ${className}`}
+      aria-label={SITE_NAME}
+    >
       {content}
     </Link>
   );
